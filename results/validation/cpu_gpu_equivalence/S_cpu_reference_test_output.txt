@@ -1,0 +1,38 @@
+# Verbatim from test_gpu --long (Release), venue S routed: the GPU and CPU reference evacuations. Commit IDs refer to the private development history; the public release is v1.0.
+test_gpu | commit 4f19b582d2c128ef857bed8055d6cddfc4aa9df7 (dirty 0) | Release
+GL 4.3.0 Core Profile Context 26.10.1.261008 | AMD  Radeon RX 7800 XT
+
+== validation.s_evacuation: Venue S routed by the navigation field: CPU/GPU equivalence, the golden state, full evacuations with every check
+  [PASS] routed, grid exact (counting)
+  [PASS] routed, one step from the GPU state after 200 steps (3307 active), CPU counting: |dpos| > 2e-4 for 0 agents (< 0.5%)
+  [PASS] routed, grid exact (bitonic)
+  [PASS] routed, one step from the GPU state after 200 steps (3307 active), CPU bitonic: |dpos| > 2e-4 for 0 agents (< 0.5%)
+  golden S (routed; the state after 250 steps of the full seat spawn; active 3133 / 3123 / 3123): GPU 706f97c4846bc167, CPU counting 434356ac8d65471d, CPU bitonic 5e72f98915ca108f
+  [PASS] the routed golden states have active agents, and agents have left (3133 of 3728 active on the GPU)
+  [PASS] GPU venue S routed: matches the pinned GPU venue S routed
+  [PASS] CPU venue S routed (counting, bitonic): match the pinned golden hashes
+  nearest exit, level speed: GPU 8c3381ecc5b29b40, CPU counting b1d6dac42f5dcd09, CPU bitonic 4b591d2bcece4279
+  [PASS] nearest exit, level speed selectable: GPU venue S nearest exit, level speed matches its pin
+  [PASS] nearest exit, level speed selectable: CPU counting and bitonic match their pins
+  queue-aware, incline speed, level spacing: GPU f9df5600c46679d6, CPU counting 22ad15f59ee18632, CPU bitonic 94095993d96de587
+  [PASS] level spacing selectable: GPU venue S routed, level spacing matches its pin
+  [PASS] level spacing selectable: CPU counting and bitonic match their pins
+  evacuated at step 1362 (1362 steps checked)
+  overlap depth (pairs closer than BODY_DIAM, / BODY_DIAM, above 1e-04): 49610 pair-steps, p50 0.0003, p99 0.0045, max 0.0099; 172638 pair-steps in contact incl. rounding level; agents overlapping per step: mean 1.49%
+  overlap limits: crowd cases 49610 pair-steps, p99 0.0045, max 0.0099 (limits p99 <= 0.05, max <= 0.20); venue-geometry cases 0 pair-steps, p99 0.0000, max 0.0000: held to the crowd limits (analytic venue)
+  step-downs of a wall-steep face: 0 agent-steps (FALL cases); crowd cases under the airborne-only rule (for comparison): 49610 pair-steps, p99 0.0045, max 0.0099
+  neighbour grid: max horizontal displacement in a step 0.00750 (bound (cell - BODY_DIAM) / 2 = 0.01860); pairs closer than BODY_DIAM from non-adjacent start-of-step cells: 0
+  floors: centre in solid 0, centre below floor + BODY_RADIUS - 1e-04: 0 agent-steps; airborne runs 4 (1 / 2 / 3 / 4 / 5+ steps: 4 / 0 / 0 / 0 / 0), longest 1
+  fence: midline crossings 0, inside the collision band 0 agent-steps; walls: clearance < BODY_RADIUS - 3e-04 0 agent-steps, min wall clearance none within 0.0061 (BODY_RADIUS 0.0064), walkable-slope contacts within it 66476 (not walls)
+  speed: max |v_xy| 0.750000 (V_MAX 0.75), 0 above; density: peak 1.87 p/m^2 over fully walkable cells (cell 2858), 7.56 over all included cells (cell 2637); hexagonal packing 7.22, ceiling 7.96
+    2468456 agent-steps: row changes 0, in a solid column 0, tunnelling 0, wall clearance below BODY_RADIUS 0 (min none within 0.197 m), fence crossings 0, rises > MAX_STEP_UP 0, vertical-face climbs 0 (faces crossed in a net descent 76)
+  exits: avenues +x 350 -x 354 +y 350 -y 348, doors 2326, other 0
+  [PASS] the default model (queue-aware exit choice, incline speed, stair spacing (empirical)): every one of the 12 exits used (0 unused)
+  [PASS] 100% load: all 3728 agents leave (step 1362, 238.22 s), each through an avenue or a door
+  [PASS] plausibility with NO exemption: overlap over ALL 49610 pair-steps p99 0.0045 <= 0.05, max 0.0099 <= 0.20; grid, floors, fence, walls, speed, density ceiling
+  [PASS] INV-row over the whole evacuation: 0 row changes; no seat-block crossing, tunnelling or wall top
+  [PASS] 0 rises above MAX_STEP_UP, 0 climbs over a vertical face
+  [PASS] CPU reference (counting) evacuates at step 1361 vs GPU 1362 (-0.073%, within +-5%)
+  [PASS] 50% load (1864 agents): everyone leaves (step 812), plausibility with no exemption, INV-row 0, step-up rules hold
+  [PASS] DT / 2: everyone leaves at step 2729 (t100 238.7 s), +0.18% vs DT / 1 (within 5%)
+  [PASS] DT / 4: everyone leaves at step 5425 (t100 237.2 s), -0.60% vs DT / 2 (within 5%)

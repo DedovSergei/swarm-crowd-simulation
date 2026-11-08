@@ -1,0 +1,25 @@
+gangway,direction,agents,arrived,last_s
+quadrant 0 wing 0 straight,down,17,17,22.2132
+quadrant 0 wing 0 straight,up,17,17,10.3195
+quadrant 0 wing 1 straight,down,17,17,15.7416
+quadrant 0 wing 1 straight,up,17,17,10.3195
+quadrant 1 wing 0 straight,down,17,17,22.7379
+quadrant 1 wing 0 straight,up,17,17,10.3195
+quadrant 1 wing 1 straight,down,17,17,15.7416
+quadrant 1 wing 1 straight,up,17,17,10.3195
+quadrant 2 wing 0 straight,down,17,17,22.2132
+quadrant 2 wing 0 straight,up,17,17,10.3195
+quadrant 2 wing 1 straight,down,17,17,15.7416
+quadrant 2 wing 1 straight,up,17,17,10.3195
+quadrant 3 wing 0 straight,down,17,17,22.7379
+quadrant 3 wing 0 straight,up,17,17,10.3195
+quadrant 3 wing 1 straight,down,17,17,15.7416
+quadrant 3 wing 1 straight,up,17,17,10.3195
+quadrant 0 corner,down,17,17,16.4412
+quadrant 0 corner,up,17,17,21.8633
+quadrant 1 corner,down,17,17,16.4412
+quadrant 1 corner,up,17,17,21.8633
+quadrant 2 corner,down,17,17,16.4412
+quadrant 2 corner,up,17,17,21.8633
+quadrant 3 corner,down,17,17,16.4412
+quadrant 3 corner,up,17,17,21.8633

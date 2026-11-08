@@ -1,0 +1,57 @@
+# Verbatim from test_gpu, the terrace's plan and passage widths. Commit IDs refer to the private development history; the public release is v1.0.
+test_gpu | commit a96b8662cc2120f5ae6ebb63999aa81d74464c67 (dirty 0) | Release
+GL 4.3.0 Core Profile Context 26.10.1.261008 | AMD  Radeon RX 7800 XT
+
+== venue.terrace_passage_widths: Passage widths (report only) at the rest height floor + BODY_RADIUS: geometric | centre-accessible (horizontal clearance >= BODY_RADIUS)
+  walkway: fence -> stand front, radial section through dep 0.38
+      walkway beside avenue +y, lat -0.25  0.0841 ( 6.57 bodies) | 0.0713 ( 5.57 bodies)
+      walkway beside avenue +y, lat +0.25  0.0841 ( 6.57 bodies) | 0.0713 ( 5.57 bodies)
+      walkway beside avenue -y, lat -0.25  0.0843 ( 6.58 bodies) | 0.0715 ( 5.58 bodies)
+      walkway beside avenue -y, lat +0.25  0.0839 ( 6.56 bodies) | 0.0711 ( 5.56 bodies)
+      walkway beside avenue +x, lat -0.25  0.0843 ( 6.59 bodies) | 0.0715 ( 5.59 bodies)
+      walkway beside avenue +x, lat +0.25  0.0845 ( 6.60 bodies) | 0.0717 ( 5.60 bodies)
+      walkway beside avenue -x, lat -0.25  0.0844 ( 6.59 bodies) | 0.0716 ( 5.59 bodies)
+      walkway beside avenue -x, lat +0.25  0.0844 ( 6.59 bodies) | 0.0716 ( 5.59 bodies)
+  aisles: side wall -> tread edge, lateral sections at 7 tread starts (+4 mm), min / median of each
+    aisle beside avenue +y, lat -          0.0444 / 0.0463 (3.47 / 3.61 bodies) | 0.0298 / 0.0332 (2.33 / 2.59 bodies)
+    aisle beside avenue +y, lat +          0.0464 / 0.0476 (3.62 / 3.72 bodies) | 0.0317 / 0.0337 (2.47 / 2.64 bodies)
+    aisle beside avenue -y, lat -          0.0462 / 0.0472 (3.61 / 3.68 bodies) | 0.0323 / 0.0332 (2.52 / 2.60 bodies)
+    aisle beside avenue -y, lat +          0.0462 / 0.0473 (3.61 / 3.70 bodies) | 0.0306 / 0.0336 (2.39 / 2.63 bodies)
+    aisle beside avenue +x, lat -          0.0462 / 0.0473 (3.61 / 3.70 bodies) | 0.0315 / 0.0339 (2.46 / 2.65 bodies)
+    aisle beside avenue +x, lat +          0.0456 / 0.0475 (3.57 / 3.71 bodies) | 0.0315 / 0.0345 (2.46 / 2.69 bodies)
+    aisle beside avenue -x, lat -          0.0452 / 0.0464 (3.53 / 3.62 bodies) | 0.0293 / 0.0329 (2.29 / 2.57 bodies)
+    aisle beside avenue -x, lat +          0.0444 / 0.0468 (3.47 / 3.66 bodies) | 0.0278 / 0.0334 (2.17 / 2.61 bodies)
+    sections in front of an avenue wall's end, crossing the avenue's mouth, not counted (wider than the aisle's band 0.0620 = 1.94 m): 1
+      aisle beside avenue +y, lat +, tread 1: 0.2411 = 7.54 m, from +4.69 m to -2.85 m of the avenue's centre line
+  avenue mouths: between the side walls, lateral section at dep 0.44
+      avenue +y mouth                      0.1822 (14.23 bodies) | 0.1688 (13.19 bodies)
+      avenue -y mouth                      0.1801 (14.07 bodies) | 0.1673 (13.07 bodies)
+      avenue +x mouth                      0.1807 (14.12 bodies) | 0.1679 (13.12 bodies)
+      avenue -x mouth                      0.1814 (14.17 bodies) | 0.1686 (13.17 bodies)
+  outer-wall exit gaps: lateral section at dep 0.93 (outer wall 0.915..0.95)
+      avenue +y exit gap                   0.1829 (14.29 bodies) | 0.1701 (13.29 bodies)
+      avenue -y exit gap                   0.1815 (14.18 bodies) | 0.1687 (13.18 bodies)
+      avenue +x exit gap                   0.1827 (14.27 bodies) | 0.1699 (13.27 bodies)
+      avenue -x exit gap                   0.1825 (14.26 bodies) | 0.1697 (13.26 bodies)
+  venue in real units: 31.25 m per model unit (hard body BODY_RADIUS_M 0.20 m = BODY_RADIUS 0.0064; personal space
+  PERSONAL_RADIUS_M 0.25 m = 0.008), 17.4907 s per model time unit (V_MAX 0.75 = V_FREE_M_S 1.34 m/s)
+    length                                  min   median      max |   min m   med m   max m
+    overall span (SDF volume, x and y)   1.9000   1.9000   1.9000 |   59.38   59.38   59.38  outer faces of the outer wall
+    simulation domain (x and y)          2.0000   2.0000   2.0000 |   62.50   62.50   62.50  agents beyond it are removed
+    pitch (fence inner faces)            0.6568   0.6568   0.6568 |   20.52   20.52   20.52  square, fenced off (no gates)
+    pitch fence height                   0.0258   0.0258   0.0258 |    0.81    0.81    0.81  stadium.obj (tools/measure_fence.py)
+    walkway width (geometric)            0.0839   0.0843   0.0845 |    2.62    2.63    2.64  8 radial sections
+    aisle width (geometric)              0.0444   0.0470   0.0519 |    1.39    1.47    1.62  55 of 56 lateral sections, those between an avenue wall and a tread edge
+    avenue mouth width (geometric)       0.1801   0.1811   0.1822 |    5.63    5.66    5.69  4 avenues, dep 0.44
+    exit gap width (geometric)           0.1815   0.1826   0.1829 |    5.67    5.71    5.72  4 exits, dep 0.93
+    tread depth (riser to riser)         0.0439   0.0462   0.0547 |    1.37    1.44    1.71  7 treads x 8 wings
+    riser height                         0.0160   0.0170   0.0218 |    0.50    0.53    0.68  walkway-T1 .. T7-platform, 8 wings
+    hard body diameter 2 * BODY_RADIUS   0.0128   0.0128   0.0128 |    0.40    0.40    0.40  the hard body
+    separation support R_SEP             0.0160   0.0160   0.0160 |    0.50    0.50    0.50  2 * PERSONAL_RADIUS (body ellipse circle equivalent)
+    perception radius R_PERC             0.0450   0.0450   0.0450 |    1.41    1.41    1.41  separation partners and the headway look-ahead
+    DT                                   0.0100 model time = 0.1749 s (static_assert: 0.01-0.25 s)
+    V_MAX                                0.7500 model = 1.3400 m/s
+    GRAVITY                             96.0355 model = 9.8100 m/s^2 (1.000 g)
+    TAU_RELAX                           0.02859 model time = 0.5000 s (driving term: velocity relaxation)
+    T_HEADWAY                           0.01715 model time = 0.3000 s (headway rule's time gap)
+    R_PERC (horizontal)                  0.0450 model = 1.4063 m (covers the headway look-ahead BODY_DIAM + V_MAX T_HEADWAY = 0.8020 m; 3x3 cells)

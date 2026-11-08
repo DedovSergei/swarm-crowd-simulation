@@ -1,0 +1,12 @@
+{
+  "venue": "M",
+  "commit": "efd1899f5144ffdb76fbf993f2affbc175643c48",
+  "dirty": "0",
+  "seats": 15832,
+  "stalled_descents": 0,
+  "seats_without_exit": 0,
+  "p50_s": 25.835,
+  "p90_s": 45.736,
+  "max_s": 52.280,
+  "mean_s": 26.858
+}

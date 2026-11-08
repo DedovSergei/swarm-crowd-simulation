@@ -1,0 +1,482 @@
+{
+  "meta": {
+    "name": "terrace_n4096",
+    "note": "Task 5.8 stage 2: the terrace reference, N = 4096, every per-step check",
+    "venue": "current stadium (stadium.sdf, stadium.obj)",
+    "n": 4096,
+    "capacity_label": "within design capacity",
+    "design_capacity": 4096,
+    "jam_capacity": 20506,
+    "initially_active": 4096,
+    "spawn": "bleacher",
+    "seed": 1337,
+    "load": 1,
+    "requested_load": 1,
+    "engine": "gpu",
+    "dt_div": 1,
+    "checks": true,
+    "navigation_field": "",
+    "model": "hand router, level speed",
+    "exit_choice": "nearest",
+    "incline_speed": false,
+    "choice_evaluations": 0,
+    "choice_switches": 0,
+    "choice_forced": 0,
+    "max_steps": 40000,
+    "readback_every_steps": 1,
+    "steps_run": 2704,
+    "complete": true,
+    "git_commit": "cd8e0bbf3411846ca7aa6719887d122a142a7ca1",
+    "git_dirty": "0",
+    "git_describe": "cd8e0bb",
+    "build": "Release",
+    "gpu": "AMD  Radeon RX 7800 XT",
+    "driver": "4.3.0 Core Profile Context 26.8.1.260810",
+    "started": "2026-10-15T16:19:28",
+    "wall_s": 12.88
+  },
+  "spawn": null,
+  "units": {
+    "m_per_model_unit": 31.25,
+    "s_per_model_time_unit": 17.490671,
+    "dt_model": 0.01,
+    "dt_real_s": 0.17490671,
+    "body_radius_m": 0.2,
+    "personal_radius_m": 0.25,
+    "gravity_m_s2": 9.81,
+    "v_free_m_s": 1.34,
+    "grid_cell_m": 1,
+    "grid_res": 64,
+    "grid_min_m": -32,
+    "min_walkable_m2": 0.1,
+    "peak_min_walkable_m2": 0.5,
+    "thresholds_p_m2": {
+      "los_e": 1.08,
+      "los_f": 2.17,
+      "crush": 5
+    }
+  },
+  "evacuation": {
+    "evacuated": 4096,
+    "remaining": 0,
+    "t50_s": 226.679,
+    "t90_s": 404.209,
+    "t100_s": 472.948,
+    "t50_step": 1296,
+    "t90_step": 2311,
+    "t100_step": 2704
+  },
+  "exits": [
+    {
+      "exit": "+x",
+      "evacuated": 1031,
+      "width_m": 5.7096,
+      "first_s": 15.9165,
+      "last_s": 457.731,
+      "mean_flow_p_per_m_min": 24.513,
+      "peak_flow_p_per_m_min": 30.568,
+      "peak_window_start_s": 23.2626
+    },
+    {
+      "exit": "-x",
+      "evacuated": 1035,
+      "width_m": 5.7038,
+      "first_s": 16.0914,
+      "last_s": 461.929,
+      "mean_flow_p_per_m_min": 24.411,
+      "peak_flow_p_per_m_min": 31.654,
+      "peak_window_start_s": 34.1068
+    },
+    {
+      "exit": "+y",
+      "evacuated": 968,
+      "width_m": 5.7156,
+      "first_s": 15.9165,
+      "last_s": 441.115,
+      "mean_flow_p_per_m_min": 23.889,
+      "peak_flow_p_per_m_min": 31.589,
+      "peak_window_start_s": 38.6544
+    },
+    {
+      "exit": "-y",
+      "evacuated": 1062,
+      "width_m": 5.6714,
+      "first_s": 15.7416,
+      "last_s": 472.948,
+      "mean_flow_p_per_m_min": 24.565,
+      "peak_flow_p_per_m_min": 33.957,
+      "peak_window_start_s": 41.4529
+    },
+    {
+      "exit": "other",
+      "evacuated": 0
+    }
+  ],
+  "exit_utilisation": {
+    "j_p_per_m_min": 83.6,
+    "t100_s": 472.948,
+    "exits": [
+    {
+      "exit": "+x",
+      "type": "gap",
+      "width_m": 5.7096,
+      "evacuated": 1031,
+      "share_of_evacuated": 0.25171,
+      "capacity_used": 0.27402
+    },
+    {
+      "exit": "-x",
+      "type": "gap",
+      "width_m": 5.7038,
+      "evacuated": 1035,
+      "share_of_evacuated": 0.25269,
+      "capacity_used": 0.27536
+    },
+    {
+      "exit": "+y",
+      "type": "gap",
+      "width_m": 5.7156,
+      "evacuated": 968,
+      "share_of_evacuated": 0.23633,
+      "capacity_used": 0.25701
+    },
+    {
+      "exit": "-y",
+      "type": "gap",
+      "width_m": 5.6714,
+      "evacuated": 1062,
+      "share_of_evacuated": 0.25928,
+      "capacity_used": 0.28416
+    }
+  ],
+    "doors_evacuated": 0,
+    "doors_share": 0,
+    "doors_width_m": 0,
+    "avenues_evacuated": 4096,
+    "avenues_share": 1,
+    "avenues_width_m": 22.8,
+    "total_width_m": 22.8,
+    "unused_exit_width_m": 0,
+    "unused_exit_width_fraction": 0,
+    "capacity_used_all_exits": 0.27262
+  },
+  "gangway_utilisation": null,
+  "zones": [
+    {
+      "zone": "tread",
+      "scope": "zone",
+      "cells": 2048,
+      "walkable_m2": 1968.8,
+      "peak_density_p_m2": 6.76981,
+      "peak_cell_x_m": 19.5,
+      "peak_cell_y_m": -7.5,
+      "time_any_cell_above_s": {
+        "los_e": 431.495,
+        "los_f": 423.449,
+        "crush": 380.422
+      },
+      "max_cell_time_above_s": {
+        "los_e": 431.495,
+        "los_f": 423.099,
+        "crush": 280.201
+      },
+      "exposure_person_s": 199641,
+      "person_s": 678486,
+      "mean_speed_occupied_m_s": 0.0491469
+    },
+    {
+      "zone": "aisle",
+      "scope": "zone",
+      "cells": 256,
+      "walkable_m2": 227.154,
+      "peak_density_p_m2": 6.43816,
+      "peak_cell_x_m": 21.5,
+      "peak_cell_y_m": 4.5,
+      "time_any_cell_above_s": {
+        "los_e": 455.807,
+        "los_f": 451.609,
+        "crush": 401.586
+      },
+      "max_cell_time_above_s": {
+        "los_e": 454.932,
+        "los_f": 446.712,
+        "crush": 301.889
+      },
+      "exposure_person_s": 61050.9,
+      "person_s": 187270,
+      "mean_speed_occupied_m_s": 0.112554
+    },
+    {
+      "zone": "walkway",
+      "scope": "zone",
+      "cells": 204,
+      "walkable_m2": 190.755,
+      "peak_density_p_m2": 4.1125,
+      "peak_cell_x_m": -3.5,
+      "peak_cell_y_m": -12.5,
+      "time_any_cell_above_s": {
+        "los_e": 454.932,
+        "los_f": 297.866,
+        "crush": 0
+      },
+      "max_cell_time_above_s": {
+        "los_e": 453.708,
+        "los_f": 112.465,
+        "crush": 0
+      },
+      "exposure_person_s": 0,
+      "person_s": 10572.1,
+      "mean_speed_occupied_m_s": 0.452285
+    },
+    {
+      "zone": "avenue",
+      "scope": "zone",
+      "cells": 456,
+      "walkable_m2": 437.883,
+      "peak_density_p_m2": 2.77538,
+      "peak_cell_x_m": -12.5,
+      "peak_cell_y_m": -2.5,
+      "time_any_cell_above_s": {
+        "los_e": 456.332,
+        "los_f": 47.5746,
+        "crush": 0
+      },
+      "max_cell_time_above_s": {
+        "los_e": 430.795,
+        "los_f": 20.8139,
+        "crush": 0
+      },
+      "exposure_person_s": 0,
+      "person_s": 55886.2,
+      "mean_speed_occupied_m_s": 1.24536
+    },
+    {
+      "zone": "pitch",
+      "scope": "zone",
+      "cells": 400,
+      "walkable_m2": 400,
+      "peak_density_p_m2": 0,
+      "peak_cell_x_m": null,
+      "peak_cell_y_m": null,
+      "time_any_cell_above_s": {
+        "los_e": 0,
+        "los_f": 0,
+        "crush": 0
+      },
+      "max_cell_time_above_s": {
+        "los_e": 0,
+        "los_f": 0,
+        "crush": 0
+      },
+      "exposure_person_s": 0,
+      "person_s": 0,
+      "mean_speed_occupied_m_s": null
+    },
+    {
+      "zone": "exit",
+      "scope": "zone",
+      "cells": 24,
+      "walkable_m2": 16.5144,
+      "peak_density_p_m2": 1.59092,
+      "peak_cell_x_m": 29.5,
+      "peak_cell_y_m": 0.5,
+      "time_any_cell_above_s": {
+        "los_e": 5.77192,
+        "los_f": 0,
+        "crush": 0
+      },
+      "max_cell_time_above_s": {
+        "los_e": 1.39925,
+        "los_f": 0,
+        "crush": 0
+      },
+      "exposure_person_s": 0,
+      "person_s": 982.155,
+      "mean_speed_occupied_m_s": 1.33999
+    }
+  ],
+  "circulation": null,
+  "seat_rows": null,
+  "hotspots": [
+    {
+      "ix": 51,
+      "iy": 27,
+      "x_m": 19.5,
+      "y_m": -4.5,
+      "zone": "aisle",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.3134,
+      "time_above_los_e_s": 402.46,
+      "time_above_los_f_s": 397.563,
+      "time_above_crush_s": 301.889,
+      "exposure_person_s": 1674.86,
+      "mean_speed_occupied_m_s": 0.0520306
+    },
+    {
+      "ix": 51,
+      "iy": 45,
+      "x_m": 19.5,
+      "y_m": 13.5,
+      "zone": "tread",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.5089,
+      "time_above_los_e_s": 340.543,
+      "time_above_los_f_s": 333.547,
+      "time_above_crush_s": 274.429,
+      "exposure_person_s": 1605.85,
+      "mean_speed_occupied_m_s": 0.016403
+    },
+    {
+      "ix": 27,
+      "iy": 12,
+      "x_m": -4.5,
+      "y_m": -19.5,
+      "zone": "aisle",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.10286,
+      "time_above_los_e_s": 430.096,
+      "time_above_los_f_s": 427.822,
+      "time_above_crush_s": 296.117,
+      "exposure_person_s": 1605.71,
+      "mean_speed_occupied_m_s": 0.0554717
+    },
+    {
+      "ix": 42,
+      "iy": 12,
+      "x_m": 10.5,
+      "y_m": -19.5,
+      "zone": "tread",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.53709,
+      "time_above_los_e_s": 369.403,
+      "time_above_los_f_s": 345.965,
+      "time_above_crush_s": 271.98,
+      "exposure_person_s": 1601.47,
+      "mean_speed_occupied_m_s": 0.020066
+    },
+    {
+      "ix": 36,
+      "iy": 10,
+      "x_m": 4.5,
+      "y_m": -21.5,
+      "zone": "aisle",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.13725,
+      "time_above_los_e_s": 358.209,
+      "time_above_los_f_s": 351.912,
+      "time_above_crush_s": 286.497,
+      "exposure_person_s": 1596.46,
+      "mean_speed_occupied_m_s": 0.0263829
+    },
+    {
+      "ix": 51,
+      "iy": 26,
+      "x_m": 19.5,
+      "y_m": -5.5,
+      "zone": "tread",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.38426,
+      "time_above_los_e_s": 399.137,
+      "time_above_los_f_s": 395.114,
+      "time_above_crush_s": 278.976,
+      "exposure_person_s": 1564.95,
+      "mean_speed_occupied_m_s": 0.0298955
+    },
+    {
+      "ix": 12,
+      "iy": 22,
+      "x_m": -19.5,
+      "y_m": -9.5,
+      "zone": "tread",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.06293,
+      "time_above_los_e_s": 380.422,
+      "time_above_los_f_s": 368.179,
+      "time_above_crush_s": 280.201,
+      "exposure_person_s": 1562.86,
+      "mean_speed_occupied_m_s": 0.0223445
+    },
+    {
+      "ix": 51,
+      "iy": 41,
+      "x_m": 19.5,
+      "y_m": 9.5,
+      "zone": "tread",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.46297,
+      "time_above_los_e_s": 386.719,
+      "time_above_los_f_s": 349.988,
+      "time_above_crush_s": 266.558,
+      "exposure_person_s": 1551.96,
+      "mean_speed_occupied_m_s": 0.0201052
+    },
+    {
+      "ix": 51,
+      "iy": 44,
+      "x_m": 19.5,
+      "y_m": 12.5,
+      "zone": "tread",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.43164,
+      "time_above_los_e_s": 345.791,
+      "time_above_los_f_s": 343.517,
+      "time_above_crush_s": 260.786,
+      "exposure_person_s": 1527.96,
+      "mean_speed_occupied_m_s": 0.0163368
+    },
+    {
+      "ix": 39,
+      "iy": 12,
+      "x_m": 7.5,
+      "y_m": -19.5,
+      "zone": "tread",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.60782,
+      "time_above_los_e_s": 396.339,
+      "time_above_los_f_s": 373.601,
+      "time_above_crush_s": 257.113,
+      "exposure_person_s": 1518.57,
+      "mean_speed_occupied_m_s": 0.0218194
+    }
+  ],
+  "seat_row_hotspots": [],
+  "flows": null,
+  "inv_row": {
+    "row_changes_bypassing_aisles": 4213,
+    "agents": 2719,
+    "down": 4213,
+    "up": 0,
+    "more_than_one_row": 0,
+    "steps_1_50": 216,
+    "steps_51_200": 749,
+    "steps_after_200": 3248,
+    "sampled_every_steps": 1
+  },
+  "deposit": {
+    "person_s_total": 933197,
+    "person_s_in_excluded_cells": 0
+  },
+  "checks": {
+    "plausibility_pass": true,
+    "overlap_all_pair_steps": 125099,
+    "overlap_all_p99": 0.0719733,
+    "overlap_all_max": 0.39218,
+    "overlap_crowd_p99": 0.032934,
+    "overlap_crowd_max": 0.0989686,
+    "overlap_venue_p99": 0.249835,
+    "overlap_venue_max": 0.39218,
+    "grid_misses": 0,
+    "max_displacement": 0.00995827,
+    "floor_violations": 0,
+    "centre_in_solid": 0,
+    "fence_crossings": 0,
+    "fence_band": 0,
+    "wall_violations": 0,
+    "min_wall_clearance": null,
+    "speed_violations": 0,
+    "peak_density_full_cells_p_m2": 6.76981,
+    "density_ceiling_p_m2": 7.95775,
+    "inv_row_pass": true,
+    "inv_row_exempt": true
+  }
+}

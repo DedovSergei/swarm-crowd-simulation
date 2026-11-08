@@ -1,0 +1,905 @@
+quadrant,wing,row,segment,seats,lat_lo_m,lat_hi_m,gangway_lo,gangway_hi,name_lo,name_hi
+0,0,0,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,0,1,1,11.997,11.997,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,1,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,1,1,2,12.147,12.647,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,2,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,2,1,4,12.047,13.547,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,3,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,3,1,5,12.197,14.197,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,4,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,4,1,7,12.097,15.097,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,5,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,5,1,9,11.997,15.997,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,6,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,6,1,10,12.147,16.647,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,7,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,7,1,12,12.047,17.547,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,8,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,8,1,13,12.197,18.197,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,9,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,9,1,15,12.097,19.097,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,10,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,10,1,17,11.997,19.997,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,11,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,11,1,18,12.147,20.647,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,12,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,12,1,20,12.047,21.547,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,13,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,13,1,21,12.197,22.197,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,14,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,14,1,23,12.097,23.097,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,15,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,15,1,25,11.997,23.997,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,16,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,16,1,26,12.147,24.647,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,17,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,17,1,28,11.980,25.480,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,18,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,18,1,28,11.980,25.480,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,19,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,19,1,28,11.980,25.480,0,6,straight +x+y (y wing) 0,corner +x+y
+0,0,20,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,20,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,20,2,1,27.797,27.797,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,21,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,21,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,21,2,3,27.697,28.697,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,22,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,22,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,22,2,5,27.597,29.597,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,23,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,23,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,23,2,6,27.747,30.247,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,24,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,24,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,24,2,8,27.647,31.147,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,25,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,25,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,25,2,9,27.797,31.797,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,26,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,26,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,26,2,11,27.697,32.697,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,27,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,27,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,27,2,13,27.597,33.597,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,28,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,28,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,28,2,14,27.747,34.247,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,29,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,29,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,29,2,16,27.647,35.147,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,30,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,30,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,30,2,17,27.797,35.797,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,31,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,31,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,31,2,19,27.697,36.697,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,32,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,32,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,32,2,21,27.597,37.597,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,33,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,33,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,33,2,22,27.747,38.247,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,34,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,34,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,34,2,24,27.647,39.147,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,35,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,35,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,35,2,25,27.797,39.797,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,36,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,36,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,36,2,27,27.697,40.697,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,37,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,37,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,37,2,28,27.580,41.080,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,38,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,38,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,38,2,28,27.580,41.080,1,6,straight +x+y (y wing) 1,corner +x+y
+0,0,39,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,39,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,39,2,28,27.580,41.080,1,2,straight +x+y (y wing) 1,straight +x+y (y wing) 2
+0,0,39,3,1,43.197,43.197,2,6,straight +x+y (y wing) 2,corner +x+y
+0,0,40,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,40,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,40,2,28,27.580,41.080,1,2,straight +x+y (y wing) 1,straight +x+y (y wing) 2
+0,0,40,3,2,43.347,43.847,2,6,straight +x+y (y wing) 2,corner +x+y
+0,0,41,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,41,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,41,2,28,27.580,41.080,1,2,straight +x+y (y wing) 1,straight +x+y (y wing) 2
+0,0,41,3,4,43.247,44.747,2,6,straight +x+y (y wing) 2,corner +x+y
+0,0,42,0,14,3.380,9.880,-1,0,-,straight +x+y (y wing) 0
+0,0,42,1,28,11.980,25.480,0,1,straight +x+y (y wing) 0,straight +x+y (y wing) 1
+0,0,42,2,28,27.580,41.080,1,2,straight +x+y (y wing) 1,straight +x+y (y wing) 2
+0,0,42,3,5,43.397,45.397,2,6,straight +x+y (y wing) 2,corner +x+y
+0,1,0,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,0,1,1,11.997,11.997,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,1,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,1,1,2,12.147,12.647,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,2,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,2,1,4,12.047,13.547,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,3,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,3,1,5,12.197,14.197,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,4,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,4,1,7,12.097,15.097,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,5,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,5,1,9,11.997,15.997,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,6,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,6,1,10,12.147,16.647,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,7,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,7,1,12,12.047,17.547,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,8,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,8,1,13,12.197,18.197,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,9,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,9,1,15,12.097,19.097,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,10,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,10,1,17,11.997,19.997,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,11,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,11,1,18,12.147,20.647,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,12,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,12,1,20,12.047,21.547,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,13,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,13,1,21,12.197,22.197,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,14,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,14,1,23,12.097,23.097,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,15,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,15,1,25,11.997,23.997,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,16,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,16,1,26,12.147,24.647,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,17,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,17,1,28,11.980,25.480,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,18,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,18,1,28,11.980,25.480,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,19,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,19,1,28,11.980,25.480,3,6,straight +x+y (x wing) 0,corner +x+y
+0,1,20,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,20,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,20,2,1,27.797,27.797,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,21,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,21,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,21,2,3,27.697,28.697,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,22,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,22,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,22,2,5,27.597,29.597,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,23,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,23,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,23,2,6,27.747,30.247,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,24,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,24,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,24,2,8,27.647,31.147,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,25,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,25,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,25,2,9,27.797,31.797,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,26,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,26,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,26,2,11,27.697,32.697,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,27,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,27,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,27,2,13,27.597,33.597,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,28,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,28,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,28,2,14,27.747,34.247,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,29,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,29,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,29,2,16,27.647,35.147,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,30,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,30,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,30,2,17,27.797,35.797,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,31,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,31,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,31,2,19,27.697,36.697,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,32,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,32,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,32,2,21,27.597,37.597,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,33,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,33,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,33,2,22,27.747,38.247,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,34,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,34,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,34,2,24,27.647,39.147,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,35,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,35,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,35,2,25,27.797,39.797,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,36,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,36,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,36,2,27,27.697,40.697,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,37,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,37,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,37,2,28,27.580,41.080,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,38,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,38,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,38,2,28,27.580,41.080,4,6,straight +x+y (x wing) 1,corner +x+y
+0,1,39,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,39,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,39,2,28,27.580,41.080,4,5,straight +x+y (x wing) 1,straight +x+y (x wing) 2
+0,1,39,3,1,43.197,43.197,5,6,straight +x+y (x wing) 2,corner +x+y
+0,1,40,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,40,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,40,2,28,27.580,41.080,4,5,straight +x+y (x wing) 1,straight +x+y (x wing) 2
+0,1,40,3,2,43.347,43.847,5,6,straight +x+y (x wing) 2,corner +x+y
+0,1,41,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,41,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,41,2,28,27.580,41.080,4,5,straight +x+y (x wing) 1,straight +x+y (x wing) 2
+0,1,41,3,4,43.247,44.747,5,6,straight +x+y (x wing) 2,corner +x+y
+0,1,42,0,14,3.380,9.880,-1,3,-,straight +x+y (x wing) 0
+0,1,42,1,28,11.980,25.480,3,4,straight +x+y (x wing) 0,straight +x+y (x wing) 1
+0,1,42,2,28,27.580,41.080,4,5,straight +x+y (x wing) 1,straight +x+y (x wing) 2
+0,1,42,3,5,43.397,45.397,5,6,straight +x+y (x wing) 2,corner +x+y
+1,0,0,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,0,1,1,11.997,11.997,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,1,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,1,1,2,12.147,12.647,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,2,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,2,1,4,12.047,13.547,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,3,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,3,1,5,12.197,14.197,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,4,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,4,1,7,12.097,15.097,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,5,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,5,1,9,11.997,15.997,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,6,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,6,1,10,12.147,16.647,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,7,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,7,1,12,12.047,17.547,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,8,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,8,1,13,12.197,18.197,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,9,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,9,1,15,12.097,19.097,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,10,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,10,1,17,11.997,19.997,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,11,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,11,1,18,12.147,20.647,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,12,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,12,1,20,12.047,21.547,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,13,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,13,1,21,12.197,22.197,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,14,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,14,1,23,12.097,23.097,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,15,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,15,1,25,11.997,23.997,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,16,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,16,1,26,12.147,24.647,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,17,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,17,1,28,11.980,25.480,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,18,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,18,1,28,11.980,25.480,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,19,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,19,1,28,11.980,25.480,7,13,straight -x+y (y wing) 0,corner -x+y
+1,0,20,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,20,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,20,2,1,27.797,27.797,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,21,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,21,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,21,2,3,27.697,28.697,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,22,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,22,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,22,2,5,27.597,29.597,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,23,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,23,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,23,2,6,27.747,30.247,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,24,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,24,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,24,2,8,27.647,31.147,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,25,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,25,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,25,2,9,27.797,31.797,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,26,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,26,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,26,2,11,27.697,32.697,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,27,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,27,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,27,2,13,27.597,33.597,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,28,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,28,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,28,2,14,27.747,34.247,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,29,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,29,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,29,2,16,27.647,35.147,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,30,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,30,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,30,2,17,27.797,35.797,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,31,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,31,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,31,2,19,27.697,36.697,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,32,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,32,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,32,2,21,27.597,37.597,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,33,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,33,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,33,2,22,27.747,38.247,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,34,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,34,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,34,2,24,27.647,39.147,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,35,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,35,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,35,2,25,27.797,39.797,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,36,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,36,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,36,2,27,27.697,40.697,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,37,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,37,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,37,2,28,27.580,41.080,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,38,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,38,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,38,2,28,27.580,41.080,8,13,straight -x+y (y wing) 1,corner -x+y
+1,0,39,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,39,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,39,2,28,27.580,41.080,8,9,straight -x+y (y wing) 1,straight -x+y (y wing) 2
+1,0,39,3,1,43.197,43.197,9,13,straight -x+y (y wing) 2,corner -x+y
+1,0,40,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,40,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,40,2,28,27.580,41.080,8,9,straight -x+y (y wing) 1,straight -x+y (y wing) 2
+1,0,40,3,2,43.347,43.847,9,13,straight -x+y (y wing) 2,corner -x+y
+1,0,41,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,41,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,41,2,28,27.580,41.080,8,9,straight -x+y (y wing) 1,straight -x+y (y wing) 2
+1,0,41,3,4,43.247,44.747,9,13,straight -x+y (y wing) 2,corner -x+y
+1,0,42,0,14,3.380,9.880,-1,7,-,straight -x+y (y wing) 0
+1,0,42,1,28,11.980,25.480,7,8,straight -x+y (y wing) 0,straight -x+y (y wing) 1
+1,0,42,2,28,27.580,41.080,8,9,straight -x+y (y wing) 1,straight -x+y (y wing) 2
+1,0,42,3,5,43.397,45.397,9,13,straight -x+y (y wing) 2,corner -x+y
+1,1,0,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,0,1,1,11.997,11.997,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,1,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,1,1,2,12.147,12.647,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,2,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,2,1,4,12.047,13.547,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,3,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,3,1,5,12.197,14.197,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,4,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,4,1,7,12.097,15.097,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,5,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,5,1,9,11.997,15.997,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,6,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,6,1,10,12.147,16.647,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,7,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,7,1,12,12.047,17.547,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,8,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,8,1,13,12.197,18.197,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,9,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,9,1,15,12.097,19.097,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,10,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,10,1,17,11.997,19.997,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,11,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,11,1,18,12.147,20.647,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,12,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,12,1,20,12.047,21.547,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,13,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,13,1,21,12.197,22.197,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,14,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,14,1,23,12.097,23.097,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,15,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,15,1,25,11.997,23.997,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,16,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,16,1,26,12.147,24.647,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,17,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,17,1,28,11.980,25.480,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,18,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,18,1,28,11.980,25.480,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,19,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,19,1,28,11.980,25.480,10,13,straight -x+y (x wing) 0,corner -x+y
+1,1,20,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,20,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,20,2,1,27.797,27.797,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,21,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,21,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,21,2,3,27.697,28.697,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,22,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,22,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,22,2,5,27.597,29.597,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,23,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,23,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,23,2,6,27.747,30.247,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,24,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,24,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,24,2,8,27.647,31.147,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,25,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,25,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,25,2,9,27.797,31.797,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,26,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,26,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,26,2,11,27.697,32.697,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,27,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,27,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,27,2,13,27.597,33.597,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,28,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,28,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,28,2,14,27.747,34.247,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,29,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,29,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,29,2,16,27.647,35.147,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,30,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,30,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,30,2,17,27.797,35.797,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,31,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,31,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,31,2,19,27.697,36.697,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,32,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,32,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,32,2,21,27.597,37.597,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,33,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,33,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,33,2,22,27.747,38.247,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,34,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,34,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,34,2,24,27.647,39.147,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,35,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,35,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,35,2,25,27.797,39.797,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,36,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,36,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,36,2,27,27.697,40.697,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,37,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,37,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,37,2,28,27.580,41.080,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,38,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,38,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,38,2,28,27.580,41.080,11,13,straight -x+y (x wing) 1,corner -x+y
+1,1,39,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,39,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,39,2,28,27.580,41.080,11,12,straight -x+y (x wing) 1,straight -x+y (x wing) 2
+1,1,39,3,1,43.197,43.197,12,13,straight -x+y (x wing) 2,corner -x+y
+1,1,40,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,40,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,40,2,28,27.580,41.080,11,12,straight -x+y (x wing) 1,straight -x+y (x wing) 2
+1,1,40,3,2,43.347,43.847,12,13,straight -x+y (x wing) 2,corner -x+y
+1,1,41,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,41,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,41,2,28,27.580,41.080,11,12,straight -x+y (x wing) 1,straight -x+y (x wing) 2
+1,1,41,3,4,43.247,44.747,12,13,straight -x+y (x wing) 2,corner -x+y
+1,1,42,0,14,3.380,9.880,-1,10,-,straight -x+y (x wing) 0
+1,1,42,1,28,11.980,25.480,10,11,straight -x+y (x wing) 0,straight -x+y (x wing) 1
+1,1,42,2,28,27.580,41.080,11,12,straight -x+y (x wing) 1,straight -x+y (x wing) 2
+1,1,42,3,5,43.397,45.397,12,13,straight -x+y (x wing) 2,corner -x+y
+2,0,0,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,0,1,1,11.997,11.997,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,1,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,1,1,2,12.147,12.647,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,2,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,2,1,4,12.047,13.547,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,3,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,3,1,5,12.197,14.197,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,4,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,4,1,7,12.097,15.097,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,5,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,5,1,9,11.997,15.997,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,6,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,6,1,10,12.147,16.647,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,7,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,7,1,12,12.047,17.547,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,8,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,8,1,13,12.197,18.197,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,9,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,9,1,15,12.097,19.097,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,10,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,10,1,17,11.997,19.997,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,11,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,11,1,18,12.147,20.647,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,12,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,12,1,20,12.047,21.547,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,13,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,13,1,21,12.197,22.197,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,14,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,14,1,23,12.097,23.097,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,15,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,15,1,25,11.997,23.997,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,16,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,16,1,26,12.147,24.647,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,17,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,17,1,28,11.980,25.480,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,18,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,18,1,28,11.980,25.480,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,19,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,19,1,28,11.980,25.480,14,20,straight -x-y (y wing) 0,corner -x-y
+2,0,20,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,20,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,20,2,1,27.797,27.797,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,21,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,21,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,21,2,3,27.697,28.697,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,22,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,22,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,22,2,5,27.597,29.597,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,23,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,23,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,23,2,6,27.747,30.247,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,24,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,24,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,24,2,8,27.647,31.147,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,25,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,25,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,25,2,9,27.797,31.797,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,26,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,26,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,26,2,11,27.697,32.697,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,27,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,27,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,27,2,13,27.597,33.597,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,28,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,28,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,28,2,14,27.747,34.247,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,29,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,29,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,29,2,16,27.647,35.147,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,30,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,30,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,30,2,17,27.797,35.797,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,31,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,31,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,31,2,19,27.697,36.697,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,32,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,32,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,32,2,21,27.597,37.597,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,33,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,33,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,33,2,22,27.747,38.247,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,34,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,34,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,34,2,24,27.647,39.147,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,35,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,35,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,35,2,25,27.797,39.797,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,36,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,36,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,36,2,27,27.697,40.697,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,37,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,37,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,37,2,28,27.580,41.080,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,38,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,38,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,38,2,28,27.580,41.080,15,20,straight -x-y (y wing) 1,corner -x-y
+2,0,39,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,39,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,39,2,28,27.580,41.080,15,16,straight -x-y (y wing) 1,straight -x-y (y wing) 2
+2,0,39,3,1,43.197,43.197,16,20,straight -x-y (y wing) 2,corner -x-y
+2,0,40,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,40,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,40,2,28,27.580,41.080,15,16,straight -x-y (y wing) 1,straight -x-y (y wing) 2
+2,0,40,3,2,43.347,43.847,16,20,straight -x-y (y wing) 2,corner -x-y
+2,0,41,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,41,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,41,2,28,27.580,41.080,15,16,straight -x-y (y wing) 1,straight -x-y (y wing) 2
+2,0,41,3,4,43.247,44.747,16,20,straight -x-y (y wing) 2,corner -x-y
+2,0,42,0,14,3.380,9.880,-1,14,-,straight -x-y (y wing) 0
+2,0,42,1,28,11.980,25.480,14,15,straight -x-y (y wing) 0,straight -x-y (y wing) 1
+2,0,42,2,28,27.580,41.080,15,16,straight -x-y (y wing) 1,straight -x-y (y wing) 2
+2,0,42,3,5,43.397,45.397,16,20,straight -x-y (y wing) 2,corner -x-y
+2,1,0,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,0,1,1,11.997,11.997,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,1,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,1,1,2,12.147,12.647,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,2,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,2,1,4,12.047,13.547,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,3,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,3,1,5,12.197,14.197,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,4,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,4,1,7,12.097,15.097,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,5,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,5,1,9,11.997,15.997,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,6,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,6,1,10,12.147,16.647,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,7,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,7,1,12,12.047,17.547,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,8,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,8,1,13,12.197,18.197,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,9,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,9,1,15,12.097,19.097,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,10,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,10,1,17,11.997,19.997,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,11,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,11,1,18,12.147,20.647,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,12,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,12,1,20,12.047,21.547,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,13,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,13,1,21,12.197,22.197,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,14,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,14,1,23,12.097,23.097,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,15,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,15,1,25,11.997,23.997,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,16,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,16,1,26,12.147,24.647,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,17,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,17,1,28,11.980,25.480,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,18,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,18,1,28,11.980,25.480,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,19,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,19,1,28,11.980,25.480,17,20,straight -x-y (x wing) 0,corner -x-y
+2,1,20,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,20,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,20,2,1,27.797,27.797,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,21,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,21,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,21,2,3,27.697,28.697,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,22,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,22,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,22,2,5,27.597,29.597,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,23,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,23,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,23,2,6,27.747,30.247,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,24,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,24,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,24,2,8,27.647,31.147,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,25,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,25,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,25,2,9,27.797,31.797,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,26,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,26,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,26,2,11,27.697,32.697,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,27,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,27,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,27,2,13,27.597,33.597,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,28,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,28,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,28,2,14,27.747,34.247,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,29,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,29,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,29,2,16,27.647,35.147,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,30,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,30,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,30,2,17,27.797,35.797,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,31,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,31,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,31,2,19,27.697,36.697,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,32,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,32,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,32,2,21,27.597,37.597,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,33,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,33,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,33,2,22,27.747,38.247,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,34,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,34,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,34,2,24,27.647,39.147,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,35,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,35,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,35,2,25,27.797,39.797,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,36,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,36,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,36,2,27,27.697,40.697,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,37,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,37,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,37,2,28,27.580,41.080,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,38,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,38,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,38,2,28,27.580,41.080,18,20,straight -x-y (x wing) 1,corner -x-y
+2,1,39,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,39,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,39,2,28,27.580,41.080,18,19,straight -x-y (x wing) 1,straight -x-y (x wing) 2
+2,1,39,3,1,43.197,43.197,19,20,straight -x-y (x wing) 2,corner -x-y
+2,1,40,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,40,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,40,2,28,27.580,41.080,18,19,straight -x-y (x wing) 1,straight -x-y (x wing) 2
+2,1,40,3,2,43.347,43.847,19,20,straight -x-y (x wing) 2,corner -x-y
+2,1,41,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,41,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,41,2,28,27.580,41.080,18,19,straight -x-y (x wing) 1,straight -x-y (x wing) 2
+2,1,41,3,4,43.247,44.747,19,20,straight -x-y (x wing) 2,corner -x-y
+2,1,42,0,14,3.380,9.880,-1,17,-,straight -x-y (x wing) 0
+2,1,42,1,28,11.980,25.480,17,18,straight -x-y (x wing) 0,straight -x-y (x wing) 1
+2,1,42,2,28,27.580,41.080,18,19,straight -x-y (x wing) 1,straight -x-y (x wing) 2
+2,1,42,3,5,43.397,45.397,19,20,straight -x-y (x wing) 2,corner -x-y
+3,0,0,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,0,1,1,11.997,11.997,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,1,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,1,1,2,12.147,12.647,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,2,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,2,1,4,12.047,13.547,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,3,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,3,1,5,12.197,14.197,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,4,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,4,1,7,12.097,15.097,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,5,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,5,1,9,11.997,15.997,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,6,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,6,1,10,12.147,16.647,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,7,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,7,1,12,12.047,17.547,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,8,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,8,1,13,12.197,18.197,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,9,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,9,1,15,12.097,19.097,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,10,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,10,1,17,11.997,19.997,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,11,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,11,1,18,12.147,20.647,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,12,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,12,1,20,12.047,21.547,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,13,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,13,1,21,12.197,22.197,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,14,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,14,1,23,12.097,23.097,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,15,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,15,1,25,11.997,23.997,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,16,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,16,1,26,12.147,24.647,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,17,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,17,1,28,11.980,25.480,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,18,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,18,1,28,11.980,25.480,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,19,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,19,1,28,11.980,25.480,21,27,straight +x-y (y wing) 0,corner +x-y
+3,0,20,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,20,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,20,2,1,27.797,27.797,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,21,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,21,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,21,2,3,27.697,28.697,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,22,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,22,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,22,2,5,27.597,29.597,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,23,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,23,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,23,2,6,27.747,30.247,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,24,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,24,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,24,2,8,27.647,31.147,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,25,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,25,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,25,2,9,27.797,31.797,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,26,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,26,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,26,2,11,27.697,32.697,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,27,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,27,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,27,2,13,27.597,33.597,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,28,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,28,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,28,2,14,27.747,34.247,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,29,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,29,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,29,2,16,27.647,35.147,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,30,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,30,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,30,2,17,27.797,35.797,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,31,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,31,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,31,2,19,27.697,36.697,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,32,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,32,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,32,2,21,27.597,37.597,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,33,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,33,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,33,2,22,27.747,38.247,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,34,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,34,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,34,2,24,27.647,39.147,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,35,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,35,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,35,2,25,27.797,39.797,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,36,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,36,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,36,2,27,27.697,40.697,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,37,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,37,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,37,2,28,27.580,41.080,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,38,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,38,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,38,2,28,27.580,41.080,22,27,straight +x-y (y wing) 1,corner +x-y
+3,0,39,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,39,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,39,2,28,27.580,41.080,22,23,straight +x-y (y wing) 1,straight +x-y (y wing) 2
+3,0,39,3,1,43.197,43.197,23,27,straight +x-y (y wing) 2,corner +x-y
+3,0,40,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,40,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,40,2,28,27.580,41.080,22,23,straight +x-y (y wing) 1,straight +x-y (y wing) 2
+3,0,40,3,2,43.347,43.847,23,27,straight +x-y (y wing) 2,corner +x-y
+3,0,41,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,41,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,41,2,28,27.580,41.080,22,23,straight +x-y (y wing) 1,straight +x-y (y wing) 2
+3,0,41,3,4,43.247,44.747,23,27,straight +x-y (y wing) 2,corner +x-y
+3,0,42,0,14,3.380,9.880,-1,21,-,straight +x-y (y wing) 0
+3,0,42,1,28,11.980,25.480,21,22,straight +x-y (y wing) 0,straight +x-y (y wing) 1
+3,0,42,2,28,27.580,41.080,22,23,straight +x-y (y wing) 1,straight +x-y (y wing) 2
+3,0,42,3,5,43.397,45.397,23,27,straight +x-y (y wing) 2,corner +x-y
+3,1,0,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,0,1,1,11.997,11.997,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,1,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,1,1,2,12.147,12.647,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,2,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,2,1,4,12.047,13.547,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,3,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,3,1,5,12.197,14.197,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,4,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,4,1,7,12.097,15.097,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,5,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,5,1,9,11.997,15.997,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,6,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,6,1,10,12.147,16.647,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,7,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,7,1,12,12.047,17.547,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,8,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,8,1,13,12.197,18.197,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,9,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,9,1,15,12.097,19.097,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,10,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,10,1,17,11.997,19.997,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,11,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,11,1,18,12.147,20.647,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,12,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,12,1,20,12.047,21.547,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,13,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,13,1,21,12.197,22.197,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,14,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,14,1,23,12.097,23.097,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,15,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,15,1,25,11.997,23.997,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,16,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,16,1,26,12.147,24.647,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,17,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,17,1,28,11.980,25.480,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,18,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,18,1,28,11.980,25.480,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,19,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,19,1,28,11.980,25.480,24,27,straight +x-y (x wing) 0,corner +x-y
+3,1,20,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,20,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,20,2,1,27.797,27.797,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,21,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,21,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,21,2,3,27.697,28.697,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,22,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,22,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,22,2,5,27.597,29.597,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,23,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,23,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,23,2,6,27.747,30.247,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,24,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,24,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,24,2,8,27.647,31.147,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,25,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,25,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,25,2,9,27.797,31.797,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,26,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,26,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,26,2,11,27.697,32.697,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,27,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,27,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,27,2,13,27.597,33.597,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,28,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,28,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,28,2,14,27.747,34.247,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,29,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,29,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,29,2,16,27.647,35.147,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,30,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,30,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,30,2,17,27.797,35.797,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,31,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,31,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,31,2,19,27.697,36.697,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,32,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,32,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,32,2,21,27.597,37.597,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,33,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,33,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,33,2,22,27.747,38.247,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,34,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,34,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,34,2,24,27.647,39.147,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,35,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,35,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,35,2,25,27.797,39.797,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,36,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,36,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,36,2,27,27.697,40.697,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,37,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,37,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,37,2,28,27.580,41.080,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,38,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,38,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,38,2,28,27.580,41.080,25,27,straight +x-y (x wing) 1,corner +x-y
+3,1,39,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,39,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,39,2,28,27.580,41.080,25,26,straight +x-y (x wing) 1,straight +x-y (x wing) 2
+3,1,39,3,1,43.197,43.197,26,27,straight +x-y (x wing) 2,corner +x-y
+3,1,40,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,40,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,40,2,28,27.580,41.080,25,26,straight +x-y (x wing) 1,straight +x-y (x wing) 2
+3,1,40,3,2,43.347,43.847,26,27,straight +x-y (x wing) 2,corner +x-y
+3,1,41,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,41,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,41,2,28,27.580,41.080,25,26,straight +x-y (x wing) 1,straight +x-y (x wing) 2
+3,1,41,3,4,43.247,44.747,26,27,straight +x-y (x wing) 2,corner +x-y
+3,1,42,0,14,3.380,9.880,-1,24,-,straight +x-y (x wing) 0
+3,1,42,1,28,11.980,25.480,24,25,straight +x-y (x wing) 0,straight +x-y (x wing) 1
+3,1,42,2,28,27.580,41.080,25,26,straight +x-y (x wing) 1,straight +x-y (x wing) 2
+3,1,42,3,5,43.397,45.397,26,27,straight +x-y (x wing) 2,corner +x-y

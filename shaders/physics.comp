@@ -1,0 +1,1667 @@
+#version 430 core
+
+// Pass 4: physics, ping-pong: reads boidsIn, writes boidsOut. Three programs are built
+// from this file, selected by PHYSICS_PASS (CrowdSim puts it in the loader's extra preamble), and they
+// run in this order within one step:
+// PHYSICS_PASS 0 (analytic venues in the queue-aware exit choice only, VENUE_EXIT_CHOICE): the exit choice in three
+//     stages (evaluate, per-exit thresholds, apply): each agent's assigned exit (choiceAssign) and the counts of the next step.
+//   PHYSICS_PASS 1, predict: desired velocity + driving term + integration + the static contacts -> the predicted
+//     state in slot order (slotOut), and per agent its wall plane and grounded flag (slotPlanes).
+//   PHYSICS_PASS 2, project: one Jacobi iteration of the hard-body projection, slotIn -> slotOut
+//     (PROJ_ITERATIONS - 1 dispatches, the slot buffers ping-pong between them). The fence and the agent's
+//     wall plane bound every iteration, so a pressed crowd is not pushed into walls (and back onto itself).
+//   PHYSICS_PASS 3, final: the last projection iteration, then, for every agent the projection moved, the final
+//     static contacts (resolveStatic again, from the start-of-step position), written to boidsOut[boidID].
+// One invocation per sorted slot; agent identity (boidID) is stable across steps. The predict pass reads
+// the active agents' state from the copy the cells pass gathered in slot order:
+// slotIn[slot] == boidsIn[gridInfo[slot].boidID], bit for bit, so the neighbour loop reads consecutive
+// memory. The projection reuses that buffer and one more as its ping-pong pair; all three passes search
+// the start-of-step grid and cell table (the corrections stay far below a cell: sim_params.hpp).
+// Every model constant (GRID_RES, R_SEP, DT, W_*, the stadium layout, contact parameters, ...)
+// comes from the generated preamble (swarm/sim_params.hpp); src/cpu_crowd_sim.cpp ports this file. The model in prose: docs/MODEL.md.
+layout(local_size_x = 128) in;
+
+struct Boid { vec4 position; vec4 velocity; };                                        // swarm::GpuBoid
+struct GridInfo { uint gridID; uint boidID; uint padding0; uint padding1; };           // swarm::GpuGridInfo
+struct CellData { uint startIndex; uint agentCount; uint padding0; uint padding1; };   // swarm::GpuCellData
+
+layout(std430, binding = 1) readonly buffer Grid { GridInfo gridInfo[]; };
+layout(std430, binding = 2) readonly buffer Cells { CellData cells[]; };
+layout(std430, binding = 4) readonly buffer SlotIn { Boid slotIn[]; };   // slot order, active slots only
+#if PHYSICS_PASS == 3
+layout(std430, binding = 0) readonly buffer BoidsIn { Boid boidsIn[]; };      // agent order, start of step
+layout(std430, binding = 3) writeonly buffer BoidsOut { Boid boidsOut[]; };   // agent order, end of step
+#elif PHYSICS_PASS == 0
+layout(std430, binding = 0) readonly buffer BoidsIn { Boid boidsIn[]; };      // agent order, start of step
+#elif PHYSICS_PASS == 1 || PHYSICS_PASS == 2
+layout(std430, binding = 5) writeonly buffer SlotOut { Boid slotOut[]; };     // slot order, active slots only
+#endif
+// Per slot, from the predict pass: (wall normal xy, plane offset, flags); the wall plane is dot(p.xy, n) >= offset,
+// flags = PLANE_WALL (a wall push set the plane) + PLANE_GROUNDED (the predicted centre rests on its floor)
+#if PHYSICS_PASS == 1
+layout(std430, binding = 6) writeonly buffer SlotPlanes { vec4 slotPlanes[]; };
+#elif PHYSICS_PASS == 2 || PHYSICS_PASS == 3
+layout(std430, binding = 6) readonly buffer SlotPlanes { vec4 slotPlanes[]; };
+#endif
+const float PLANE_WALL = 1.0, PLANE_GROUNDED = 2.0;
+#if defined(DIAG_TIEBREAK) && PHYSICS_PASS == 1
+// Diagnostics only (defined by tools/tiebreak.hpp's shader variant, never in production): how often the
+// predict pass's mutual-standoff tie-break acts, accumulated over the dispatch (swarm::tiebreak::Counters).
+// [0] in-lane candidates in a mutual standoff (each standoff pair is seen from both agents), [1] of them discarded as the
+// leader by the tie-break (one per standoff pair), [2] of them exact ties decided by boidID, [3] agents whose leader the
+// tie-break changed (s differs from the literal rule's), [4] agents whose v_des it changed, [5] agents it released from a
+// standstill (literal v_des 0, v_des > 0)
+layout(std430, binding = 10) buffer TieBreakCounters { uint tieBreak[6]; };
+#endif
+#ifdef TEST_DRIVE_TABLE
+// Forced motion (tools/venue_s.hpp's shader variant only, never in production): every agent's desired direction
+// e_goal is read from this table (by boidID) instead of the router; the tool writes it before every step
+layout(std430, binding = 11) readonly buffer DriveTable { vec2 driveDir[]; };
+#endif
+
+uniform int numBoids;
+
+// @sdf-begin (tools/test_gpu.cpp probes this block on its own)
+layout(binding = 0) uniform sampler3D u_sdfTexture;
+uniform vec3 u_sdfMin;          // world position of SDF sample (1,1,1)
+uniform float u_sdfInvSpacing;  // 1 / world distance between samples
+// SDF_RES texels per axis: 128 samples + 1-voxel pad each side. Texel coordinates below: sample
+// index + 1 (the pad) for texelFetch, + 0.5 more for the texel-centre convention of texture().
+
+// Branch-free, here and in mapExactGrad: the fetch is unconditional (clamped, so always valid)
+// and the out-of-volume value is selected afterwards, so that independent calls batch their
+// fetches instead of each waiting behind its own branch.
+// FD_CORRIDOR (tools/fd/fd_harness.cpp only): the stadium is replaced by an analytic corridor, floor z = 0
+// and walls at |y| = FD_HALF_WIDTH, infinite in x: map, mapExactGrad and floorUnderReach below, no fence
+// FD_INCLINE (with FD_CORRIDOR, fd_harness stair only): the corridor's floor is the incline z = FD_RAKE x (its
+// exact distance; FD_INCLINE_N its unit normal), the stair harness's inclined corridor; its side walls end FD_WALL_TOP (vertical)
+// above the incline (FD_WALL_TOP_N: the top plane's offset along FD_INCLINE_N): a gangway's seat-block ends, low enough that the
+// torso-height obstacle avoidance does not reach their tops, as on the venues' gangways (fdInclineWall)
+// VENUE_ANALYTIC (a seated venue's preamble): the venue is the exact analytic distance of
+// shaders/venue_seated.glsl (venueMap, venueMapGrad, venueFloor), no texture; the same contact code uses it
+#ifdef FD_INCLINE
+// The stair corridor's side walls: |y| >= FD_HALF_WIDTH below the top plane. Their exact distance (the face and the top plane are
+// perpendicular) and its gradient, vec4(gradient, value)
+vec4 fdInclineWall(vec3 p) {
+    float d1 = FD_HALF_WIDTH - abs(p.y);              // to the face (> 0: in the corridor)
+    float h = dot(p, FD_INCLINE_N) - FD_WALL_TOP_N;   // above the top plane
+    vec3 n1 = vec3(0.0, p.y < 0.0 ? 1.0 : -1.0, 0.0);
+    if (h <= 0.0) return d1 >= h ? vec4(n1, d1) : vec4(FD_INCLINE_N, h);   // beside the face, or inside the wall
+    if (d1 <= 0.0) return vec4(FD_INCLINE_N, h);                           // above the top
+    float d = length(vec2(d1, h));
+    return vec4((n1 * d1 + FD_INCLINE_N * h) / d, d);                      // to the top edge
+}
+#endif
+float map(vec3 p) {
+#ifdef FD_CORRIDOR
+#ifdef FD_INCLINE
+    return min(dot(p, FD_INCLINE_N), fdInclineWall(p).w);
+#else
+    return min(p.z, FD_HALF_WIDTH - abs(p.y));
+#endif
+#endif
+#ifdef VENUE_ANALYTIC
+    return venueMap(p);
+#else
+    vec3 uvw = (1.5 + (p - u_sdfMin) * u_sdfInvSpacing) / float(SDF_RES);
+    // stadium.sdf is [x][y][z] with z fastest, so the texture's s axis is world Z
+    float d = texture(u_sdfTexture, uvw.zyx).r;
+    return any(lessThan(uvw, vec3(0.0))) || any(greaterThan(uvw, vec3(1.0))) ? 1.0 : d;
+#endif
+}
+
+// The baked field is not a unit-gradient distance at the stands (|grad map| is 0.4-0.9 on the
+// treads, aisles and walls), so map() is not the clearance to a surface: contacts are placed on
+// the zero level itself. Hardware filtering quantizes its weights (8 fractional bits), which
+// near a wall is ~1e-4 of position, so contact positions use texelFetch with full float weights
+// (the arithmetic of sampleSDF_CPU).
+float columnLevel(ivec2 i0, vec2 w, int k) {   // bilinear value at voxel level k of an xy column
+    k = clamp(k, 0, SDF_RES - 1);
+    float c0 = mix(texelFetch(u_sdfTexture, ivec3(k, i0.y, i0.x), 0).r,
+                   texelFetch(u_sdfTexture, ivec3(k, i0.y, i0.x + 1), 0).r, w.x);
+    float c1 = mix(texelFetch(u_sdfTexture, ivec3(k, i0.y + 1, i0.x), 0).r,
+                   texelFetch(u_sdfTexture, ivec3(k, i0.y + 1, i0.x + 1), 0).r, w.x);
+    return mix(c0, c1, w.y);
+}
+
+// map() with exact weights, and its exact gradient: vec4(gradient, value). The field is
+// trilinear per voxel, so its gradient jumps across voxel faces; a finite-difference stencil that
+// straddles a face mixes two cells and tilts a wall normal by up to ~20 degrees at the stands.
+// This is the analytic derivative inside the cell that holds p.
+vec4 mapExactGrad(vec3 p) {
+#ifdef FD_CORRIDOR
+    float wall = FD_HALF_WIDTH - abs(p.y);
+#ifdef FD_INCLINE
+    float fl = dot(p, FD_INCLINE_N);
+    vec4 fw = fdInclineWall(p);
+    return fl <= fw.w ? vec4(FD_INCLINE_N, fl) : fw;
+#else
+    return p.z <= wall ? vec4(0.0, 0.0, 1.0, p.z) : vec4(0.0, p.y < 0.0 ? 1.0 : -1.0, 0.0, wall);
+#endif
+#endif
+#ifdef VENUE_ANALYTIC
+    return venueMapGrad(p);   // exact: |gradient| 1, continuous inside each face's region
+#else
+    vec3 f = 1.0 + (p - u_sdfMin) * u_sdfInvSpacing;   // continuous texel index (0, 129 = pad)
+    bool outside = any(lessThan(f, vec3(-0.5))) || any(greaterThan(f, vec3(float(SDF_RES) - 0.5)));
+    ivec3 i = clamp(ivec3(floor(f)), ivec3(0), ivec3(SDF_RES - 2));
+    vec3 w = f - vec3(i);
+    // texel (s, t, r) = world (z, y, x); c<x><y><z>
+    float c000 = texelFetch(u_sdfTexture, ivec3(i.z,     i.y,     i.x    ), 0).r;
+    float c100 = texelFetch(u_sdfTexture, ivec3(i.z,     i.y,     i.x + 1), 0).r;
+    float c010 = texelFetch(u_sdfTexture, ivec3(i.z,     i.y + 1, i.x    ), 0).r;
+    float c110 = texelFetch(u_sdfTexture, ivec3(i.z,     i.y + 1, i.x + 1), 0).r;
+    float c001 = texelFetch(u_sdfTexture, ivec3(i.z + 1, i.y,     i.x    ), 0).r;
+    float c101 = texelFetch(u_sdfTexture, ivec3(i.z + 1, i.y,     i.x + 1), 0).r;
+    float c011 = texelFetch(u_sdfTexture, ivec3(i.z + 1, i.y + 1, i.x    ), 0).r;
+    float c111 = texelFetch(u_sdfTexture, ivec3(i.z + 1, i.y + 1, i.x + 1), 0).r;
+    float x00 = mix(c000, c100, w.x), x10 = mix(c010, c110, w.x);   // x, then y, then z: the
+    float x01 = mix(c001, c101, w.x), x11 = mix(c011, c111, w.x);   // order of sampleSDF_CPU
+    float y0 = mix(x00, x10, w.y), y1 = mix(x01, x11, w.y);
+    vec3 g = vec3(mix(mix(c100 - c000, c110 - c010, w.y), mix(c101 - c001, c111 - c011, w.y), w.z),
+                  mix(x10 - x00, x11 - x01, w.z),
+                  y1 - y0);
+    return outside ? vec4(0.0, 0.0, 0.0, 1.0) : vec4(g * u_sdfInvSpacing, mix(y0, y1, w.z));
+#endif
+}
+
+// Floor under a disk agent centred at c: the zero crossing of the baked field on the vertical
+// through c.xy nearest the centre (exact: along a vertical the trilinear field is linear between
+// voxel levels). With c in free space it is searched down to 'down' below the centre (floorUnder:
+// BODY_RADIUS; settleOnFloor: FLOOR_SETTLE_REACH). With c in
+// solid (one step of gravity sank it under its floor, it landed from a fall, or it walked into a
+// walkable slope that rose past its centre) it is the crossing above c, searched up to BODY_RADIUS
+// above max(c.z, zFrom), zFrom being the start-of-step centre height (one step of real gravity
+// sinks a resting centre 9.6e-3, more than BODY_RADIUS, and a falling one up to ~2.9e-2; measured from
+// zFrom the reach is BODY_RADIUS above the centre before its gravity step). At most
+// FLOOR_SEARCH_CELLS voxel levels. False if there is no crossing in range (airborne, or inside a wall).
+bool floorUnderReach(vec3 c, float zFrom, float down, out float zFloor) {
+    zFloor = 0.0;
+#ifdef FD_CORRIDOR
+    if (abs(c.y) >= FD_HALF_WIDTH) return false;   // inside a wall
+#ifdef FD_INCLINE
+    float h = FD_RAKE * c.x;   // the incline: a heightfield, as VENUE_ANALYTIC below
+    zFloor = h;
+    if (c.z <= h) return h <= max(zFrom, c.z) + BODY_RADIUS;
+    return h >= c.z - down;
+#else
+    return c.z <= 0.0 ? max(zFrom, c.z) + BODY_RADIUS - c.z >= -c.z : c.z - down <= 0.0;
+#endif
+#endif
+#ifdef VENUE_ANALYTIC
+    // A heightfield: the one crossing on the vertical is the floor height under c.xy (exact; the reach as above, no voxel
+    // levels to count)
+    float h = venueFloor(c.xy);
+    zFloor = h;
+    if (c.z <= h) return h <= max(zFrom, c.z) + BODY_RADIUS;   // centre in solid: the crossing above, within reach
+    return h >= c.z - down;                                     // free: the floor below, within 'down'
+#else
+    vec3 f = 1.0 + (c - u_sdfMin) * u_sdfInvSpacing;   // continuous texel index (0, 129 = pad)
+    if (any(lessThan(f.xy, vec2(0.0))) || any(greaterThan(f.xy, vec2(float(SDF_RES) - 1.0)))) return false;
+    ivec2 i0 = min(ivec2(floor(f.xy)), ivec2(SDF_RES - 2));
+    vec2 w = f.xy - vec2(i0);
+    int k = int(floor(f.z));
+    float vLo = columnLevel(i0, w, k), vHi = columnLevel(i0, w, k + 1);
+    bool inSolid = mix(vLo, vHi, f.z - float(k)) <= 0.0;
+    float fLimit = f.z + (inSolid ? max(zFrom, c.z) + BODY_RADIUS - c.z : -down) * u_sdfInvSpacing;
+    for (int cell = 0; cell < FLOOR_SEARCH_CELLS; ++cell) {
+        float fEnd = inSolid ? min(float(k + 1), fLimit) : max(float(k), fLimit);
+        float vEnd = mix(vLo, vHi, fEnd - float(k));
+        if (inSolid ? vEnd > 0.0 : vEnd <= 0.0) {
+            float fRoot = float(k) + vLo / (vLo - vHi);   // sign change inside cell k: vLo != vHi
+            zFloor = u_sdfMin.z + (fRoot - 1.0) / u_sdfInvSpacing;
+            return true;
+        }
+        if (fEnd == fLimit) return false;
+        if (inSolid) { ++k; vLo = vHi; vHi = columnLevel(i0, w, k + 1); }
+        else         { --k; vHi = vLo; vLo = columnLevel(i0, w, k); }
+    }
+    return false;
+#endif
+}
+
+bool floorUnder(vec3 c, float zFrom, out float zFloor) { return floorUnderReach(c, zFrom, BODY_RADIUS, zFloor); }
+// @sdf-end
+
+// @fence-begin (tools/test_gpu.cpp checks this block against the CPU mirror in sdf.cpp)
+// Pitch fence as analytic CSG. The collision fence is an infinite vertical extrusion (no z
+// term): a finite-height box would have a walkable top face (n_z = 1), letting agents ride
+// along the fence top.
+// Its collision faces are where a disk agent's centre stops, BODY_RADIUS clear of the visual
+// faces (FENCE_HALF_THK_COLL = FENCE_HALF_THK_VISUAL + BODY_RADIUS); tunneling is prevented by
+// fenceCCD below, for any step length, not by thickness.
+float sdBox2(vec2 p, vec2 b) {
+    vec2 q = abs(p) - b;
+    return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0);
+}
+
+// Gradient of sdBox2 (unit length everywhere; on a kink one side is picked)
+vec2 sdBox2Grad(vec2 p, vec2 b) {
+    vec2 q = abs(p) - b;
+    vec2 s = vec2(p.x < 0.0 ? -1.0 : 1.0, p.y < 0.0 ? -1.0 : 1.0);
+    vec2 g = max(q.x, q.y) > 0.0 ? max(q, 0.0) / length(max(q, 0.0))    // outside: towards the nearest point
+                                 : (q.x > q.y ? vec2(1.0, 0.0) : vec2(0.0, 1.0));  // inside: nearest face
+    return s * g;
+}
+
+float sdFence(vec3 p) {
+#ifdef FD_CORRIDOR
+    return 1e9;   // no fence in the corridor
+#endif
+    float box = sdBox2(p.xy - FENCE_CENTER, FENCE_HALF_MID);
+    float d = abs(box) - FENCE_HALF_THK_COLL;
+#if FENCE_GATE_COUNT > 0
+    for (int i = 0; i < FENCE_GATE_COUNT; ++i)
+        d = max(d, -sdBox2(p.xy - FENCE_GATE_CENTER[i], FENCE_GATE_HALF[i]));
+#endif
+    return d;
+}
+
+// Gradient of the active sdFence term: purely horizontal (n_z = 0 -> wall-slide branch)
+vec3 sdFenceGradient(vec3 p) {
+    vec2 rel = p.xy - FENCE_CENTER;
+    float box = sdBox2(rel, FENCE_HALF_MID);
+    float d = abs(box) - FENCE_HALF_THK_COLL;
+    vec2 g = (box < 0.0 ? -1.0 : 1.0) * sdBox2Grad(rel, FENCE_HALF_MID);
+#if FENCE_GATE_COUNT > 0
+    for (int i = 0; i < FENCE_GATE_COUNT; ++i) {
+        float dGate = -sdBox2(p.xy - FENCE_GATE_CENTER[i], FENCE_GATE_HALF[i]);
+        if (dGate > d) { d = dGate; g = -sdBox2Grad(p.xy - FENCE_GATE_CENTER[i], FENCE_GATE_HALF[i]); }
+    }
+#endif
+    return vec3(g, 0.0);
+}
+
+// Exact continuous collision against the fence midline. A centre is a point, so the only way
+// through the fence is a step segment pOld -> pNew that crosses the midline rectangle (sdBox2
+// changes sign; exact 0 counts as the old side). Such a step is clamped to the collision face on
+// the side it came from, and the velocity into the fence is removed (wall slide, as in the
+// n_z <= 0.6 contact branch). Must run before the SDF contact projection, which would otherwise
+// push a point that landed past the midline out through the far face.
+// Gates: with FENCE_GATE_COUNT > 0, a gate must suppress this for segments whose midline
+// crossing point lies inside the gate.
+void fenceCCD(vec3 pOld, inout vec3 pNew, inout vec3 vel) {
+    float sOld = sdBox2(pOld.xy - FENCE_CENTER, FENCE_HALF_MID);
+    float sNew = sdBox2(pNew.xy - FENCE_CENTER, FENCE_HALF_MID);
+    if (sOld * sNew >= 0.0) return;
+    float side = sOld > 0.0 ? 1.0 : -1.0;
+    // f(t) = side * sdBox2(lerp(t)) - FENCE_HALF_THK_COLL is > 0 before the old-side face and
+    // < 0 at t = 1. Bisection keeps f(lo) > 0, so the clamped point never passes the face;
+    // corners need no special case. A start already inside the band on its own side stays put.
+    float lo = 0.0;
+    if (side * sOld > FENCE_HALF_THK_COLL) {
+        float hi = 1.0;
+        for (int i = 0; i < FENCE_CCD_BISECTIONS; ++i) {
+            float t = 0.5 * (lo + hi);
+            if (side * sdBox2(mix(pOld.xy, pNew.xy, t) - FENCE_CENTER, FENCE_HALF_MID) > FENCE_HALF_THK_COLL) lo = t;
+            else hi = t;
+        }
+    }
+    pNew.xy = mix(pOld.xy, pNew.xy, lo);
+    vec2 n = sdFenceGradient(pNew).xy;  // away from the fence, towards the agent's side
+    float vn = dot(vel.xy, n);
+    if (vn < 0.0) vel.xy -= n * vn;
+}
+// @fence-end
+
+// Steering weights, the stadium layout used by the router (with its description) and the exit
+// test live in swarm/sim_params.hpp.
+
+vec2 safeNormalize(vec2 v) { float l = length(v); return l > SAFE_NORMALIZE_EPS ? v / l : vec2(0.0); }
+vec3 safeNormalize(vec3 v) { float l = length(v); return l > SAFE_NORMALIZE_EPS ? v / l : vec3(0.0); }
+
+// FD_PERIODIC_X (tools/fd/fd_harness.cpp only): the domain is periodic in x with period FD_PERIOD, which
+// spans the grid's columns FD_CELL0 .. FD_CELL0 + FD_CELLS - 1: the neighbour search wraps its cells and measures
+// minimum-image offsets; the final pass wraps the positions. Without the define both are the identity. With FD_INCLINE
+// a period also shifts z by FD_RAKE FD_PERIOD (a screw boundary: the image of the incline is the incline).
+int wrapCellX(int nx) {
+#ifdef FD_PERIODIC_X
+    if (nx < FD_CELL0) nx += FD_CELLS;
+    else if (nx >= FD_CELL0 + FD_CELLS) nx -= FD_CELLS;
+#endif
+    return nx;
+}
+vec3 minImage(vec3 d) {
+#ifdef FD_PERIODIC_X
+#ifdef FD_INCLINE
+    float k = round(d.x / FD_PERIOD);
+    d.x -= FD_PERIOD * k;
+    d.z -= FD_RAKE * FD_PERIOD * k;
+#else
+    d.x -= FD_PERIOD * round(d.x / FD_PERIOD);
+#endif
+#endif
+    return d;
+}
+
+// @sep-kernel-begin (tools/test_gpu.cpp checks this block against its CPU mirror)
+uint hash32(uint x) {  // lowbias32
+    x ^= x >> 16; x *= 0x7feb352du;
+    x ^= x >> 15; x *= 0x846ca68bu;
+    x ^= x >> 16;
+    return x;
+}
+
+// Deterministic unit XY direction for a pair, opposite for its two members
+vec2 pairDirection(uint self, uint other) {
+    uint lo = min(self, other);
+    uint hi = max(self, other);
+    float angle = float(hash32(hash32(lo) ^ hi)) * (6.28318530718 / 4294967296.0);
+    vec2 dir = vec2(cos(angle), sin(angle));
+    return self == lo ? dir : -dir;
+}
+
+// Bounded, monotone, C0 personal-space repulsion: |F| = K_SEP * (1 - d/R_SEP)^2 for d < R_SEP, else 0,
+// with d the 3D distance. Agents only walk in XY, so it is along the XY offset; for a stacked pair
+// (XY offset ~ 0, including d ~ 0) it is along the pair's hash direction so the two separate
+// symmetrically. The sum over the neighbours deflects the desired direction (eGoal + sum).
+vec2 separationForce(vec3 offset, uint self, uint other) {
+    float d2 = dot(offset, offset);
+    if (d2 >= R_SEP * R_SEP) return vec2(0.0);
+    float w = 1.0 - sqrt(d2) / R_SEP;
+    float magnitude = K_SEP * w * w;
+    float dxy2 = dot(offset.xy, offset.xy);
+    if (dxy2 <= SEP_STACKED_XY2) return magnitude * pairDirection(self, other);  // |xy offset| <= 1e-6
+    return magnitude * offset.xy * inversesqrt(dxy2);
+}
+
+// Hard-body contact, the projection's pair correction for 'self'. Bodies are vertical disks
+// (cylinders) of radius BODY_RADIUS: a pair is in contact if its vertical offset is below BODY_DIAM and its XY
+// distance below BODY_DIAM (every pair closer than BODY_DIAM in 3D is), and it moves apart along its XY offset
+// to the XY distance BODY_DIAM, each member taking half. Its 3D distance is then at least BODY_DIAM whatever
+// the floor contacts do to the two heights afterwards (a sphere-only rule restored the 3D distance, which a
+// settle onto another aisle sub-step undid). A stacked pair (|xy offset| <= 1e-6) separates along its hash
+// direction, as in separationForce. Zero for a pair not in contact.
+vec2 contactCorrection(vec3 offset, uint self, uint other) {
+    float dxy2 = dot(offset.xy, offset.xy);
+    if (abs(offset.z) >= BODY_DIAM || dxy2 >= BODY_DIAM * BODY_DIAM) return vec2(0.0);
+    float dxy = sqrt(dxy2);
+    float shift = 0.5 * (BODY_DIAM - dxy);
+    if (dxy2 <= SEP_STACKED_XY2) return shift * pairDirection(self, other);
+    return shift * (offset.xy / dxy);
+}
+// @sep-kernel-end
+
+// Gradient of the baked stadium term only (tetrahedral differences: the sum is 4h * grad), for
+// obstacle avoidance. Contacts use mapExactGrad: this stencil straddles voxel faces.
+vec3 calcGradient(vec3 p) {
+    const vec2 k = vec2(1.0, -1.0);   // tetrahedron vertices k.xyy, k.yyx, k.yxy, k.xxx
+    return (k.xyy * map(p + k.xyy * OBSTACLE_GRAD_H) +
+            k.yyx * map(p + k.yyx * OBSTACLE_GRAD_H) +
+            k.yxy * map(p + k.yxy * OBSTACLE_GRAD_H) +
+            k.xxx * map(p + k.xxx * OBSTACLE_GRAD_H)) * (0.25 / OBSTACLE_GRAD_H);
+}
+
+vec3 calcNormal(vec3 p) { return safeNormalize(calcGradient(p)); }
+
+// Distance to the visible geometry, for obstacle avoidance: baked stadium SDF union the fence's
+// visual faces (sdFence is inflated by BODY_RADIUS for contact, so add it back).
+// fenceActive records which term won so the normal comes from that term alone and is never
+// differenced across the min() seam.
+float sceneDist(vec3 p, out bool fenceActive) {
+    float dStadium = map(p);
+    float dFence = sdFence(p) + BODY_RADIUS;
+    fenceActive = dFence < dStadium;
+    return fenceActive ? dFence : dStadium;
+}
+
+vec3 sceneNormal(vec3 p, bool fenceActive) {
+    return fenceActive ? sdFenceGradient(p) : calcNormal(p);
+}
+
+// Waypoint for the downhill egress route: tread -> aisle -> walkway -> avenue -> exit
+vec2 egressTarget(vec3 p) {
+    vec2 s = vec2(p.x < 0.0 ? -1.0 : 1.0, p.y < 0.0 ? -1.0 : 1.0);
+    vec2 a = abs(p.xy);
+    bool alongX = a.y >= a.x;           // treads run along x; this wing drains into the x = 0 avenue
+    float lat = alongX ? a.x : a.y;
+    float dep = alongX ? a.y : a.x;
+
+    vec2 t;                             // (lat, dep)
+    // dep == WALKWAY_MIN is an agent resting on the fence's outer face: it belongs to the walkway
+    if (lat < AVENUE_HALF && dep >= WALKWAY_MIN) t = vec2(0.0, AVENUE_TARGET_DEPTH);         // avenue: out through the wall gap
+    else if (dep >= WALKWAY_MIN && dep < WALKWAY_MAX) t = vec2(0.0, WALKWAY_CENTRE);         // walkway: to the avenue
+    else if (dep >= WALKWAY_MAX && lat < AISLE_MAX) t = vec2(AISLE_CENTRE, WALKWAY_CENTRE);  // aisle: down to the walkway
+    else if (dep >= WALKWAY_MAX) t = vec2(AISLE_CENTRE, dep);                                // tread: along to the aisle
+    // Pitch recovery (dep < WALKWAY_MIN), unreachable while the fence has no gates: nothing spawns
+    // on the pitch, fenceCCD stops every step that would cross the fence midline, and the contact
+    // projection leaves an agent that touches the fence on its outer face (dep == WALKWAY_MIN,
+    // walkway above). tools/test_gpu.cpp checks that no agent is ever routed here. Kept as a
+    // safety net for gates or fence changes; without a gate its target lies across the fence.
+    else t = vec2(0.0, WALKWAY_MIN + PITCH_RECOVERY_MARGIN);
+
+    return alongX ? s * t : s * t.yx;
+}
+
+
+// @nav-begin (tools/test_gpu.cpp checks this block against its CPU mirror, swarm::nav::direction)
+#ifdef VENUE_ANALYTIC
+// (In the @nav block, for every pass of an analytic venue: the navigation cell rule below uses it; the step-up limit, pass 3)
+// The step-up scan on an analytic venue (replaces stepUpScan there). The venue is an exact heightfield of cells (venueCellKey) whose
+// tops are continuous within a cell (level, or the incline's z = VS_RAKE (dep - row 0's front)), so a vertical face lies only
+// on a cell boundary. The scan walks the path's cell boundaries: every STEP_UP_SAMPLE a sample, and wherever its cell
+// differs from the current one, VS_SCAN_BISECTIONS bisections find the first boundary; there the floor beyond is compared
+// with the floor before: higher than f0 + STEP_UP_TOL and by more than the incline's rise over the bisection interval (+
+// STEP_UP_TOL) is a vertical face climbed (rule (b), for a face of any height: the surface normal, probed STEP_UP_SAMPLE
+// below the floor, lets faces of 2.5-5 cm through, and comparing samples misses a face where the path dips first). Rule (a)
+// needs no test of its own here: without a face the floor rises at most VS_RAKE times a step's move, < MAX_STEP_UP. Returns
+// the last point the agent may stand on (1: unblocked); n: the face's horizontal normal, away from it (exact wall query).
+float venueStepUpScan(vec2 p0, vec2 p1, float f0, out vec2 n) {
+    n = vec2(0.0);
+    float len = length(p1 - p0);
+    int ns = clamp(int(ceil(len / STEP_UP_SAMPLE)), 1, STEP_UP_MAX_SAMPLES);
+    float lo = 0.0;
+    vec2 key = venueCellKey(p0);
+    for (int i = 1; i <= ns; ++i) {
+        float t = float(i) / float(ns);
+        for (int k = 0; k < VS_SCAN_CROSSINGS; ++k) {
+            if (venueCellKey(mix(p0, p1, t)) == key) break;
+            float a = lo, b = t;   // a in the current cell, b beyond its boundary
+            for (int m = 0; m < VS_SCAN_BISECTIONS; ++m) {
+                float tm = 0.5 * (a + b);
+                if (venueCellKey(mix(p0, p1, tm)) == key) a = tm;
+                else b = tm;
+            }
+            float ha = venueFloor(mix(p0, p1, a)), hb = venueFloor(mix(p0, p1, b));
+            if (hb > f0 + STEP_UP_TOL && hb - ha > VS_RAKE * len * (b - a) + STEP_UP_TOL) {
+                vec3 w = venueWall(vec3(mix(p0, p1, a), ha + STEP_UP_TOL), STEP_UP_SAMPLE);
+                n = w.z < VS_BIG ? w.xy : (p0 - p1) / max(len, 1e-30);
+                return a;
+            }
+            lo = b;
+            key = venueCellKey(mix(p0, p1, b));
+        }
+        lo = t;
+    }
+    return 1.0;
+}
+#endif
+#ifdef VENUE_NAV_FIELD
+// The navigation field of an analytic venue (swarm/nav_field.hpp): per cell of a NAV_RES x NAV_RES grid over the
+// domain, the anchor of the cell's shortest legal path to the nearest exit (its first vertex), the distance and flags. Within
+// the cell the field is D(x) = D(anchor) + |x - anchor|, so the desired direction -grad D is the unit vector from the agent to
+// its cell's anchor (0 within GOAL_DEADZONE of it or in a cell without a path). The segment from the cell's centre to the anchor
+// is legal (no wall, no climb the step-up limit forbids): the direction never leads into a wall or up a step.
+// A centre in a NOFIT cell takes the anchor of the FIT cell among the 8 neighbours whose centre is nearest to
+// it (none: its own). The body fits where it stands, so it follows the FIT field: an agent pressed against a wall stands on the
+// FIT / NOFIT boundary, and at a seat block's corner the NOFIT cells' corner-hugging routes turn up to ~70 degrees from their FIT
+// neighbours'; a mutual standoff would flip with every crossing of that boundary (two agents stalled for minutes at DT / 4).
+struct NavCell { vec2 anchor; float dist; uint info; };   // swarm::GpuNavCell
+layout(std430, binding = 12) readonly buffer NavField { NavCell navCells[]; };
+
+#if defined(VENUE_ANALYTIC) && defined(NAV_SURFACE_RULE)
+// THE SURFACE RULE: the cell whose route applies must be one the agent can walk to. A centre stands up to
+// 3.5 cm off its cell's centre; beside a step face (a clearway's side face above the incline beside it, 0 .. 0.25 m high) the cell's
+// centre can lie on the higher surface while the agent stands on the lower one: the cell's route (along the row) is legal from the
+// centre but leads the agent straight into a face the step-up limit refuses (on venue M, 7 agents stood for good on a corner
+// gangway). If the agent may not walk straight to the chosen cell's centre (the step-up limit's own scan), it takes the
+// nearest of the 8 neighbours (FIT, with a path) it may walk to; none: the cell stays. navReaches: always within one heightfield cell.
+vec2 navCellCentre(int i) {
+    precise vec2 c = vec2(NAV_ORIGIN) + (vec2(ivec2(i % NAV_RES, i / NAV_RES)) + 0.5) * NAV_SURF_CELL;
+    return c;
+}
+// navReaches(p0, p1): venueStepUpScan(p0, p1, venueFloor(p0), n) >= 1.0 without the face normal's wall query (the same samples,
+// bisections and comparisons: the same answer; the wall query's code had cost every caller registers)
+bool navReaches(vec2 p0, vec2 p1) {
+    vec2 key = venueCellKey(p0);
+    if (venueCellKey(p1) == key) return true;
+    float f0 = venueFloor(p0);
+    float len = length(p1 - p0);
+    int ns = clamp(int(ceil(len / STEP_UP_SAMPLE)), 1, STEP_UP_MAX_SAMPLES);
+    float lo = 0.0;
+    for (int i = 1; i <= ns; ++i) {
+        float t = float(i) / float(ns);
+        for (int k = 0; k < VS_SCAN_CROSSINGS; ++k) {
+            if (venueCellKey(mix(p0, p1, t)) == key) break;
+            float a = lo, b = t;
+            for (int m = 0; m < VS_SCAN_BISECTIONS; ++m) {
+                float tm = 0.5 * (a + b);
+                if (venueCellKey(mix(p0, p1, tm)) == key) a = tm;
+                else b = tm;
+            }
+            float ha = venueFloor(mix(p0, p1, a)), hb = venueFloor(mix(p0, p1, b));
+            if (hb > f0 + STEP_UP_TOL && hb - ha > VS_RAKE * len * (b - a) + STEP_UP_TOL) return false;
+            lo = b;
+            key = venueCellKey(mix(p0, p1, b));
+        }
+        lo = t;
+    }
+    return true;
+}
+// The ring's pick: the reachable candidate of least d2 (the first in ring order among equal ones), else 'none'. The candidates are
+// tested in increasing (d2, ring order) and the first reachable one is taken: the same cell as testing every candidate.
+int navNearestReached(vec2 xy, float cd[8], int cj[8], int nc, int none) {
+    for (int t = 0; t < nc; t++) {
+        int b = -1;
+        for (int u = 0; u < nc; u++)
+            if (cj[u] >= 0 && (b < 0 || cd[u] < cd[b])) b = u;
+        if (navReaches(xy, navCellCentre(cj[b]))) return cj[b];
+        cj[b] = -1;
+    }
+    return none;
+}
+#endif
+
+// The cell whose anchor gives the direction at xy (nav::directionCell)
+int navCell(vec2 xy) {
+    precise vec2 g = (xy - vec2(NAV_ORIGIN)) * NAV_INV_CELL;   // in cells; precise: rounded after the subtraction and the product
+    ivec2 c = clamp(ivec2(floor(g)), ivec2(0), ivec2(NAV_RES - 1));
+    int i = c.x + c.y * NAV_RES;
+    if ((navCells[i].info & NAV_FIT) == 0u) {
+        float best = 1e9;
+        for (int dy = -1; dy <= 1; dy++) {
+            for (int dx = -1; dx <= 1; dx++) {
+                ivec2 m = c + ivec2(dx, dy);
+                if ((dx == 0 && dy == 0) || m.x < 0 || m.y < 0 || m.x >= NAV_RES || m.y >= NAV_RES) continue;
+                int j = m.x + m.y * NAV_RES;
+                if ((navCells[j].info & (NAV_FIT | NAV_REACHABLE)) != (NAV_FIT | NAV_REACHABLE)) continue;
+                precise vec2 q = g - (vec2(m) + 0.5);
+                precise float d2 = q.x * q.x + q.y * q.y;
+                if (d2 < best) { best = d2; i = j; }
+            }
+        }
+    }
+#if defined(VENUE_ANALYTIC) && defined(NAV_SURFACE_RULE)
+    if (!navReaches(xy, navCellCentre(i))) {   // the surface rule
+        float cd[8];
+        int cj[8];
+        int nc = 0;
+        for (int dy = -1; dy <= 1; dy++) {
+            for (int dx = -1; dx <= 1; dx++) {
+                ivec2 m = c + ivec2(dx, dy);
+                if (m.x < 0 || m.y < 0 || m.x >= NAV_RES || m.y >= NAV_RES) continue;
+                int j = m.x + m.y * NAV_RES;
+                if (j == i || (navCells[j].info & (NAV_FIT | NAV_REACHABLE)) != (NAV_FIT | NAV_REACHABLE)) continue;
+                precise vec2 q = g - (vec2(m) + 0.5);
+                precise float d2 = q.x * q.x + q.y * q.y;
+                cd[nc] = d2;
+                cj[nc] = j;
+                nc++;
+            }
+        }
+        i = navNearestReached(xy, cd, cj, nc, i);
+    }
+#endif
+    return i;
+}
+
+vec2 navDirection(vec2 xy) {
+    NavCell n = navCells[navCell(xy)];
+    if ((n.info & NAV_REACHABLE) == 0u) return vec2(0.0);
+    vec2 d = n.anchor - xy;
+    float l = length(d);
+    return l > GOAL_DEADZONE ? d / l : vec2(0.0);
+}
+
+// e_goal of an agent centred at p: the field's direction with its component INTO a wall or a step face beside the agent removed
+// (the rest renormalized): the faces of the columns that reach above the centre within FEELER_REACH, from the exact wall query
+// at the centre's plane (venueWall: seat blocks, barrier, walls, and a tread front within 0.1 m of its foot; the incline is never
+// one). From an agent's position off its cell's centre the anchor's direction can lead into a seat block it is sliding along (the
+// path wraps around the block's corner), and a neighbour's repulsion then cancels the rest: it would stand still for good.
+vec2 navGoal(vec3 p) {
+    vec2 e = navDirection(p.xy);
+    vec3 w = venueWall(p, FEELER_REACH);   // (away from the face, clearance); VS_BIG: none within reach
+    float into = dot(e, w.xy);
+    if (w.z < FEELER_REACH && into < 0.0) {
+        e -= w.xy * into;
+        float l = length(e);
+        e = l > SAFE_NORMALIZE_EPS ? e / l : vec2(0.0);
+    }
+    return e;
+}
+
+#ifdef VENUE_EXIT_CHOICE
+// The queue-aware exit choice (swarm/exit_choice.hpp; CPU mirror nav::choiceCell / choiceDirection / choiceGoal and, for the
+// choice pass, nav::evaluate / switchThreshold / apply). Per grid cell NAV_CHOICE_K candidates (the 2 nearest
+// avenues, the nearest door, then the nearest other exits), each with the anchor of its own field (the first vertex
+// of the cell's shortest path to that exit) and its distance (16 bits); every agent steers towards its assigned exit (choiceAssign, by agent
+// id) on that exit's field, with the field's direction (the unit vector to the anchor) and wall handling. The choice pass (PHYSICS_PASS
+// 0) keeps the assigned exit a candidate of the agent's cell, so the predict pass always finds it there.
+// swarm::GpuNavChoiceCell: slot = anchor (bits 0-24) | exit << 25 | FIT << 31; dist: two 16-bit distances per word (navSlotDist)
+struct NavChoiceCell { uint slot[NAV_CHOICE_K]; uint dist[NAV_CHOICE_DIST_WORDS]; };
+// Compact: per grid cell its class (NAV_CHOICE_FIT) and its entry + 1 (0: no candidates); the entries of the cells that have them
+layout(std430, binding = 13) readonly buffer NavChoiceIndex { uint navChoiceIndex[]; };
+layout(std430, binding = 19) readonly buffer NavChoice { NavChoiceCell navChoice[]; };
+#if PHYSICS_PASS == 0
+layout(std430, binding = 14) buffer ChoiceAssign { uint choiceAssign[]; };            // agent order: the assigned exit
+// swarm::GpuChoiceCounters: choiceQueue[parity * 64 + exit] (written by the steps of that parity, read by the next), totals
+layout(std430, binding = 15) buffer ChoiceCounters { uint choiceQueue[128]; uint choiceSwitches; uint choiceForced; uint choiceEvaluations; uint choiceEligible; };
+#else
+layout(std430, binding = 14) readonly buffer ChoiceAssign { uint choiceAssign[]; };
+#endif
+
+uint navSlotExit(uint slot) { return (slot >> NAV_CHOICE_EXIT_SHIFT) & 63u; }
+
+// Grid cell i's candidates (nav::ChoiceTable::at): its entry, or a cell of empty slots without one
+NavChoiceCell navChoiceAt(int i) {
+    uint e = navChoiceIndex[i] & NAV_CHOICE_INDEX_MASK;
+    if (e != 0u) return navChoice[e - 1u];
+    NavChoiceCell c;
+    for (int k = 0; k < NAV_CHOICE_K; k++) c.slot[k] = NAV_CHOICE_EMPTY << NAV_CHOICE_EXIT_SHIFT;
+    for (int w = 0; w < NAV_CHOICE_DIST_WORDS; w++) c.dist[w] = 0xFFFFFFFFu;
+    return c;
+}
+
+// Candidate k's walking distance in model units (nav::slotDist): its 16-bit quantum count times NAV_CHOICE_DIST_QUANTUM (2^-12: exact)
+float navSlotDist(NavChoiceCell n, int k) {
+    uint q = (n.dist[k >> 1] >> uint((k & 1) * 16)) & 0xFFFFu;
+    precise float d = float(q) * NAV_CHOICE_DIST_QUANTUM;
+    return d;
+}
+
+// The cell whose candidates apply at xy (nav::choiceCell): navCell's rule on the table's FIT bits
+int navChoiceCell(vec2 xy) {
+    precise vec2 g = (xy - vec2(NAV_ORIGIN)) * NAV_INV_CELL;
+    ivec2 c = clamp(ivec2(floor(g)), ivec2(0), ivec2(NAV_RES - 1));
+    int i = c.x + c.y * NAV_RES;
+    if ((navChoiceIndex[i] & NAV_CHOICE_FIT) == 0u) {   // the 3 x 3 ring, else the 5 x 5 ring's outer cells (nav::choiceCell)
+        float best = 1e9;
+        for (int r = 1; r <= 2 && best == 1e9; r++) {
+            for (int dy = -r; dy <= r; dy++) {
+                for (int dx = -r; dx <= r; dx++) {
+                    if (max(abs(dx), abs(dy)) != r) continue;
+                    ivec2 m = c + ivec2(dx, dy);
+                    if (m.x < 0 || m.y < 0 || m.x >= NAV_RES || m.y >= NAV_RES) continue;
+                    int j = m.x + m.y * NAV_RES;
+                    uint x0 = navChoiceIndex[j];
+                    if ((x0 & NAV_CHOICE_FIT) == 0u || (x0 & NAV_CHOICE_INDEX_MASK) == 0u) continue;
+                    precise vec2 q = g - (vec2(m) + 0.5);
+                    precise float d2 = q.x * q.x + q.y * q.y;
+                    if (d2 < best) { best = d2; i = j; }
+                }
+            }
+        }
+    }
+#if defined(VENUE_ANALYTIC) && defined(NAV_SURFACE_RULE)
+    if (!navReaches(xy, navCellCentre(i))) {   // the surface rule (navCell's)
+        float cd[8];
+        int cj[8];
+        int nc = 0;
+        for (int dy = -1; dy <= 1; dy++) {
+            for (int dx = -1; dx <= 1; dx++) {
+                ivec2 m = c + ivec2(dx, dy);
+                if (m.x < 0 || m.y < 0 || m.x >= NAV_RES || m.y >= NAV_RES) continue;
+                int j = m.x + m.y * NAV_RES;
+                uint x0 = navChoiceIndex[j];
+                if (j == i || (x0 & NAV_CHOICE_FIT) == 0u || (x0 & NAV_CHOICE_INDEX_MASK) == 0u) continue;
+                precise vec2 q = g - (vec2(m) + 0.5);
+                precise float d2 = q.x * q.x + q.y * q.y;
+                cd[nc] = d2;
+                cj[nc] = j;
+                nc++;
+            }
+        }
+        i = navNearestReached(xy, cd, cj, nc, i);
+    }
+#endif
+    return i;
+}
+
+// The centre of anchor cell a (nav::anchorCentre)
+vec2 navAnchorCentre(uint a) {
+    precise vec2 c = vec2(NAV_ORIGIN) + (vec2(uvec2(a % uint(NAV_RES), a / uint(NAV_RES))) + 0.5) * NAV_CELL;
+    return c;
+}
+
+// The unit vector from xy towards the anchor of exit ex in xy's cell (0 within GOAL_DEADZONE, or if ex is no candidate there)
+vec2 navChoiceDirection(vec2 xy, uint ex) {
+    NavChoiceCell n = navChoiceAt(navChoiceCell(xy));
+    for (int k = 0; k < NAV_CHOICE_K; k++) {
+        if (navSlotExit(n.slot[k]) != ex) continue;
+        vec2 d = navAnchorCentre(n.slot[k] & NAV_CHOICE_ANCHOR_MASK) - xy;
+        float l = length(d);
+        return l > GOAL_DEADZONE ? d / l : vec2(0.0);
+    }
+    return vec2(0.0);
+}
+
+// e_goal of an agent centred at p assigned to exit ex: navGoal's wall rule on navChoiceDirection
+vec2 navChoiceGoal(vec3 p, uint ex) {
+    vec2 e = navChoiceDirection(p.xy, ex);
+    vec3 w = venueWall(p, FEELER_REACH);
+    float into = dot(e, w.xy);
+    if (w.z < FEELER_REACH && into < 0.0) {
+        e -= w.xy * into;
+        float l = length(e);
+        e = l > SAFE_NORMALIZE_EPS ? e / l : vec2(0.0);
+    }
+    return e;
+}
+
+#if PHYSICS_PASS == 0
+// The switch cap's working storage (swarm::GpuChoiceWork) and each agent's pending switch of the current evaluation (agent order:
+// the best candidate's exit | its gain bin << 8; NAV_CHOICE_NONE: none)
+layout(std430, binding = 16) buffer ChoiceWork { uint choiceThreshold[64]; uint choiceHist[64 * CHOICE_GAIN_BINS]; uint choiceAhead[]; };
+layout(std430, binding = 17) buffer ChoicePending { uint choicePending[]; };
+
+// Candidate k's distance in quanta (nav::slotDistQ) and the queue ahead's bin of q quanta (nav::aheadBin)
+uint navSlotDistQ(NavChoiceCell n, int k) { return (n.dist[k >> 1] >> uint((k & 1) * 16)) & 0xFFFFu; }
+uint navAheadBin(uint q) { return min(q >> NAV_CHOICE_AHEAD_SHIFT, NAV_CHOICE_AHEAD_BINS - 1u); }
+
+// E in seconds (nav::estimatedTime): the walk at V0 plus the queue ahead at the exit's capacity, each product rounded, then the sum
+float navEstimate(float dist, uint ex, uint queued) {
+    precise float walk = dist * NAV_CHOICE_S_PER_UNIT;
+    precise float wait = float(queued) * NAV_EXIT_INV_CAP[ex];
+    precise float t = walk + wait;
+    return t;
+}
+
+// The slot of exit ex among cell n's candidates (-1: none; nav::slotOf)
+int navSlotOf(NavChoiceCell n, uint ex) {
+    int s = -1;
+    for (int k = 0; k < NAV_CHOICE_K; k++) if (navSlotExit(n.slot[k]) == ex) s = k;
+    return s;
+}
+
+// The candidate with the least E on the queues ahead (prefix sums at choiceAhead[aRead + exit * NAV_CHOICE_AHEAD_BINS + bin]; the first of
+// equal ones: the nearer; nav::bestCandidate)
+int navBest(NavChoiceCell n, uint aRead, out float eBest) {
+    int best = -1;
+    eBest = 0.0;
+    for (int k = 0; k < NAV_CHOICE_K; k++) {
+        uint ex = navSlotExit(n.slot[k]);
+        if (ex == NAV_CHOICE_EMPTY) break;
+        float e = navEstimate(navSlotDist(n, k), ex, choiceAhead[aRead + ex * NAV_CHOICE_AHEAD_BINS + navAheadBin(navSlotDistQ(n, k))]);
+        if (best < 0 || e < eBest) { best = k; eBest = e; }
+    }
+    return best;
+}
+#endif
+#endif
+#endif
+// @nav-end
+
+// Desired direction e_goal of agent 'id' at p: the terrace's unit direction to its egress waypoint (0 within GOAL_DEADZONE of
+// it); an analytic venue's navigation field (VENUE_NAV_FIELD; VENUE_EXIT_CHOICE: the field of the agent's
+// assigned exit). TEST_DRIVE_TABLE (per agent, from a table),
+// TEST_DRIVE_DIR (a fixed unit direction) and TEST_NO_GOAL (e_goal = 0) are defined only by test and tool scenarios
+// (tools/test_gpu.cpp, tools/fd, tools/venue_s.hpp). Production follows the egress route or the navigation field.
+vec2 goalDirection(vec3 p, uint id) {
+#if defined(TEST_DRIVE_TABLE)
+    return driveDir[id];
+#elif defined(TEST_DRIVE_DIR)
+    return TEST_DRIVE_DIR;
+#elif defined(TEST_NO_GOAL)
+    return vec2(0.0);
+#elif defined(VENUE_NAV_FIELD) && defined(VENUE_EXIT_CHOICE)
+    return navChoiceGoal(p, choiceAssign[id]);   // the assigned exit's field
+#elif defined(VENUE_NAV_FIELD)
+    return navGoal(p);
+#else
+    vec2 toTarget = egressTarget(p) - p.xy;
+    return length(toTarget) > GOAL_DEADZONE ? safeNormalize(toTarget) : vec2(0.0);
+#endif
+}
+
+// @incline-begin (tools/test_gpu.cpp checks this block against its CPU mirror, seated::floorSlope / inclineFreeSpeed)
+#if (defined(VENUE_ANALYTIC) || defined(FD_INCLINE)) && defined(VENUE_INCLINE_SPEED)
+// The incline speed (swarm/sim_params.hpp "Incline speed"): the free walking speed on a gangway incline by the slope along the
+// travel direction. venueFloorSlope: the floor's rise per unit of horizontal travel along e at xy (the incline's gradient, VS_RAKE along
+// dep, projected on e; 0 on every level floor). inclineFreeSpeed: V_MAX on the level, V_STAIR_UP ascending and V_STAIR_DOWN descending
+// from INCLINE_REF_SLOPE on, a smoothstep in |g| between (continuous, zero derivative at the level).
+// FD_INCLINE (the stair harness's corridor, tools only): the incline z = FD_RAKE x; the functions below are the venues'.
+float venueFloorSlope(vec2 xy, vec2 e) {
+#ifdef FD_INCLINE
+    precise float r = FD_RAKE * e.x;
+    return r;
+#else
+    vec2 f = vsFold(xy);
+    float l0, l1;
+    int kind, row;
+    vsOwnCell(vsBandOf(f.y), f.x, l0, l1, kind, row);
+    if (kind != VS_INCLINE) return 0.0;
+    vec2 g = vsUnfoldDir(xy, vec2(0.0, VS_RAKE));
+    precise float s = g.x * e.x + g.y * e.y;
+    return s;
+#endif
+}
+float inclineFreeSpeed(float g) {
+    float u = clamp(abs(g) * INCLINE_INV_REF_SLOPE, 0.0, 1.0);
+    precise float t = u * u * (3.0 - 2.0 * u);
+    float vStair = g > 0.0 ? V_STAIR_UP : V_STAIR_DOWN;
+    precise float v = V_MAX + (vStair - V_MAX) * t;
+    return v;
+}
+#ifdef VENUE_STAIR_HEADWAY
+// The stair spacing (swarm/sim_params.hpp "Stair spacing"): the headway rule's time gap by the same slope and the same blend,
+// T_HEADWAY on the level, T_HEADWAY_STAIR_UP ascending and T_HEADWAY_STAIR_DOWN descending from INCLINE_REF_SLOPE on
+float inclineHeadwayTime(float g) {
+    float u = clamp(abs(g) * INCLINE_INV_REF_SLOPE, 0.0, 1.0);
+    precise float t = u * u * (3.0 - 2.0 * u);
+    float tStair = g > 0.0 ? T_HEADWAY_STAIR_UP : T_HEADWAY_STAIR_DOWN;
+    precise float h = T_HEADWAY + (tStair - T_HEADWAY) * t;
+    return h;
+}
+#endif
+#endif
+// @incline-end
+
+// Floors (treads, aisles, walkway, avenues and the CSG ground plane alike): the centre rests
+// exactly BODY_RADIUS above the floor under it. A step lower than BODY_RADIUS stays below the
+// centre and is climbed here; a taller one reaches the centre's plane, where clearWalls decides.
+// Only lifts: a centre above its rest height falls under gravity. True if it put the centre on its
+// floor (the agent is grounded this step: under gravity a resting centre always sinks below it).
+// zFrom: the start-of-step centre height (floorUnder's reach when the centre sank into solid).
+bool restOnFloor(inout vec3 np, inout vec3 nv, float zFrom) {
+    float zFloor;
+    if (floorUnder(np, zFrom, zFloor) && np.z < zFloor + BODY_RADIUS) {
+        np.z = zFloor + BODY_RADIUS;
+        nv.z = 0.0;
+        return true;
+    }
+    return false;
+}
+
+// A grounded agent that a wall push moved sideways stays on the floor of its new column, lower or higher,
+// within FLOOR_SETTLE_REACH below its centre (a floor pass that only lifted would leave a centre pushed off the fillet at a
+// wall's foot above its rest height for one step). Pushed past a step deeper than that, it falls.
+bool settleOnFloor(inout vec3 np, inout vec3 nv, float zFrom) {   // true if it found the floor
+    float zFloor;
+    if (floorUnderReach(np, zFrom, FLOOR_SETTLE_REACH, zFloor)) {
+        np.z = zFloor + BODY_RADIUS;
+        nv.z = 0.0;
+        return true;
+    }
+    return false;
+}
+
+// Walls and risers: horizontal clearance BODY_RADIUS in the centre's plane. At the rest height
+// the field at the centre is the floor's, so the centre gradient cannot see a wall until it is
+// well inside the disk. Instead FEELER_COUNT feelers (FEELER_DIRS: axes and diagonals) reach
+// FEELER_REACH out in the centre's plane: 1.25 cos(11.25 deg) > 1, so any flat wall within
+// BODY_RADIUS puts one in solid.
+// From the deepest one the closest surface point q is found by casting towards it, then again
+// along the surface normal there (the foot of the perpendicular, also on curved zero levels).
+// The normal decides: n_z <= WALL_MAX_NZ is a wall, and the agent is pushed straight away from q
+// to exactly BODY_RADIUS; above it is a walkable slope reaching the centre's plane, left to the
+// floor contact (the agent climbs it). The zero level is trilinear per voxel, so a concave corner
+// is a chain of facets with kinks between them, each with its own foot point: the second-deepest
+// feeler is resolved as well and the nearer wall point wins. Inside the fence's collision band
+// the analytic fence is the collider and the baked field is only a blurred copy of the fence
+// mesh, so feelers there are ignored. WALL_PASSES passes (corners). Returns true if the agent moved.
+
+// Root finding on a ray c + t*u with the exact field: g = mapExactGrad(c + t*u) is the value (w)
+// and gradient at t. rootStep narrows the sign bracket f(a) > 0 >= f(b) with it, then takes the
+// Newton step if that stays inside the bracket, else the secant of the bracket (at the rest
+// height the field near the centre is the floor's, flat along the ray, where Newton stalls).
+// newtonStep is a plain Newton step, none where the ray is not entering the surface.
+float rootStep(inout vec4 br, float t, vec4 g, vec3 u) {   // br = (a, f(a), b, f(b))
+    if (g.w > 0.0) br.xy = vec2(t, g.w); else br.zw = vec2(t, g.w);
+    float du = dot(g.xyz, u);
+    float tn = du < 0.0 ? t - g.w / du : -1.0;
+    return tn > br.x && tn < br.z ? tn : (br.x * br.w - br.z * br.y) / (br.w - br.y);
+}
+
+float newtonStep(float t, vec4 g, vec3 u) {
+    float du = dot(g.xyz, u);
+    return du < 0.0 ? t - g.w / du : t;
+}
+
+// Nearest wall point found from one feeler in solid, along the horizontal ray np + t*u
+// (map(np + FEELER_REACH*u) = fr <= 0 < fc = map(np)). Fixed trip counts (the loops unroll), one
+// batch of texel fetches per step, so that the two starts in clearWalls overlap. The crossing q1:
+// secant start in the feeler bracket, WALL_ROOT_STEPS safeguarded Newton steps. The normal at q1
+// (the last gradient evaluated) decides wall (n_z <= WALL_MAX_NZ) or walkable slope (then none:
+// 1e9). Then the recast along that normal from its tangent plane, WALL_RECAST_STEPS Newton steps:
+// where the last one moves less than WALL_RECAST_TOL onto a wall face it is the foot of the
+// perpendicular q2. Returns the smaller horizontal distance |np - q| of the two, and the unit
+// direction from that point to np. Every point of the zero level is at least the clearance away,
+// so this never over-estimates the push, and at the foot point of a flat wall it is exact. (A
+// tangent-plane distance is not safe: at the end of a thin wall the agent can stand behind the
+// plane of its side face.)
+float wallContact(vec3 np, float fc, vec3 u, float fr, float reach, out vec2 away) {   // reach: the feeler's
+    vec4 br = vec4(0.0, fc, reach, fr);
+    float t = reach * fc / (fc - fr);
+    vec4 g = vec4(0.0);
+    for (int i = 0; i < WALL_ROOT_STEPS; ++i) {
+        g = mapExactGrad(np + u * t);
+        t = rootStep(br, t, g, u);
+    }
+    bool wall = g.z <= WALL_MAX_NZ * length(g.xyz);
+    float e = wall ? t : 1e9;
+    away = -u.xy;
+
+    vec2 n = safeNormalize(g.xy);
+    vec3 u2 = vec3(-n, 0.0);
+    float t2 = 0.0, t3 = t * dot(u, u2);   // t2: last Newton start, t3: last Newton result
+    vec4 g2 = vec4(0.0);
+    for (int i = 0; i < WALL_RECAST_STEPS; ++i) {
+        t2 = t3;
+        g2 = mapExactGrad(np + u2 * t2);
+        t3 = newtonStep(t2, g2, u2);
+    }
+    // converged onto a wall face that the ray enters (not an exit face behind a thin wall)
+    bool ok = wall && dot(g2.xyz, u2) < 0.0 && abs(t3 - t2) < WALL_RECAST_TOL && t3 > 0.0 && g2.z <= WALL_MAX_NZ * length(g2.xyz);
+    if (ok && t3 < e) { e = t3; away = n; }
+    return e;
+}
+
+// wall: the last wall contact the feelers found, (away normal, gap = clearance - BODY_RADIUS >= 0 after the
+// push); normal 0: none (the projection's wall plane)
+bool clearWalls(inout vec3 np, inout vec3 nv, out vec3 wall) {
+    bool moved = false;
+    wall = vec3(0.0);
+#ifdef VENUE_ANALYTIC
+    // Walls evaluated exactly from the venue's cells (venueWall). The feelers' root finding stalls on exact geometry
+    // where a floor lies just below the centre's plane on the way to a wall (the field along the ray is the floor's distance:
+    // its last gradient is the floor's, so the wall is taken for a walkable slope), as beside a gangway's incline next to the
+    // treads. A wall is a vertical face reaching the body's top (a body diameter above the floor:
+    // VS_WALL_ABOVE above the centre), not the centre's plane: an exact tread face beside the descending incline grows
+    // past the centre's plane while the agent stands beside it, and would become a wall at once, a push of up to BODY_RADIUS; the
+    // venue's tread faces are at most 0.40 m (steps: the step-up limit's), its seat blocks, barrier and walls at least 0.45 m.
+    for (int pass = 0; pass < WALL_PASSES; ++pass) {
+        // (away, clearance). Centres keep VS_WALL_CLEAR = BODY_RADIUS + VS_FACE_MARGIN: the seat blocks and the barrier end
+        // exactly a body radius short of the gangways, so at BODY_RADIUS from such an end a centre would stand exactly on the next
+        // tread's side line, where one ulp decides between the incline and the tread (a climb, refused for good going up)
+        vec3 w = venueWall(np + vec3(0.0, 0.0, VS_WALL_ABOVE), FEELER_REACH);
+        if (w.z >= VS_WALL_CLEAR) {
+            if (w.z < VS_BIG) wall = vec3(w.xy, w.z - VS_WALL_CLEAR);
+            break;
+        }
+        np.xy += w.xy * (VS_WALL_CLEAR - w.z);
+        moved = true;
+        wall = vec3(w.xy, 0.0);
+        float vDotN = dot(nv.xy, w.xy);
+        if (vDotN < 0.0) nv.xy -= w.xy * vDotN;
+    }
+    return moved;
+#endif
+    for (int pass = 0; pass < WALL_PASSES; ++pass) {
+        bool nearFence = sdFence(np) < FEELER_REACH;   // sdFence is 1-Lipschitz
+        float fc = map(np);
+        float fr1 = 0.0, fr2 = 0.0;   // deepest and second-deepest feeler in solid
+        int i1 = -1, i2 = -1;
+        for (int i = 0; i < FEELER_COUNT; ++i) {
+            vec3 f = np + vec3(FEELER_OFFSETS[i], 0.0);   // FEELER_DIRS[i] * FEELER_REACH
+            float v = map(f);
+            if (nearFence && sdFence(f) < 0.0) v = 1.0;
+            if (v < fr1)      { fr2 = fr1; i2 = i1; fr1 = v; i1 = i; }
+            else if (v < fr2) { fr2 = v; i2 = i; }
+        }
+        if (i1 < 0) break;
+        vec2 hNorm;
+        float clearance;
+        if (fc > 0.0) {
+            clearance = wallContact(np, fc, vec3(FEELER_DIRS[i1], 0.0), fr1, FEELER_REACH, hNorm);
+            if (i2 >= 0) {
+                vec2 h2;
+                float c2 = wallContact(np, fc, vec3(FEELER_DIRS[i2], 0.0), fr2, FEELER_REACH, h2);
+                if (c2 < clearance) { clearance = c2; hNorm = h2; }
+            }
+        } else {
+            // Centre in solid (inside a wall; restOnFloor found no walkable surface above it):
+            // leave along the centre gradient, first-order
+            vec4 g = mapExactGrad(np);
+            hNorm = safeNormalize(g.xy);
+            clearance = g.w / max(length(g.xy), CENTRE_GRAD_MIN);
+        }
+        if (clearance >= BODY_RADIUS) {
+            if (clearance < 1e9) wall = vec3(hNorm, clearance - BODY_RADIUS);   // a wall in reach, no push needed
+            break;
+        }
+        np.xy += hNorm * (BODY_RADIUS - clearance);
+        moved = true;
+        wall = vec3(hNorm, 0.0);
+        float vDotN = dot(nv.xy, hNorm);
+        if (vDotN < 0.0) {
+            nv.xy -= hNorm * vDotN; // Slide along wall
+        }
+    }
+    return moved;
+}
+
+// Wall plane probe: the nearest wall within PLANE_PROBE_REACH of a centre whose feelers found none
+// (clearWalls reaches FEELER_REACH only), for the projection, which may move an agent further towards a wall in a
+// step. The same feelers with the longer reach and the same root finding; the fence (resolved analytically in
+// the projection) is ignored. (away normal, gap = clearance - BODY_RADIUS); normal 0: none.
+vec3 wallPlaneProbe(vec3 np) {
+#ifdef VENUE_ANALYTIC
+    vec3 w = venueWall(np + vec3(0.0, 0.0, VS_WALL_ABOVE), PLANE_PROBE_REACH);   // exact (clearWalls); none from inside a wall, as below
+    return w.z >= 0.0 && w.z < VS_BIG ? vec3(w.xy, max(w.z - VS_WALL_CLEAR, 0.0)) : vec3(0.0);
+#endif
+    bool nearFence = sdFence(np) < PLANE_PROBE_REACH;   // sdFence is 1-Lipschitz
+    float fc = map(np);
+    float fr = 0.0;
+    int i1 = -1;
+    for (int i = 0; i < FEELER_COUNT; ++i) {
+        vec3 f = np + vec3(PROBE_OFFSETS[i], 0.0);   // FEELER_DIRS[i] * PLANE_PROBE_REACH
+        float v = map(f);
+        if (nearFence && sdFence(f) < 0.0) v = 1.0;
+        if (v < fr) { fr = v; i1 = i; }
+    }
+    if (i1 < 0 || fc <= 0.0) return vec3(0.0);
+    vec2 away;
+    float c = wallContact(np, fc, vec3(FEELER_DIRS[i1], 0.0), fr, PLANE_PROBE_REACH, away);
+    return c < 1e9 ? vec3(away, max(c - BODY_RADIUS, 0.0)) : vec3(0.0);
+}
+
+// Static sweep. A centre that ends its step in solid with no floor within reach above it was carried
+// into a wall, a riser or a tread's edge: one step at V_MAX (V_MAX * DT = 7.5e-3) is longer than BODY_RADIUS, and
+// the projection adds up to PROJ_ITERATIONS * PROJ_MAX_SHIFT. clearWalls' first-order exit from solid holds just
+// inside a face only (deeper, under a tread's top, the gradient turns vertical and its push diverges), so the
+// centre goes back along its step to the obstacle's face first: STATIC_SWEEP_BISECTIONS bisections on the
+// horizontal segment at the start-of-step height from the start-of-step position (in free space) to the end
+// position, keeping the free side. Inside the fence's collision band the baked field does not count (the analytic
+// fence is resolved before). The velocity along the step into the face is removed. True if it moved the centre.
+bool bakedSolid(vec3 p) { return sdFence(p) >= 0.0 && mapExactGrad(p).w <= 0.0; }
+
+bool sweepBack(vec3 pOld, inout vec3 np, inout vec3 nv) {
+    if (!bakedSolid(np)) return false;
+    float lo = 0.0, hi = 1.0;   // free at lo (the start), solid at hi
+    if (!bakedSolid(vec3(np.xy, pOld.z))) lo = 1.0;
+    for (int i = 0; i < STATIC_SWEEP_BISECTIONS; ++i) {
+        float t = 0.5 * (lo + hi);
+        if (bakedSolid(vec3(mix(pOld.xy, np.xy, t), pOld.z))) hi = t;
+        else lo = t;
+    }
+    vec2 d = safeNormalize(np.xy - pOld.xy);
+    np = vec3(mix(pOld.xy, np.xy, lo), pOld.z);
+    float vd = dot(nv.xy, d);
+    if (vd > 0.0) nv.xy -= d * vd;
+    nv.z = 0.0;
+    return true;
+}
+
+// --- STATIC CONTACTS (hard; disk/cylinder of radius BODY_RADIUS, see sim_params.hpp) ---
+// Of a centre that moved from pOld (its start-of-step position) to np in this step. Each term is resolved with
+// its own gradient, never differenced across a min() seam.
+// Fence: exact CCD on the segment pOld -> np first (the projection that follows would otherwise push a point
+// that landed past the midline out through the far face), then the analytic fence: sdFence is inflated by
+// BODY_RADIUS, so its contact surface is sdFence = 0; its gradient is horizontal, so this is always a wall slide.
+// DISABLE_FENCE_CCD is defined only by tools/test_gpu.cpp, to show that without it agents do tunnel through the
+// fence once a step is longer than its collision half-thickness.
+// Stadium (baked SDF): the floor (settle: a grounded agent the projection moved stays on the floor of its column,
+// lower or higher; else the centre is only lifted), the static sweep for a centre left in solid, the walls at the
+// rest height, then the floor again under the wall-corrected position. There an airborne agent is only lifted; a
+// grounded one settles onto it and, as settling can lower its centre's plane to where the fillet at a wall's foot
+// reaches nearer, the walls are resolved once more there (then lift only: a higher plane only gains clearance at
+// a wall's foot). map() is not a clearance (see floorUnder), so both are resolved on the zero level itself.
+// Returns true if the agent is grounded; wall: the last wall contact (clearWalls), the projection's wall plane.
+bool resolveStatic(vec3 pOld, inout vec3 np, inout vec3 nv, bool settle, out vec3 wall) {
+#if !defined(DISABLE_FENCE_CCD) && !defined(FD_CORRIDOR)
+    fenceCCD(pOld, np, nv);
+#endif
+    float dFence = sdFence(np);
+    if (dFence < 0.0) {
+        vec2 n = sdFenceGradient(np).xy;
+        np.xy -= n * dFence;
+        float vDotN = dot(nv.xy, n);
+        if (vDotN < 0.0) nv.xy -= n * vDotN;
+    }
+    bool grounded = settle ? settleOnFloor(np, nv, pOld.z) : restOnFloor(np, nv, pOld.z);
+    if (!grounded && sweepBack(pOld, np, nv)) grounded = restOnFloor(np, nv, pOld.z);
+    if (clearWalls(np, nv, wall)) {
+        if (grounded) {
+            settleOnFloor(np, nv, pOld.z);
+            vec3 w2;
+            bool again = clearWalls(np, nv, w2);
+            if (w2.xy != vec2(0.0)) wall = w2;
+            if (again) restOnFloor(np, nv, pOld.z);
+        } else {
+            restOnFloor(np, nv, pOld.z);
+        }
+    }
+    return grounded;
+}
+
+#if PHYSICS_PASS == 0 && defined(VENUE_EXIT_CHOICE)
+// --- EXIT CHOICE (nav::evaluate / switchThreshold / apply, CpuCrowdSim::chooseExits): the stages of a step, dispatched in
+// this order (u_choiceStage 3, 1, 2, 0: stage 3, the queue ahead's prefix, comes first), all reading the counts of the previous step (choiceQueue[qRead ..]):
+//   1 evaluate (one invocation per agent; evaluation steps only): every agent whose assigned exit is a candidate of its cell gets its
+//     best candidate; if that gains more than both hysteresis margins it is eligible: its pending switch and its gain bin go into the
+//     histogram of its assigned exit;
+//   2 thresholds (one invocation per exit; evaluation steps only): per exit, the lowest gain bin such that the eligible agents in that
+//     bin and above number at most the cap max(CHOICE_MIN_SWITCHES, CHOICE_SWITCH_SHARE Q_e) (if the highest bin alone exceeds it,
+//     that bin); then the histogram is cleared;
+//   3 apply (stage 0, one invocation per agent, every step): a forced choice (the assigned exit is no candidate of the agent's cell, or
+//     none yet: the candidate with the least E, no margins, no cap), else on an evaluation step its pending switch if its gain bin
+//     reaches its exit's threshold; then its count for the next step (CrowdSim clears choiceQueue[qWrite ..] before the stage).
+// Evaluation steps: every CHOICE_STEPS steps (T_CHOICE of simulated time; an expression of DT, so a DT / k variant keeps T_CHOICE),
+// from the CHOICE_STEPS-th step on; all agents re-evaluate on the same counts.
+const int CHOICE_STEPS = max(1, int(T_CHOICE / DT + 0.5));
+uniform uint u_choiceStep;   // steps since the state was uploaded
+uniform int u_choiceStage;   // 3 prefix, 1 evaluate, 2 thresholds, 0 apply
+void main() {
+    uint id = gl_GlobalInvocationID.x;
+    uint qRead = (u_choiceStep & 1u) * NAV_CHOICE_QUEUE_STRIDE;
+    uint qWrite = NAV_CHOICE_QUEUE_STRIDE - qRead;
+    uint aRead = (u_choiceStep & 1u) * NAV_CHOICE_QUEUE_STRIDE * NAV_CHOICE_AHEAD_BINS;   // the queue ahead's parities
+    uint aWrite = NAV_CHOICE_QUEUE_STRIDE * NAV_CHOICE_AHEAD_BINS - aRead;
+    bool evalStep = u_choiceStep > 0u && u_choiceStep % uint(CHOICE_STEPS) == 0u;
+    if (u_choiceStage == 3) {   // prefix (every step, one invocation per exit): the read parity to exclusive prefix sums, the write parity cleared
+        if (id >= uint(NAV_EXITS)) return;
+        uint run = 0u;
+        for (uint b = 0u; b < NAV_CHOICE_AHEAD_BINS; b++) {
+            uint i = id * NAV_CHOICE_AHEAD_BINS + b;
+            uint h = choiceAhead[aRead + i];
+            choiceAhead[aRead + i] = run;
+            run += h;
+            choiceAhead[aWrite + i] = 0u;
+        }
+        return;
+    }
+    if (u_choiceStage == 2) {   // thresholds
+        if (!evalStep || id >= uint(NAV_EXITS)) return;
+        uint base = id * uint(CHOICE_GAIN_BINS);
+        uint cap = max(uint(CHOICE_MIN_SWITCHES), uint(float(choiceQueue[qRead + id]) * CHOICE_SWITCH_SHARE));
+        uint cum = 0u, thr = uint(CHOICE_GAIN_BINS);
+        bool full = false;
+        for (int b = CHOICE_GAIN_BINS - 1; b >= 0; b--) {
+            uint c = choiceHist[base + uint(b)];
+            choiceHist[base + uint(b)] = 0u;
+            if (c == 0u || full) continue;
+            if (cum + c > cap) {
+                if (cum == 0u) thr = uint(b);   // the highest bin alone exceeds the cap: it switches anyway
+                full = true;
+                continue;
+            }
+            cum += c;
+            thr = uint(b);
+        }
+        choiceThreshold[id] = thr;
+        return;
+    }
+    if (id >= uint(numBoids)) return;
+    vec4 p = boidsIn[id].position;
+    if (p.w == 0.0) return;   // evacuated (or parked)
+    uint cur = choiceAssign[id];
+    NavChoiceCell n = navChoiceAt(navChoiceCell(p.xy));
+    bool hasPath = navSlotExit(n.slot[0]) != NAV_CHOICE_EMPTY;   // no path from here: keep the exit (e_goal 0 there)
+    int curK = hasPath ? navSlotOf(n, cur) : -1;
+    if (u_choiceStage == 1) {   // evaluate
+        if (!evalStep) return;
+        choicePending[id] = NAV_CHOICE_NONE;
+        if (curK < 0) return;   // a forced choice or no path: the apply stage
+        atomicAdd(choiceEvaluations, 1u);
+        float eBest;
+        int best = navBest(n, aRead, eBest);
+        float eCur = navEstimate(navSlotDist(n, curK), cur, choiceAhead[aRead + cur * NAV_CHOICE_AHEAD_BINS + navAheadBin(navSlotDistQ(n, curK))]);
+        precise float gain = eCur - eBest;
+        if (best != curK && gain > max(CHOICE_REL_MARGIN * eCur, CHOICE_ABS_MARGIN_S)) {
+            uint bin = min(uint(gain), uint(CHOICE_GAIN_BINS - 1));   // bins of CHOICE_GAIN_BIN_S = 1 s
+            choicePending[id] = navSlotExit(n.slot[best]) | (bin << 8);
+            atomicAdd(choiceHist[cur * uint(CHOICE_GAIN_BINS) + bin], 1u);
+            atomicAdd(choiceEligible, 1u);
+        }
+        return;
+    }
+    uint ex = cur;   // apply
+    if (hasPath && curK < 0) {
+        float eBest;
+        ex = navSlotExit(n.slot[navBest(n, aRead, eBest)]);
+        if (cur != NAV_CHOICE_NONE) atomicAdd(choiceForced, 1u);
+    } else if (evalStep && curK >= 0) {
+        uint pend = choicePending[id];
+        if (pend != NAV_CHOICE_NONE && (pend >> 8) >= choiceThreshold[cur]) {
+            ex = pend & 0xFFu;
+            atomicAdd(choiceSwitches, 1u);
+        }
+    }
+    choiceAssign[id] = ex;
+    if (ex != NAV_CHOICE_NONE) atomicAdd(choiceQueue[qWrite + ex], 1u);
+    int exK = navSlotOf(n, ex);   // the queue ahead, at the agent's own distance to its exit (none without a path)
+    if (exK >= 0) atomicAdd(choiceAhead[aWrite + ex * NAV_CHOICE_AHEAD_BINS + navAheadBin(navSlotDistQ(n, exK))], 1u);
+}
+#endif
+
+#if PHYSICS_PASS == 1
+// --- PREDICT: desired velocity (router, headway, repulsion) + driving term + integration + static contacts ---
+void main() {
+    uint slot = gl_GlobalInvocationID.x;
+    if (slot >= uint(numBoids)) return;
+
+    uint self = gridInfo[slot].boidID;
+    uint cid = gridInfo[slot].gridID;
+
+    // Evacuated agent: not gathered, not in any cell; the final pass carries it over from boidsIn
+    if (cid == INACTIVE_CELL) return;
+    vec4 p = slotIn[slot].position;   // == boidsIn[self]
+    vec4 v = slotIn[slot].velocity;
+
+    // Leaving through a wall gap: park off-screen and flag inactive (w = 0: the projection skips it,
+    // the final pass writes it as is)
+    vec2 ap = abs(p.xy);
+    if ((max(ap.x, ap.y) > EXIT_DEPTH && p.z < EXIT_MAX_Z) || max(ap.x, ap.y) > DOMAIN_MAX) {
+        slotOut[slot] = Boid(vec4(vec3(PARK_COORD), 0.0), vec4(0.0));
+        slotPlanes[slot] = vec4(0.0);
+        return;
+    }
+
+    vec2 eGoal = goalDirection(p.xyz, self);
+
+    // 2D column cell assigned by the hash pass; the ring of PERC_RING cells to each side covers R_PERC (static_assert
+    // in sim_params.hpp). Per candidate within R_PERC (horizontal distance): the personal-space repulsion (3D distance,
+    // R_SEP) and the headway: the nearest agent ahead, whose offset projects positively onto e_goal and lies less than
+    // BODY_DIAM from the agent's path
+    int cx = int(cid % uint(GRID_RES));
+    int cy = int(cid / uint(GRID_RES));
+
+    vec2 sep = vec2(0.0);
+    float sAhead = 1e9;   // horizontal centre distance to the nearest agent ahead (1e9: none within R_PERC)
+#ifdef DIAG_TIEBREAK
+    float sLiteral = 1e9;   // the same without the tie-break (B2's literal rule)
+#endif
+
+    for (int y = -PERC_RING; y <= PERC_RING; y++) {
+        for (int x = -PERC_RING; x <= PERC_RING; x++) {
+            int nx = wrapCellX(cx + x);
+            int ny = cy + y;
+            if (nx < 0 || nx >= GRID_RES || ny < 0 || ny >= GRID_RES) continue;
+            CellData cell = cells[nx + ny * GRID_RES];
+            for (uint k = cell.startIndex; k < cell.startIndex + cell.agentCount; k++) {
+                if (k == slot) continue;
+                uint other = gridInfo[k].boidID;
+                vec4 op = slotIn[k].position;   // == boidsIn[other]
+                vec3 offset = minImage(p.xyz - op.xyz);   // from the other agent to this one
+                float dxy2 = dot(offset.xy, offset.xy);
+
+                if (dxy2 < R_PERC * R_PERC) {
+                    sep += separationForce(offset, self, other);
+                    float ahead = -dot(offset.xy, eGoal);                               // along the path
+                    float lateral = abs(offset.x * eGoal.y - offset.y * eGoal.x);     // off the path
+                    float dxy = sqrt(dxy2);
+#ifdef DIAG_TIEBREAK
+                    if (ahead > 0.0 && lateral < BODY_DIAM) {   // every in-lane candidate, as the rule below decides it
+                        sLiteral = min(sLiteral, dxy);
+                        vec2 eO = goalDirection(op.xyz, other);
+                        float aO = dot(offset.xy, eO);
+                        if (aO > 0.0 && abs(offset.x * eO.y - offset.y * eO.x) < BODY_DIAM) {
+                            atomicAdd(tieBreak[0], 1u);
+                            if (!(ahead > aO || (ahead == aO && self > other))) atomicAdd(tieBreak[1], 1u);
+                            if (ahead == aO) atomicAdd(tieBreak[2], 1u);
+                        }
+                    }
+#endif
+                    if (ahead > 0.0 && lateral < BODY_DIAM && dxy < sAhead) {
+                        // Mutual standoff: this agent is also ahead in the other's lane (along the other's own e_goal),
+                        // as at a merge or a crossing. Only the agent that has the other more directly ahead yields
+                        // (ties: the larger boidID), so the pair cannot block each other for ever.
+                        vec2 eOther = goalDirection(op.xyz, other);
+                        float aheadOther = dot(offset.xy, eOther);
+                        bool mutual = aheadOther > 0.0 && abs(offset.x * eOther.y - offset.y * eOther.x) < BODY_DIAM;
+                        if (!mutual || ahead > aheadOther || (ahead == aheadOther && self > other)) sAhead = dxy;
+                    }
+                }
+            }
+        }
+    }
+
+    // Headway speed rule (Tordeux, Chraibi & Seyfried 2016): the desired speed for the gap s - BODY_DIAM; none
+    // without a goal direction. The free speed: V_MAX, on an analytic venue's incline (VENUE_INCLINE_SPEED) the stair speed
+    // by the slope along e_goal
+#if (defined(VENUE_ANALYTIC) || defined(FD_INCLINE)) && defined(VENUE_INCLINE_SPEED)
+    float slope = venueFloorSlope(p.xy, eGoal);
+    float vFree = inclineFreeSpeed(slope);
+#else
+    float vFree = V_MAX;
+#endif
+#if (defined(VENUE_ANALYTIC) || defined(FD_INCLINE)) && defined(VENUE_INCLINE_SPEED) && defined(VENUE_STAIR_HEADWAY)
+    // On an incline the stair spacing's time gap by the slope (level floors: the level rule, the same expression)
+    float vDes = (slope == 0.0 ? clamp((sAhead - BODY_DIAM) * (1.0 / T_HEADWAY), 0.0, vFree)
+                               : clamp((sAhead - BODY_DIAM) / inclineHeadwayTime(slope), 0.0, vFree)) * length(eGoal);
+#else
+    float vDes = clamp((sAhead - BODY_DIAM) * (1.0 / T_HEADWAY), 0.0, vFree) * length(eGoal);
+#endif
+#ifdef DIAG_TIEBREAK
+    float vLiteral = clamp((sLiteral - BODY_DIAM) * (1.0 / T_HEADWAY), 0.0, V_MAX) * length(eGoal);
+    if (sLiteral != sAhead) atomicAdd(tieBreak[3], 1u);
+    if (vLiteral != vDes) atomicAdd(tieBreak[4], 1u);
+    if (vLiteral == 0.0 && vDes > 0.0) atomicAdd(tieBreak[5], 1u);
+#endif
+    // Desired direction (B4; the direction model of the same collision-free speed model): e_goal deflected by the
+    // personal-space repulsion of the neighbours closer than R_SEP
+    vec2 eDir = safeNormalize(eGoal + sep);
+
+    // Obstacle avoidance, an acceleration, sampled at torso height to ignore floor treads
+    vec2 aObs = vec2(0.0);
+    vec3 torsoPos = p.xyz + vec3(0.0, 0.0, TORSO_HEIGHT);
+    bool torsoOnFence;
+    float dTorso = sceneDist(torsoPos, torsoOnFence);
+    if (dTorso < OBSTACLE_RANGE) {
+        vec2 norm = sceneNormal(torsoPos, torsoOnFence).xy;
+        if (length(norm) > OBSTACLE_MIN_NORMAL) {
+            aObs = safeNormalize(norm) * (OBSTACLE_RANGE - dTorso) * W_OBS * OBSTACLE_GAIN;
+        }
+    }
+
+    // --- KINEMATICS: the driving term (velocity relaxation), exact over the step for constant inputs ---
+    // dv/dt = (vDes eDir - v) / TAU_RELAX + aObs  ->  v(DT) = vEq + (v - vEq) exp(-DT / TAU_RELAX),
+    // vEq = vDes eDir + TAU_RELAX aObs. Free of neighbours and walls, eDir = eGoal and v -> V_MAX eGoal.
+    vec2 vEq = eDir * vDes + aObs * TAU_RELAX;
+    vec3 nv = v.xyz;
+    nv.xy = vEq + (nv.xy - vEq) * exp(-DT / TAU_RELAX);
+    // The headway speed bounds the velocity along e_goal (the collision-free speed model sets v = vDes directly; with
+    // the relaxation an agent walking faster than vDes brakes at once instead of over TAU_RELAX, which is longer than a
+    // short time gap)
+    float along = dot(nv.xy, eGoal);
+    if (along > vDes) nv.xy -= eGoal * (along - vDes);
+    nv.z  -= GRAVITY * DT;
+    nv.z = min(nv.z, 0.0);   // Prevent upward self-propulsion
+
+    if (length(nv.xy) > V_MAX) {
+        nv.xy = safeNormalize(nv.xy) * V_MAX;
+    }
+
+    vec3 np = p.xyz + nv * DT;
+
+    // Static contacts of the predicted step; the wall plane and the grounded flag bound the projection
+    vec3 wall;
+    bool grounded = resolveStatic(p.xyz, np, nv, false, wall);
+    if (wall.xy == vec2(0.0)) wall = wallPlaneProbe(np);
+    slotOut[slot] = Boid(vec4(np, 1.0), vec4(nv, 0.0));   // velocity.w: the projection's displacement so far
+    // wall plane: the centre may approach that wall by its gap before it is BODY_RADIUS from it
+    slotPlanes[slot] = vec4(wall.xy, dot(np.xy, wall.xy) - wall.z, (wall.xy != vec2(0.0) ? PLANE_WALL : 0.0) + (grounded ? PLANE_GROUNDED : 0.0));
+}
+#endif
+
+#if PHYSICS_PASS == 2 || PHYSICS_PASS == 3
+// --- HARD-BODY PROJECTION: one Jacobi iteration ---
+// For the agent in 'slot': the mean of its pair corrections against every agent's state of the previous
+// iteration (slotIn), scaled by PROJ_RELAX (successive over-relaxation of the averaged Jacobi update, the usual
+// position-based-dynamics form: a plain sum over-corrects an agent with several contacts and converges more
+// slowly) and capped at PROJ_MAX_SHIFT, then bounded by the fence (analytic)
+// and by the agent's wall plane from the predict pass. The length of its displacement goes to velocity.w (> 0: the
+// final pass resolves the static contacts again); the velocity itself is left as the driving term set it (adding
+// displacement / DT to it, as position-based dynamics does, would carry every push of a jam
+// into the next steps). Neighbours come from the start-of-step grid's 3x3 ring.
+Boid projectSlot(uint slot, uint self, uint cid) {
+    Boid b = slotIn[slot];
+    if (b.position.w == 0.0) return b;   // parked this step (left through a wall gap)
+    int cx = int(cid % uint(GRID_RES));
+    int cy = int(cid / uint(GRID_RES));
+    vec2 corr = vec2(0.0);
+    int nContacts = 0;
+    for (int y = -1; y <= 1; y++) {
+        for (int x = -1; x <= 1; x++) {
+            int nx = wrapCellX(cx + x);
+            int ny = cy + y;
+            if (nx < 0 || nx >= GRID_RES || ny < 0 || ny >= GRID_RES) continue;
+            CellData cell = cells[nx + ny * GRID_RES];
+            for (uint k = cell.startIndex; k < cell.startIndex + cell.agentCount; k++) {
+                if (k == slot) continue;
+                vec4 op = slotIn[k].position;
+                vec3 offset = minImage(b.position.xyz - op.xyz);
+                if (op.w != 0.0 && abs(offset.z) < BODY_DIAM && dot(offset.xy, offset.xy) < BODY_DIAM * BODY_DIAM) {
+                    corr += contactCorrection(offset, self, gridInfo[k].boidID);
+                    ++nContacts;
+                }
+            }
+        }
+    }
+    corr *= PROJ_RELAX / float(max(nContacts, 1));   // averaged over the agent's contacts, over-relaxed
+    float len = length(corr);
+    if (len > PROJ_MAX_SHIFT) corr *= PROJ_MAX_SHIFT / len;
+    vec3 q = b.position.xyz;
+    q.xy += corr;
+    float dFence = sdFence(q);
+    if (dFence < 0.0) q.xy -= sdFenceGradient(q).xy * dFence;
+    vec4 plane = slotPlanes[slot];
+    if (mod(plane.w, 2.0) == PLANE_WALL) {
+        float s = plane.z - dot(q.xy, plane.xy);
+        if (s > 0.0) q.xy += plane.xy * s;
+    }
+    vec2 d = q.xy - b.position.xy;
+    b.position.xy = q.xy;
+    b.velocity.w += length(d);
+    return b;
+}
+#endif
+
+#if PHYSICS_PASS == 2
+void main() {
+    uint slot = gl_GlobalInvocationID.x;
+    if (slot >= uint(numBoids)) return;
+    uint cid = gridInfo[slot].gridID;
+    if (cid == INACTIVE_CELL) return;   // not in any cell, never read
+    slotOut[slot] = projectSlot(slot, gridInfo[slot].boidID, cid);
+}
+#endif
+
+#if PHYSICS_PASS == 3
+// --- STEP-UP LIMIT (sim_params.hpp MAX_STEP_UP): the last operation of every step ---
+// The floor of the column xy in the step-up window (f0 + STEP_UP_TOL, f0 + MAX_STEP_UP] of an agent whose start-of-step
+// floor is f0: 0 if the column is free down to the window's bottom (its floor, if any, is level with f0 or lower), 1 if
+// its floor lies in the window (g: the exact field gradient and value there), 2 if the column is solid at the window's top
+// (its floor lies higher than f0 + MAX_STEP_UP; g: the gradient there, inside the obstacle). Exact texel arithmetic, as
+// floorUnderReach: along a vertical the field is linear between voxel levels, and the window is shorter than a voxel
+// (static_assert), so at most two cells are searched.
+int stepUpWindow(vec2 xy, float f0, out vec4 g) {
+    g = vec4(0.0, 0.0, 1.0, 0.0);
+#ifdef FD_CORRIDOR
+    if (abs(xy.y) >= FD_HALF_WIDTH) { g = vec4(0.0, xy.y < 0.0 ? 1.0 : -1.0, 0.0, -1.0); return 2; }   // inside a wall
+#ifdef FD_INCLINE
+    float h = FD_RAKE * xy.x;   // the incline z = FD_RAKE x (n_z > WALL_MAX_NZ: climbable)
+    g = vec4(FD_INCLINE_N, 0.0);
+    return h > f0 + MAX_STEP_UP ? 2 : h > f0 + STEP_UP_TOL ? 1 : 0;
+#else
+    return 0.0 > f0 + MAX_STEP_UP ? 2 : 0.0 > f0 + STEP_UP_TOL ? 1 : 0;                                   // the floor z = 0
+#endif
+#endif
+    vec3 f = 1.0 + (vec3(xy, f0) - u_sdfMin) * u_sdfInvSpacing;   // continuous texel index (0, 129 = pad)
+    if (any(lessThan(f.xy, vec2(0.0))) || any(greaterThan(f.xy, vec2(float(SDF_RES) - 1.0)))) return 0;   // outside the volume
+    ivec2 i0 = min(ivec2(floor(f.xy)), ivec2(SDF_RES - 2));
+    vec2 w = f.xy - vec2(i0);
+    float fLo = f.z + STEP_UP_TOL * u_sdfInvSpacing, fHi = f.z + MAX_STEP_UP * u_sdfInvSpacing;
+    int k = int(floor(fHi));
+    float a = columnLevel(i0, w, k), b = columnLevel(i0, w, k + 1);   // the field at voxel levels k, k + 1
+    if (mix(a, b, fHi - float(k)) <= 0.0) {
+        g = mapExactGrad(vec3(xy, u_sdfMin.z + (fHi - 1.0) / u_sdfInvSpacing));
+        return 2;
+    }
+    for (int cell = 0; cell < 2; ++cell) {   // down from the window's top: free there, so the first crossing is the floor
+        float fBot = max(float(k), fLo);
+        if (mix(a, b, fBot - float(k)) <= 0.0) {   // sign change inside cell k: a != b
+            float fRoot = float(k) + a / (a - b);
+            g = mapExactGrad(vec3(xy, u_sdfMin.z + (fRoot - 1.0) / u_sdfInvSpacing));
+            return 1;
+        }
+        if (fBot == fLo) return 0;
+        --k; b = a; a = columnLevel(i0, w, k);
+    }
+    return 0;
+}
+
+// May the agent not stand at a point of its move (direction dir) whose window test gave r, g? (a) its floor lies higher
+// than f0 + MAX_STEP_UP (only where the move ends: mid-move such a column is the static contacts' business), or (b) it lies
+// in the window on a wall-steep surface (n_z <= WALL_MAX_NZ) that the move climbs (any ascent along dir: -g.xy.dir > 0)
+bool stepUpBlocked(int r, vec4 g, vec2 dir, bool end) {
+    if (r == 2) return end;
+    return r == 1 && dot(g.xy, dir) < 0.0 && g.z <= WALL_MAX_NZ * length(g.xyz);
+}
+
+// The fraction of the horizontal move p0 -> p1 that the agent (start-of-step floor f0) may take: 1 if it is not blocked,
+// else the last point it may stand on before the first blocked sample (n: the unit horizontal normal of the face there,
+// away from it). Samples every STEP_UP_SAMPLE (at most STEP_UP_MAX_SAMPLES), the end included; the face lies between the
+// last sample the agent may stand on and the next, found by STEP_UP_BISECTIONS bisections with the end rule.
+float stepUpScan(vec2 p0, vec2 p1, float f0, out vec2 n) {
+    n = vec2(0.0);
+    vec2 d = p1 - p0;
+    float len = length(d);
+    vec2 dir = len > 0.0 ? d / len : vec2(0.0);
+    int ns = clamp(int(ceil(len / STEP_UP_SAMPLE)), 1, STEP_UP_MAX_SAMPLES);
+    int lastOk = 0;      // the last sample the agent may stand on (0: the start)
+    bool blocked = false;
+    for (int i = 1; i <= ns; ++i) {
+        vec4 g;
+        int r = stepUpWindow(mix(p0, p1, float(i) / float(ns)), f0, g);
+        if (stepUpBlocked(r, g, dir, i == ns)) { blocked = true; n = safeNormalize(g.xy); break; }
+        if (r != 2) lastOk = i;
+    }
+    if (!blocked) return 1.0;
+    float lo = float(lastOk) / float(ns), hi = float(lastOk + 1) / float(ns);
+    for (int i = 0; i < STEP_UP_BISECTIONS; ++i) {
+        float t = 0.5 * (lo + hi);
+        vec4 g;
+        int r = stepUpWindow(mix(p0, p1, t), f0, g);
+        if (stepUpBlocked(r, g, dir, true)) { hi = t; n = safeNormalize(g.xy); }
+        else lo = t;
+    }
+    return lo;
+}
+
+
+#ifdef VENUE_ANALYTIC
+// The wall contact at a blocked move's point (analytic venues): the step-up limit takes a blocked move back to the face it
+// climbs (and slides along it), last, after the static contacts; where the face meets an inset seat block's end that point can lie
+// inside the seat block's clearance band (an agent pushed past a tread's corner and lifted onto the tread by the floor contact,
+// sent back to the face line beside the seat block: up to 3 cm inside it, and back there every step). The exact wall contact
+// there, as clearWalls: pushed out to VS_WALL_CLEAR, the velocity into the wall removed, settled on the floor; kept only if the
+// push climbs no face (the step-up scan from the blocked point).
+void venueBlockedWall(float f0, vec3 pOld, inout vec3 np, inout vec3 nv) {
+    vec3 w = venueWall(np + vec3(0.0, 0.0, VS_WALL_ABOVE), FEELER_REACH);
+    if (w.z >= VS_WALL_CLEAR) return;
+    vec2 pushed = np.xy + w.xy * (VS_WALL_CLEAR - w.z);
+    vec2 n;
+    if (venueStepUpScan(np.xy, pushed, f0, n) < 1.0) return;
+    float vDotN = dot(nv.xy, w.xy);
+    if (vDotN < 0.0) nv.xy -= w.xy * vDotN;
+    float zFloor;
+    if (floorUnderReach(vec3(pushed, pOld.z), pOld.z, FLOOR_SETTLE_REACH, zFloor)) {
+        np = vec3(pushed, zFloor + BODY_RADIUS);
+        nv.z = 0.0;
+    } else {
+        np.xy = pushed;
+    }
+}
+
+// Exact edges, the end of the step-up limit on an analytic venue. Its risers are exact vertical faces, and a centre on
+// a riser's line is ambiguous: one ulp decides between the two columns, and the operations that evaluate the floor there
+// round differently (an agent pressed against a riser converges onto its line, where a slide along the face or a projection
+// push may test as a climb and is refused; an agent settled on a tread's edge can be left one ulp over the lower floor
+// beside it). And a tread face is a step, not a wall: the predict pass's floor contact lifts a centre that crossed onto
+// a tread, and when the projection then moves it back off the tread, no move of the step-up limit climbs, yet the centre
+// is still at the tread's height. So every centre ends its step VS_FACE_MARGIN off the side face of a column higher than
+// its feet: an agent above the floor under it moves onto an adjacent column whose top is at its feet, if that is no climb
+// (the top at most its start-of-step floor f0); one lifted this step and left over a lower floor settles from the
+// start-of-step height (as a blocked move does); an airborne one moves away from the face and keeps falling; any
+// other moves away from the face and settles on its floor there. The moves are at most VS_FACE_MARGIN (0.3 mm) horizontally;
+// the velocity is unchanged but for a settle's vertical part. (An airborne agent left where it was could end on the line of a
+// tread's side face, 1 um inside the tread column by rounding, and the floor check would count its centre below the tread.)
+void venueEdgeMargin(vec3 pOld, float f0, inout vec3 np, inout vec3 nv) {
+    float feet = np.z - BODY_RADIUS;
+    float fl = venueFloor(np.xy);
+    if (feet > fl + VS_FACE_MARGIN) {   // above the floor under the centre
+        vec3 w = venueWall(vec3(np.xy, fl + STEP_UP_TOL), VS_FACE_MARGIN);
+        if (w.z < VS_FACE_MARGIN) {   // beside a higher column: standing on its edge?
+            vec2 into = np.xy - w.xy * (w.z + VS_FACE_MARGIN);
+            float top = venueFloor(into);
+            if (abs(top - feet) <= VS_FACE_MARGIN && top <= f0 + STEP_UP_TOL) { np.xy = into; return; }
+        }
+        if (np.z <= pOld.z) {   // airborne: gravity's business, but off the face of a column higher than its feet
+            vec3 wa = venueWall(vec3(np.xy, feet + STEP_UP_TOL), VS_FACE_MARGIN);
+            if (wa.z < VS_FACE_MARGIN) np.xy += wa.xy * (VS_FACE_MARGIN - wa.z);
+            return;
+        }
+        // lifted this step, now over a lower floor: settle from the start-of-step height (then off the face, below)
+        float zFloor;
+        if (!floorUnderReach(vec3(np.xy, pOld.z), pOld.z, FLOOR_SETTLE_REACH, zFloor)) { np.z = pOld.z; return; }
+        np.z = zFloor + BODY_RADIUS;
+        nv.z = 0.0;
+        feet = zFloor;
+    }
+    vec3 w = venueWall(vec3(np.xy, feet + STEP_UP_TOL), VS_FACE_MARGIN);   // a column higher than the feet (or the centre's own)
+    if (w.z >= VS_FACE_MARGIN) return;
+    np.xy += w.xy * (VS_FACE_MARGIN - w.z);
+    np.z = venueFloor(np.xy) + BODY_RADIUS;
+}
+#endif
+
+// The step-up limit for an agent that moved from pOld (start of step) to np. A blocked move goes back to the face (q), then
+// takes the rest of the move along the face (its component along the face's tangent) where that is allowed too, veering away
+// from the face by the angles of STEP_UP_SLIDE_DIRS (cos, sin) until one is: the bake's faces undulate, so the tangent at the
+// blocking point can climb a little further on, and an agent that fell onto a ramp must still get along it and down it. The
+// velocity into the face is removed and the centre settles on the floor there from the start-of-step height (none within
+// FLOOR_SETTLE_REACH: it keeps falling). DISABLE_STEP_UP_LIMIT is defined only by tools (test_gpu, step_probe) to show what the
+// limit prevents.
+void limitStepUp(vec3 pOld, inout vec3 np, inout vec3 nv) {
+#ifndef DISABLE_STEP_UP_LIMIT
+    float f0;
+    if (!floorUnderReach(pOld, pOld.z, STEP_UP_FLOOR_REACH, f0)) f0 = pOld.z - STEP_UP_FLOOR_REACH;
+    vec2 n;
+#ifdef VENUE_ANALYTIC
+    float t = venueStepUpScan(pOld.xy, np.xy, f0, n);
+    if (t >= 1.0) { venueEdgeMargin(pOld, f0, np, nv); return; }
+#else
+    float t = stepUpScan(pOld.xy, np.xy, f0, n);
+#endif
+    if (t >= 1.0) return;
+    vec2 q = mix(pOld.xy, np.xy, t);
+    vec2 rest = np.xy - q;
+    vec2 tangent = rest - n * dot(rest, n);
+    float lt = length(tangent);
+    if (lt > 0.0) {
+        for (int k = 0; k < STEP_UP_SLIDE_TRIES; ++k) {
+            vec2 slide = q + tangent * STEP_UP_SLIDE_DIRS[k].x + n * (lt * STEP_UP_SLIDE_DIRS[k].y);
+            vec2 n2;
+#ifdef VENUE_ANALYTIC
+            if (sdFence(vec3(slide, 0.0)) >= 0.0 && venueStepUpScan(q, slide, f0, n2) >= 1.0) { q = slide; break; }
+#else
+            if (sdFence(vec3(slide, 0.0)) >= 0.0 && stepUpScan(q, slide, f0, n2) >= 1.0) { q = slide; break; }
+#endif
+        }
+    }
+    float vn = dot(nv.xy, n);
+    if (vn < 0.0) nv.xy -= n * vn;
+    float zFloor;
+    if (floorUnderReach(vec3(q, pOld.z), pOld.z, FLOOR_SETTLE_REACH, zFloor)) {
+        np = vec3(q, zFloor + BODY_RADIUS);
+        nv.z = 0.0;
+    } else {
+        np = vec3(q, min(np.z, pOld.z));
+    }
+#ifdef VENUE_ANALYTIC
+    venueBlockedWall(f0, pOld, np, nv);
+    venueEdgeMargin(pOld, f0, np, nv);
+#endif
+#endif
+}
+
+uniform bool u_project;   // run the last projection iteration here (false: PROJ_ITERATIONS == 0)
+
+// --- FINAL: last projection iteration, final static contacts, scatter to boidsOut ---
+void main() {
+    uint slot = gl_GlobalInvocationID.x;
+    if (slot >= uint(numBoids)) return;
+
+    uint self = gridInfo[slot].boidID;
+    uint cid = gridInfo[slot].gridID;
+
+    // Evacuated agent: carry it over unchanged (every slot must be written in ping-pong). The cells
+    // pass does not gather inactive slots, so this reads boidsIn.
+    if (cid == INACTIVE_CELL) {
+        boidsOut[self] = boidsIn[self];
+        return;
+    }
+    Boid b;
+    if (u_project) b = projectSlot(slot, self, cid);
+    else b = slotIn[slot];
+    if (b.position.w == 0.0) {   // parked this step (the predict pass wrote the parked state)
+        boidsOut[self] = b;
+        return;
+    }
+    vec3 np = b.position.xyz;
+    vec3 nv = b.velocity.xyz;
+
+    // Static contacts, enforced last for every agent the projection moved (the others' predicted state already
+    // satisfies them): from the start-of-step position, a grounded agent settling on its column's floor
+    vec3 pOld = boidsIn[self].position.xyz;
+    if (b.velocity.w > 0.0) {
+        vec3 wall;
+        resolveStatic(pOld, np, nv, slotPlanes[slot].w >= PLANE_GROUNDED, wall);
+    }
+    // The step-up limit, for every agent, last: no pass can carry an agent up a step it may not climb
+    limitStepUp(pOld, np, nv);
+
+#ifdef FD_PERIODIC_X
+#ifdef FD_INCLINE
+    float wraps = floor((np.x + 0.5 * FD_PERIOD) / FD_PERIOD);
+    np.x -= FD_PERIOD * wraps;
+    np.z -= FD_RAKE * FD_PERIOD * wraps;
+#else
+    np.x -= FD_PERIOD * floor((np.x + 0.5 * FD_PERIOD) / FD_PERIOD);
+#endif
+#endif
+    boidsOut[self].position = vec4(np, 1.0);
+    boidsOut[self].velocity = vec4(nv, length(nv));
+}
+#endif

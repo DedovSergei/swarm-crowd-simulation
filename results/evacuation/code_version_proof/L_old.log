@@ -1,0 +1,107 @@
+run_experiment | L_old | commit 49b5a27fdf6f6a88f959b17d6a8663be2a60e39d (dirty 0) | Release | AMD  Radeon RX 7800 XT
+  model: queue-aware exit choice, incline speed, stair spacing (empirical)
+navigation field of venue L: loaded from out/build/x64-Release/navcache\nav_L_a2f3aaf59c2252b7.bin (6.35 s)
+exit choice table of venue L: loaded from out/build/x64-Release/navcache\nav_L_choice_26a7f7255dee67a2.bin (25.62 s)
+  initial density (cloud-in-cell, cells >= 0.5 m^2): standing zones' cells max 1.04 p/m^2, circulation max 1.96 p/m^2
+  wall time per step: simulation + counters 458.16 ms, readback 3.15 ms, gangway flows 19.01 ms, plausibility 204.24 ms, venue checks 72.56 ms
+  400 steps in 303.2 s wall; 4178 of 63424 evacuated; 0 row changes (INV-row)
+  still active at the end at avenue: 526
+  still active at the end at clearway (row 1): 27
+  still active at the end at clearway (row 10): 137
+  still active at the end at clearway (row 11): 148
+  still active at the end at clearway (row 12): 164
+  still active at the end at clearway (row 13): 173
+  still active at the end at clearway (row 14): 188
+  still active at the end at clearway (row 15): 201
+  still active at the end at clearway (row 16): 211
+  still active at the end at clearway (row 17): 254
+  still active at the end at clearway (row 18): 256
+  still active at the end at clearway (row 19): 255
+  still active at the end at clearway (row 2): 62
+  still active at the end at clearway (row 20): 252
+  still active at the end at clearway (row 21): 250
+  still active at the end at clearway (row 22): 253
+  still active at the end at clearway (row 23): 251
+  still active at the end at clearway (row 24): 249
+  still active at the end at clearway (row 25): 251
+  still active at the end at clearway (row 26): 264
+  still active at the end at clearway (row 27): 279
+  still active at the end at clearway (row 28): 300
+  still active at the end at clearway (row 29): 316
+  still active at the end at clearway (row 3): 68
+  still active at the end at clearway (row 30): 327
+  still active at the end at clearway (row 31): 340
+  still active at the end at clearway (row 32): 344
+  still active at the end at clearway (row 33): 351
+  still active at the end at clearway (row 34): 354
+  still active at the end at clearway (row 35): 380
+  still active at the end at clearway (row 36): 363
+  still active at the end at clearway (row 37): 382
+  still active at the end at clearway (row 38): 407
+  still active at the end at clearway (row 39): 399
+  still active at the end at clearway (row 4): 82
+  still active at the end at clearway (row 40): 402
+  still active at the end at clearway (row 41): 413
+  still active at the end at clearway (row 42): 411
+  still active at the end at clearway (row 43): 414
+  still active at the end at clearway (row 44): 429
+  still active at the end at clearway (row 45): 438
+  still active at the end at clearway (row 46): 473
+  still active at the end at clearway (row 47): 482
+  still active at the end at clearway (row 48): 502
+  still active at the end at clearway (row 49): 515
+  still active at the end at clearway (row 5): 110
+  still active at the end at clearway (row 50): 521
+  still active at the end at clearway (row 51): 541
+  still active at the end at clearway (row 52): 546
+  still active at the end at clearway (row 53): 566
+  still active at the end at clearway (row 54): 565
+  still active at the end at clearway (row 55): 552
+  still active at the end at clearway (row 56): 571
+  still active at the end at clearway (row 57): 564
+  still active at the end at clearway (row 58): 588
+  still active at the end at clearway (row 59): 585
+  still active at the end at clearway (row 6): 122
+  still active at the end at clearway (row 60): 602
+  still active at the end at clearway (row 61): 592
+  still active at the end at clearway (row 62): 573
+  still active at the end at clearway (row 63): 598
+  still active at the end at clearway (row 64): 622
+  still active at the end at clearway (row 65): 632
+  still active at the end at clearway (row 66): 655
+  still active at the end at clearway (row 67): 649
+  still active at the end at clearway (row 68): 668
+  still active at the end at clearway (row 69): 669
+  still active at the end at clearway (row 7): 128
+  still active at the end at clearway (row 70): 681
+  still active at the end at clearway (row 71): 695
+  still active at the end at clearway (row 72): 703
+  still active at the end at clearway (row 73): 715
+  still active at the end at clearway (row 74): 709
+  still active at the end at clearway (row 75): 707
+  still active at the end at clearway (row 76): 726
+  still active at the end at clearway (row 77): 725
+  still active at the end at clearway (row 78): 736
+  still active at the end at clearway (row 79): 736
+  still active at the end at clearway (row 8): 129
+  still active at the end at clearway (row 80): 752
+  still active at the end at clearway (row 81): 754
+  still active at the end at clearway (row 82): 766
+  still active at the end at clearway (row 83): 770
+  still active at the end at clearway (row 84): 784
+  still active at the end at clearway (row 85): 799
+  still active at the end at clearway (row 86): 799
+  still active at the end at clearway (row 87): 799
+  still active at the end at clearway (row 88): 804
+  still active at the end at clearway (row 89): 780
+  still active at the end at clearway (row 9): 141
+  still active at the end at clearway (row 90): 724
+  still active at the end at clearway (row 91): 542
+  still active at the end at clearway (row 92): 95
+  still active at the end at concourse: 147
+  still active at the end at corner gangway: 2900
+  still active at the end at exit: 27
+  still active at the end at straight gangway: 13659
+  still active at the end at walkway: 180
+  t50 nan s, t90 nan s, t100 nan s -> out/lproof/runs\L_old_20261022_1936
+  checks: plausibility PASS, INV-row PASS (0), step-up PASS, wall tops PASS

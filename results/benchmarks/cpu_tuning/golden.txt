@@ -1,0 +1,121 @@
+Successfully loaded 3D SDF Texture (130^3 voxels).
+terrace, one schedule for every physics loop (physics / projection):
+  CPU counting N = 4096          static      / static      20 threads, choice -: f6acc34947d51106 match
+  CPU bitonic N = 4096           static      / static      20 threads, choice -: 0fe0246dbd6703fe match
+  CPU counting N = 4096          static      / static       7 threads, choice -: f6acc34947d51106 match
+  CPU bitonic N = 4096           static      / static       7 threads, choice -: 0fe0246dbd6703fe match
+  CPU counting N = 4096          dynamic64   / dynamic64   20 threads, choice -: f6acc34947d51106 match
+  CPU bitonic N = 4096           dynamic64   / dynamic64   20 threads, choice -: 0fe0246dbd6703fe match
+  CPU counting N = 4096          dynamic64   / dynamic64    7 threads, choice -: f6acc34947d51106 match
+  CPU bitonic N = 4096           dynamic64   / dynamic64    7 threads, choice -: 0fe0246dbd6703fe match
+  CPU counting N = 4096          dynamic256  / dynamic256  20 threads, choice -: f6acc34947d51106 match
+  CPU bitonic N = 4096           dynamic256  / dynamic256  20 threads, choice -: 0fe0246dbd6703fe match
+  CPU counting N = 4096          dynamic256  / dynamic256   7 threads, choice -: f6acc34947d51106 match
+  CPU bitonic N = 4096           dynamic256  / dynamic256   7 threads, choice -: 0fe0246dbd6703fe match
+  CPU counting N = 4096          dynamic1024 / dynamic1024 20 threads, choice -: f6acc34947d51106 match
+  CPU bitonic N = 4096           dynamic1024 / dynamic1024 20 threads, choice -: 0fe0246dbd6703fe match
+  CPU counting N = 4096          dynamic1024 / dynamic1024  7 threads, choice -: f6acc34947d51106 match
+  CPU bitonic N = 4096           dynamic1024 / dynamic1024  7 threads, choice -: 0fe0246dbd6703fe match
+  CPU counting N = 4096          guided      / guided      20 threads, choice -: f6acc34947d51106 match
+  CPU bitonic N = 4096           guided      / guided      20 threads, choice -: 0fe0246dbd6703fe match
+  CPU counting N = 4096          guided      / guided       7 threads, choice -: f6acc34947d51106 match
+  CPU bitonic N = 4096           guided      / guided       7 threads, choice -: 0fe0246dbd6703fe match
+  CPU counting N = 4096          static      / static       1 threads, choice -: f6acc34947d51106 match
+every (physics, projection) pair at max threads: the terrace (counting) and venue S (counting; bitonic at 7 threads):
+  CPU counting N = 4096          static      / static      20 threads, choice -: f6acc34947d51106 match
+navigation field of venue S: loaded from out\build\x64-Release\navcache\nav_S_c76d5f6f3579ec21.bin (0.59 s)
+exit choice table of venue S: loaded from out\build\x64-Release\navcache\nav_S_choice_9d964e9d2d0d77bb.bin (2.38 s)
+  CPU counting venue S routed    static      / static      20 threads, choice seq: 434356ac8d65471d match
+  CPU bitonic venue S routed     static      / static       7 threads, choice seq: 5e72f98915ca108f match
+  CPU counting venue S routed    static      / static      20 threads, choice par: 434356ac8d65471d match
+  CPU bitonic venue S routed     static      / static       7 threads, choice par: 5e72f98915ca108f match
+  CPU counting N = 4096          static      / dynamic64   20 threads, choice -: f6acc34947d51106 match
+  CPU counting venue S routed    static      / dynamic64   20 threads, choice seq: 434356ac8d65471d match
+  CPU bitonic venue S routed     static      / dynamic64    7 threads, choice seq: 5e72f98915ca108f match
+  CPU counting venue S routed    static      / dynamic64   20 threads, choice par: 434356ac8d65471d match
+  CPU bitonic venue S routed     static      / dynamic64    7 threads, choice par: 5e72f98915ca108f match
+  CPU counting N = 4096          static      / dynamic256  20 threads, choice -: f6acc34947d51106 match
+  CPU counting venue S routed    static      / dynamic256  20 threads, choice seq: 434356ac8d65471d match
+  CPU bitonic venue S routed     static      / dynamic256   7 threads, choice seq: 5e72f98915ca108f match
+  CPU counting venue S routed    static      / dynamic256  20 threads, choice par: 434356ac8d65471d match
+  CPU bitonic venue S routed     static      / dynamic256   7 threads, choice par: 5e72f98915ca108f match
+  CPU counting N = 4096          static      / guided      20 threads, choice -: f6acc34947d51106 match
+  CPU counting venue S routed    static      / guided      20 threads, choice seq: 434356ac8d65471d match
+  CPU bitonic venue S routed     static      / guided       7 threads, choice seq: 5e72f98915ca108f match
+  CPU counting venue S routed    static      / guided      20 threads, choice par: 434356ac8d65471d match
+  CPU bitonic venue S routed     static      / guided       7 threads, choice par: 5e72f98915ca108f match
+  CPU counting N = 4096          dynamic64   / static      20 threads, choice -: f6acc34947d51106 match
+  CPU counting venue S routed    dynamic64   / static      20 threads, choice seq: 434356ac8d65471d match
+  CPU bitonic venue S routed     dynamic64   / static       7 threads, choice seq: 5e72f98915ca108f match
+  CPU counting venue S routed    dynamic64   / static      20 threads, choice par: 434356ac8d65471d match
+  CPU bitonic venue S routed     dynamic64   / static       7 threads, choice par: 5e72f98915ca108f match
+  CPU counting N = 4096          dynamic64   / dynamic64   20 threads, choice -: f6acc34947d51106 match
+  CPU counting venue S routed    dynamic64   / dynamic64   20 threads, choice seq: 434356ac8d65471d match
+  CPU bitonic venue S routed     dynamic64   / dynamic64    7 threads, choice seq: 5e72f98915ca108f match
+  CPU counting venue S routed    dynamic64   / dynamic64   20 threads, choice par: 434356ac8d65471d match
+  CPU bitonic venue S routed     dynamic64   / dynamic64    7 threads, choice par: 5e72f98915ca108f match
+  CPU counting N = 4096          dynamic64   / dynamic256  20 threads, choice -: f6acc34947d51106 match
+  CPU counting venue S routed    dynamic64   / dynamic256  20 threads, choice seq: 434356ac8d65471d match
+  CPU bitonic venue S routed     dynamic64   / dynamic256   7 threads, choice seq: 5e72f98915ca108f match
+  CPU counting venue S routed    dynamic64   / dynamic256  20 threads, choice par: 434356ac8d65471d match
+  CPU bitonic venue S routed     dynamic64   / dynamic256   7 threads, choice par: 5e72f98915ca108f match
+  CPU counting N = 4096          dynamic64   / guided      20 threads, choice -: f6acc34947d51106 match
+  CPU counting venue S routed    dynamic64   / guided      20 threads, choice seq: 434356ac8d65471d match
+  CPU bitonic venue S routed     dynamic64   / guided       7 threads, choice seq: 5e72f98915ca108f match
+  CPU counting venue S routed    dynamic64   / guided      20 threads, choice par: 434356ac8d65471d match
+  CPU bitonic venue S routed     dynamic64   / guided       7 threads, choice par: 5e72f98915ca108f match
+  CPU counting N = 4096          dynamic256  / static      20 threads, choice -: f6acc34947d51106 match
+  CPU counting venue S routed    dynamic256  / static      20 threads, choice seq: 434356ac8d65471d match
+  CPU bitonic venue S routed     dynamic256  / static       7 threads, choice seq: 5e72f98915ca108f match
+  CPU counting venue S routed    dynamic256  / static      20 threads, choice par: 434356ac8d65471d match
+  CPU bitonic venue S routed     dynamic256  / static       7 threads, choice par: 5e72f98915ca108f match
+  CPU counting N = 4096          dynamic256  / dynamic64   20 threads, choice -: f6acc34947d51106 match
+  CPU counting venue S routed    dynamic256  / dynamic64   20 threads, choice seq: 434356ac8d65471d match
+  CPU bitonic venue S routed     dynamic256  / dynamic64    7 threads, choice seq: 5e72f98915ca108f match
+  CPU counting venue S routed    dynamic256  / dynamic64   20 threads, choice par: 434356ac8d65471d match
+  CPU bitonic venue S routed     dynamic256  / dynamic64    7 threads, choice par: 5e72f98915ca108f match
+  CPU counting N = 4096          dynamic256  / dynamic256  20 threads, choice -: f6acc34947d51106 match
+  CPU counting venue S routed    dynamic256  / dynamic256  20 threads, choice seq: 434356ac8d65471d match
+  CPU bitonic venue S routed     dynamic256  / dynamic256   7 threads, choice seq: 5e72f98915ca108f match
+  CPU counting venue S routed    dynamic256  / dynamic256  20 threads, choice par: 434356ac8d65471d match
+  CPU bitonic venue S routed     dynamic256  / dynamic256   7 threads, choice par: 5e72f98915ca108f match
+  CPU counting N = 4096          dynamic256  / guided      20 threads, choice -: f6acc34947d51106 match
+  CPU counting venue S routed    dynamic256  / guided      20 threads, choice seq: 434356ac8d65471d match
+  CPU bitonic venue S routed     dynamic256  / guided       7 threads, choice seq: 5e72f98915ca108f match
+  CPU counting venue S routed    dynamic256  / guided      20 threads, choice par: 434356ac8d65471d match
+  CPU bitonic venue S routed     dynamic256  / guided       7 threads, choice par: 5e72f98915ca108f match
+  CPU counting N = 4096          guided      / static      20 threads, choice -: f6acc34947d51106 match
+  CPU counting venue S routed    guided      / static      20 threads, choice seq: 434356ac8d65471d match
+  CPU bitonic venue S routed     guided      / static       7 threads, choice seq: 5e72f98915ca108f match
+  CPU counting venue S routed    guided      / static      20 threads, choice par: 434356ac8d65471d match
+  CPU bitonic venue S routed     guided      / static       7 threads, choice par: 5e72f98915ca108f match
+  CPU counting N = 4096          guided      / dynamic64   20 threads, choice -: f6acc34947d51106 match
+  CPU counting venue S routed    guided      / dynamic64   20 threads, choice seq: 434356ac8d65471d match
+  CPU bitonic venue S routed     guided      / dynamic64    7 threads, choice seq: 5e72f98915ca108f match
+  CPU counting venue S routed    guided      / dynamic64   20 threads, choice par: 434356ac8d65471d match
+  CPU bitonic venue S routed     guided      / dynamic64    7 threads, choice par: 5e72f98915ca108f match
+  CPU counting N = 4096          guided      / dynamic256  20 threads, choice -: f6acc34947d51106 match
+  CPU counting venue S routed    guided      / dynamic256  20 threads, choice seq: 434356ac8d65471d match
+  CPU bitonic venue S routed     guided      / dynamic256   7 threads, choice seq: 5e72f98915ca108f match
+  CPU counting venue S routed    guided      / dynamic256  20 threads, choice par: 434356ac8d65471d match
+  CPU bitonic venue S routed     guided      / dynamic256   7 threads, choice par: 5e72f98915ca108f match
+  CPU counting N = 4096          guided      / guided      20 threads, choice -: f6acc34947d51106 match
+  CPU counting venue S routed    guided      / guided      20 threads, choice seq: 434356ac8d65471d match
+  CPU bitonic venue S routed     guided      / guided       7 threads, choice seq: 5e72f98915ca108f match
+  CPU counting venue S routed    guided      / guided      20 threads, choice par: 434356ac8d65471d match
+  CPU bitonic venue S routed     guided      / guided       7 threads, choice par: 5e72f98915ca108f match
+  CPU counting venue S routed    static      / static       1 threads, choice seq: 434356ac8d65471d match
+  CPU counting venue S routed    static      / static       1 threads, choice par: 434356ac8d65471d match
+  CPU counting venue S nearest exit, level speed   20 threads, choice seq: b1d6dac42f5dcd09 match
+  CPU counting venue S routed, level spacing       20 threads, choice seq: 22ad15f59ee18632 match
+  CPU counting venue S nearest exit, level speed   20 threads, choice par: b1d6dac42f5dcd09 match
+  CPU counting venue S routed, level spacing       20 threads, choice par: 22ad15f59ee18632 match
+navigation field of venue M: loaded from out\build\x64-Release\navcache\nav_M_9dab1161288587e6.bin (2.09 s)
+exit choice table of venue M: loaded from out\build\x64-Release\navcache\nav_M_choice_788a24afc6c2ac0b.bin (9.84 s)
+  CPU counting venue M routed    dynamic64   / dynamic64   20 threads, choice seq: dfbb0cd26213add2 match
+  CPU counting venue M routed    dynamic64   / dynamic64   20 threads, choice par: dfbb0cd26213add2 match
+navigation field of venue L: loaded from out\build\x64-Release\navcache\nav_L_a2f3aaf59c2252b7.bin (5.91 s)
+exit choice table of venue L: loaded from out\build\x64-Release\navcache\nav_L_choice_26a7f7255dee67a2.bin (21.34 s)
+  CPU counting venue L routed    dynamic64   / dynamic64   20 threads, choice seq: 107e45d468070142 match
+  CPU counting venue L routed    dynamic64   / dynamic64   20 threads, choice par: 107e45d468070142 match
+ALL MATCH: 0 mismatch(es) in 111 runs

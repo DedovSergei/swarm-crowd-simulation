@@ -1,0 +1,126 @@
+Successfully loaded 3D SDF Texture (130^3 voxels).
+fd_harness ksweep | commit `ed56a3c442bc2413b8427632b0b59e71ca4f3168`, dirty 1, Release; AMD  Radeon RX 7800 XT, 4.3.0 Core Profile Context 26.8.1.260810; 2026-10-05T20:16:35
+  K 20,24,28,32, reference K 32; FD: densities 0.5,...,4, RMS over 1,2,3,4, seeds 7,8,9, warm-up 300 s, measured 300 s
+
+  K = 20:
+    evacuated at step 2747 (2747 steps checked)
+    overlap depth (pairs closer than BODY_DIAM, / BODY_DIAM, above 1e-04): 141304 pair-steps, p50 0.0014, p99 0.0712, max 0.3933 (limits p99 < 0.02, max < 0.10); 210746 pair-steps in contact incl. rounding level; agents overlapping per step: mean 2.19%
+    neighbour grid: max horizontal displacement in a step 0.01108 (bound (cell - BODY_DIAM) / 2 = 0.01860); pairs closer than BODY_DIAM from non-adjacent start-of-step cells: 0
+    floors: centre in solid 0, centre below floor + BODY_RADIUS - 1e-04: 0 agent-steps; airborne runs 7654 (1 / 2 / 3 / 4 / 5+ steps: 5217 / 1725 / 569 / 74 / 69), longest 11
+    fence: midline crossings 0, inside the collision band 0 agent-steps; walls: clearance < BODY_RADIUS - 3e-04 0 agent-steps, min wall clearance none within 0.0061 (BODY_RADIUS 0.0064), walkable-slope contacts within it 427344 (not walls)
+    speed: max |v_xy| 0.750000 (V_MAX 0.75), 0 above; density: peak 6.81 p/m^2 over fully walkable cells (cell 1715), 6.81 over all included cells (cell 1715); hexagonal packing 7.22, ceiling 7.96
+    all overlapping pair-steps                    141304 (100.0%)  p50 0.0014  p99 0.0712  max 0.3933  > 2% 11175  > 5%  2812  > 10%  713  > 20%  213
+    venue geometry (fall + ramp)                   13903 (  9.8%)  p50 0.0077  p99 0.2286  max 0.3933  > 2%  4290  > 5%  1861  > 10%  664  > 20%  212
+    . fall / step-down / landing                   12310 (  8.7%)  p50 0.0098  p99 0.2360  max 0.3933  > 2%  4253  > 5%  1859  > 10%  664  > 20%  212
+    .   tread                                      11021 (  7.8%)  p50 0.0094  p99 0.2397  max 0.3933  > 2%  3651  > 5%  1581  > 10%  612  > 20%  204
+    .   aisle                                       1287 (  0.9%)  p50 0.0168  p99 0.1649  max 0.3111  > 2%   602  > 5%   278  > 10%   52  > 20%    8
+    .   walkway                                        2 (  0.0%)  p50 0.0025  p99 0.0149  max 0.0149  > 2%     0  > 5%     0  > 10%    0  > 20%    0
+    . riser / step ramp                             1593 (  1.1%)  p50 0.0010  p99 0.0277  max 0.0786  > 2%    37  > 5%     2  > 10%    0  > 20%    0
+    .   tread                                        835 (  0.6%)  p50 0.0010  p99 0.0224  max 0.0786  > 2%    16  > 5%     1  > 10%    0  > 20%    0
+    .   aisle                                        758 (  0.5%)  p50 0.0011  p99 0.0331  max 0.0783  > 2%    21  > 5%     1  > 10%    0  > 20%    0
+    crowd (steadily grounded, walkable floor)     127401 ( 90.2%)  p50 0.0012  p99 0.0452  max 0.2388  > 2%  6885  > 5%   951  > 10%   49  > 20%    1
+    .   tread                                     122200 ( 86.5%)  p50 0.0012  p99 0.0452  max 0.2388  > 2%  6669  > 5%   916  > 10%   43  > 20%    1
+    .   aisle                                       5187 (  3.7%)  p50 0.0006  p99 0.0431  max 0.1455  > 2%   216  > 5%    35  > 10%    6  > 20%    0
+    .   walkway                                       14 (  0.0%)  p50 0.0014  p99 0.0144  max 0.0144  > 2%     0  > 5%     0  > 10%    0  > 20%    0
+  rho 0.50:   75 agents, v 1.340 m/s (halves 1.340 / 1.340, |v| 1.340), area density 0.50, J 0.670 p/(m s) = 40.2 p/(m min), Weidmann v 1.298, max overlap 0.000
+  rho 1.00:  150 agents, v 1.340 m/s (halves 1.340 / 1.340, |v| 1.340), area density 1.00, J 1.340 p/(m s) = 80.4 p/(m min), Weidmann v 1.058, max overlap 0.000
+  rho 1.50:  225 agents, v 0.867 m/s (halves 0.832 / 0.904, |v| 0.867), area density 1.50, J 1.300 p/(m s) = 78.0 p/(m min), Weidmann v 0.807, max overlap 0.000
+  rho 2.00:  300 agents, v 0.558 m/s (halves 0.560 / 0.557, |v| 0.558), area density 2.00, J 1.117 p/(m s) = 67.0 p/(m min), Weidmann v 0.606, max overlap 0.000
+  rho 2.50:  375 agents, v 0.368 m/s (halves 0.365 / 0.370, |v| 0.368), area density 2.50, J 0.919 p/(m s) = 55.2 p/(m min), Weidmann v 0.452, max overlap 0.000
+  rho 3.00:  450 agents, v 0.292 m/s (halves 0.292 / 0.292, |v| 0.292), area density 3.00, J 0.875 p/(m s) = 52.5 p/(m min), Weidmann v 0.331, max overlap 0.000
+  rho 3.50:  525 agents, v 0.111 m/s (halves 0.110 / 0.111, |v| 0.117), area density 3.40, J 0.387 p/(m s) = 23.2 p/(m min), Weidmann v 0.234, max overlap 0.011
+  rho 4.00:  600 agents, v 0.034 m/s (halves 0.031 / 0.036, |v| 0.043), area density 3.98, J 0.135 p/(m s) = 8.1 p/(m min), Weidmann v 0.156, max overlap 0.010
+    t50 / t90 / t100 = 228.6 / 405.4 / 480.5 s; FD RMS (rho 1,2,3,4) 0.1568 m/s, (0.5-4) 0.1255 m/s; crowd p99 0.0452 max 0.2388; plausibility (except overlap) pass (46 s)
+
+  K = 24:
+    evacuated at step 2699 (2699 steps checked)
+    overlap depth (pairs closer than BODY_DIAM, / BODY_DIAM, above 1e-04): 129306 pair-steps, p50 0.0012, p99 0.0676, max 0.3925 (limits p99 < 0.02, max < 0.10); 202946 pair-steps in contact incl. rounding level; agents overlapping per step: mean 1.95%
+    neighbour grid: max horizontal displacement in a step 0.01107 (bound (cell - BODY_DIAM) / 2 = 0.01860); pairs closer than BODY_DIAM from non-adjacent start-of-step cells: 0
+    floors: centre in solid 0, centre below floor + BODY_RADIUS - 1e-04: 0 agent-steps; airborne runs 7608 (1 / 2 / 3 / 4 / 5+ steps: 5194 / 1718 / 555 / 71 / 70), longest 13
+    fence: midline crossings 0, inside the collision band 0 agent-steps; walls: clearance < BODY_RADIUS - 3e-04 0 agent-steps, min wall clearance none within 0.0061 (BODY_RADIUS 0.0064), walkable-slope contacts within it 407318 (not walls)
+    speed: max |v_xy| 0.750000 (V_MAX 0.75), 0 above; density: peak 6.80 p/m^2 over fully walkable cells (cell 3303), 6.80 over all included cells (cell 3303); hexagonal packing 7.22, ceiling 7.96
+    all overlapping pair-steps                    129306 (100.0%)  p50 0.0012  p99 0.0676  max 0.3925  > 2%  8674  > 5%  2210  > 10%  669  > 20%  196
+    venue geometry (fall + ramp)                   13235 ( 10.2%)  p50 0.0063  p99 0.2293  max 0.3925  > 2%  3707  > 5%  1598  > 10%  646  > 20%  194
+    . fall / step-down / landing                   11632 (  9.0%)  p50 0.0081  p99 0.2406  max 0.3925  > 2%  3679  > 5%  1595  > 10%  646  > 20%  194
+    .   tread                                      10284 (  8.0%)  p50 0.0079  p99 0.2480  max 0.3925  > 2%  3111  > 5%  1370  > 10%  597  > 20%  190
+    .   aisle                                       1345 (  1.0%)  p50 0.0116  p99 0.1592  max 0.3248  > 2%   568  > 5%   225  > 10%   49  > 20%    4
+    .   walkway                                        3 (  0.0%)  p50 0.0007  p99 0.0040  max 0.0040  > 2%     0  > 5%     0  > 10%    0  > 20%    0
+    . riser / step ramp                             1603 (  1.2%)  p50 0.0014  p99 0.0266  max 0.0984  > 2%    28  > 5%     3  > 10%    0  > 20%    0
+    .   tread                                        889 (  0.7%)  p50 0.0010  p99 0.0266  max 0.0984  > 2%    13  > 5%     1  > 10%    0  > 20%    0
+    .   aisle                                        714 (  0.6%)  p50 0.0020  p99 0.0299  max 0.0674  > 2%    15  > 5%     2  > 10%    0  > 20%    0
+    crowd (steadily grounded, walkable floor)     116071 ( 89.8%)  p50 0.0011  p99 0.0401  max 0.3489  > 2%  4967  > 5%   612  > 10%   23  > 20%    2
+    .   tread                                     112021 ( 86.6%)  p50 0.0011  p99 0.0398  max 0.1284  > 2%  4770  > 5%   575  > 10%   19  > 20%    0
+    .   aisle                                       4040 (  3.1%)  p50 0.0006  p99 0.0463  max 0.3489  > 2%   197  > 5%    37  > 10%    4  > 20%    2
+    .   walkway                                       10 (  0.0%)  p50 0.0012  p99 0.0036  max 0.0036  > 2%     0  > 5%     0  > 10%    0  > 20%    0
+  rho 0.50:   75 agents, v 1.340 m/s (halves 1.340 / 1.340, |v| 1.340), area density 0.50, J 0.670 p/(m s) = 40.2 p/(m min), Weidmann v 1.298, max overlap 0.000
+  rho 1.00:  150 agents, v 1.340 m/s (halves 1.340 / 1.340, |v| 1.340), area density 1.00, J 1.340 p/(m s) = 80.4 p/(m min), Weidmann v 1.058, max overlap 0.000
+  rho 1.50:  225 agents, v 0.867 m/s (halves 0.832 / 0.904, |v| 0.867), area density 1.50, J 1.300 p/(m s) = 78.0 p/(m min), Weidmann v 0.807, max overlap 0.000
+  rho 2.00:  300 agents, v 0.558 m/s (halves 0.560 / 0.557, |v| 0.558), area density 2.00, J 1.117 p/(m s) = 67.0 p/(m min), Weidmann v 0.606, max overlap 0.000
+  rho 2.50:  375 agents, v 0.368 m/s (halves 0.365 / 0.370, |v| 0.368), area density 2.50, J 0.919 p/(m s) = 55.2 p/(m min), Weidmann v 0.452, max overlap 0.000
+  rho 3.00:  450 agents, v 0.292 m/s (halves 0.292 / 0.292, |v| 0.292), area density 3.00, J 0.875 p/(m s) = 52.5 p/(m min), Weidmann v 0.331, max overlap 0.000
+  rho 3.50:  525 agents, v 0.108 m/s (halves 0.104 / 0.113, |v| 0.115), area density 3.43, J 0.378 p/(m s) = 22.7 p/(m min), Weidmann v 0.234, max overlap 0.007
+  rho 4.00:  600 agents, v 0.035 m/s (halves 0.032 / 0.038, |v| 0.044), area density 3.97, J 0.139 p/(m s) = 8.4 p/(m min), Weidmann v 0.156, max overlap 0.009
+    t50 / t90 / t100 = 227.0 / 404.4 / 472.1 s; FD RMS (rho 1,2,3,4) 0.1566 m/s, (0.5-4) 0.1257 m/s; crowd p99 0.0401 max 0.3489; plausibility (except overlap) pass (50 s)
+
+  K = 28:
+    evacuated at step 2717 (2717 steps checked)
+    overlap depth (pairs closer than BODY_DIAM, / BODY_DIAM, above 1e-04): 153959 pair-steps, p50 0.0012, p99 0.0622, max 0.3872 (limits p99 < 0.02, max < 0.10); 244175 pair-steps in contact incl. rounding level; agents overlapping per step: mean 2.29%
+    neighbour grid: max horizontal displacement in a step 0.01107 (bound (cell - BODY_DIAM) / 2 = 0.01860); pairs closer than BODY_DIAM from non-adjacent start-of-step cells: 0
+    floors: centre in solid 0, centre below floor + BODY_RADIUS - 1e-04: 0 agent-steps; airborne runs 7642 (1 / 2 / 3 / 4 / 5+ steps: 5232 / 1702 / 593 / 62 / 53), longest 12
+    fence: midline crossings 0, inside the collision band 0 agent-steps; walls: clearance < BODY_RADIUS - 3e-04 0 agent-steps, min wall clearance none within 0.0061 (BODY_RADIUS 0.0064), walkable-slope contacts within it 397260 (not walls)
+    speed: max |v_xy| 0.750000 (V_MAX 0.75), 0 above; density: peak 6.84 p/m^2 over fully walkable cells (cell 2508), 6.84 over all included cells (cell 2508); hexagonal packing 7.22, ceiling 7.96
+    all overlapping pair-steps                    153959 (100.0%)  p50 0.0012  p99 0.0622  max 0.3872  > 2%  9022  > 5%  2163  > 10%  726  > 20%  236
+    venue geometry (fall + ramp)                   13397 (  8.7%)  p50 0.0066  p99 0.2446  max 0.3872  > 2%  3846  > 5%  1701  > 10%  715  > 20%  234
+    . fall / step-down / landing                   11999 (  7.8%)  p50 0.0084  p99 0.2551  max 0.3872  > 2%  3814  > 5%  1698  > 10%  715  > 20%  234
+    .   tread                                      10648 (  6.9%)  p50 0.0081  p99 0.2604  max 0.3693  > 2%  3251  > 5%  1473  > 10%  676  > 20%  231
+    .   aisle                                       1346 (  0.9%)  p50 0.0125  p99 0.1333  max 0.3872  > 2%   563  > 5%   225  > 10%   39  > 20%    3
+    .   walkway                                        5 (  0.0%)  p50 0.0008  p99 0.0030  max 0.0030  > 2%     0  > 5%     0  > 10%    0  > 20%    0
+    . riser / step ramp                             1398 (  0.9%)  p50 0.0010  p99 0.0291  max 0.0859  > 2%    32  > 5%     3  > 10%    0  > 20%    0
+    .   tread                                        930 (  0.6%)  p50 0.0010  p99 0.0226  max 0.0368  > 2%    11  > 5%     0  > 10%    0  > 20%    0
+    .   aisle                                        468 (  0.3%)  p50 0.0010  p99 0.0430  max 0.0859  > 2%    21  > 5%     3  > 10%    0  > 20%    0
+    crowd (steadily grounded, walkable floor)     140562 ( 91.3%)  p50 0.0010  p99 0.0358  max 0.2681  > 2%  5176  > 5%   462  > 10%   11  > 20%    2
+    .   tread                                     137368 ( 89.2%)  p50 0.0010  p99 0.0354  max 0.2084  > 2%  5008  > 5%   430  > 10%    9  > 20%    1
+    .   aisle                                       3184 (  2.1%)  p50 0.0006  p99 0.0504  max 0.2681  > 2%   168  > 5%    32  > 10%    2  > 20%    1
+    .   walkway                                       10 (  0.0%)  p50 0.0006  p99 0.0032  max 0.0032  > 2%     0  > 5%     0  > 10%    0  > 20%    0
+  rho 0.50:   75 agents, v 1.340 m/s (halves 1.340 / 1.340, |v| 1.340), area density 0.50, J 0.670 p/(m s) = 40.2 p/(m min), Weidmann v 1.298, max overlap 0.000
+  rho 1.00:  150 agents, v 1.340 m/s (halves 1.340 / 1.340, |v| 1.340), area density 1.00, J 1.340 p/(m s) = 80.4 p/(m min), Weidmann v 1.058, max overlap 0.000
+  rho 1.50:  225 agents, v 0.867 m/s (halves 0.832 / 0.904, |v| 0.867), area density 1.50, J 1.300 p/(m s) = 78.0 p/(m min), Weidmann v 0.807, max overlap 0.000
+  rho 2.00:  300 agents, v 0.558 m/s (halves 0.560 / 0.557, |v| 0.558), area density 2.00, J 1.117 p/(m s) = 67.0 p/(m min), Weidmann v 0.606, max overlap 0.000
+  rho 2.50:  375 agents, v 0.368 m/s (halves 0.365 / 0.370, |v| 0.368), area density 2.50, J 0.919 p/(m s) = 55.2 p/(m min), Weidmann v 0.452, max overlap 0.000
+  rho 3.00:  450 agents, v 0.292 m/s (halves 0.292 / 0.292, |v| 0.292), area density 3.00, J 0.875 p/(m s) = 52.5 p/(m min), Weidmann v 0.331, max overlap 0.000
+  rho 3.50:  525 agents, v 0.106 m/s (halves 0.104 / 0.108, |v| 0.113), area density 3.44, J 0.371 p/(m s) = 22.2 p/(m min), Weidmann v 0.234, max overlap 0.006
+  rho 4.00:  600 agents, v 0.034 m/s (halves 0.031 / 0.038, |v| 0.044), area density 3.97, J 0.138 p/(m s) = 8.3 p/(m min), Weidmann v 0.156, max overlap 0.007
+    t50 / t90 / t100 = 227.7 / 405.3 / 475.2 s; FD RMS (rho 1,2,3,4) 0.1566 m/s, (0.5-4) 0.1260 m/s; crowd p99 0.0358 max 0.2681; plausibility (except overlap) pass (53 s)
+
+  K = 32:
+    evacuated at step 2735 (2735 steps checked)
+    overlap depth (pairs closer than BODY_DIAM, / BODY_DIAM, above 1e-04): 125727 pair-steps, p50 0.0012, p99 0.0650, max 0.3818 (limits p99 < 0.02, max < 0.10); 209044 pair-steps in contact incl. rounding level; agents overlapping per step: mean 1.85%
+    neighbour grid: max horizontal displacement in a step 0.01050 (bound (cell - BODY_DIAM) / 2 = 0.01860); pairs closer than BODY_DIAM from non-adjacent start-of-step cells: 0
+    floors: centre in solid 0, centre below floor + BODY_RADIUS - 1e-04: 0 agent-steps; airborne runs 7781 (1 / 2 / 3 / 4 / 5+ steps: 5296 / 1787 / 559 / 67 / 72), longest 13
+    fence: midline crossings 0, inside the collision band 0 agent-steps; walls: clearance < BODY_RADIUS - 3e-04 0 agent-steps, min wall clearance none within 0.0061 (BODY_RADIUS 0.0064), walkable-slope contacts within it 401585 (not walls)
+    speed: max |v_xy| 0.750000 (V_MAX 0.75), 0 above; density: peak 6.84 p/m^2 over fully walkable cells (cell 2572), 6.84 over all included cells (cell 2572); hexagonal packing 7.22, ceiling 7.96
+    all overlapping pair-steps                    125727 (100.0%)  p50 0.0012  p99 0.0650  max 0.3818  > 2%  7428  > 5%  1953  > 10%  687  > 20%  232
+    venue geometry (fall + ramp)                   12588 ( 10.0%)  p50 0.0062  p99 0.2471  max 0.3818  > 2%  3474  > 5%  1579  > 10%  681  > 20%  232
+    . fall / step-down / landing                   11510 (  9.2%)  p50 0.0073  p99 0.2494  max 0.3818  > 2%  3445  > 5%  1576  > 10%  681  > 20%  232
+    .   tread                                      10237 (  8.1%)  p50 0.0068  p99 0.2531  max 0.3818  > 2%  2878  > 5%  1330  > 10%  634  > 20%  225
+    .   aisle                                       1272 (  1.0%)  p50 0.0147  p99 0.1648  max 0.2742  > 2%   567  > 5%   246  > 10%   47  > 20%    7
+    .   walkway                                        1 (  0.0%)  p50 0.0006  p99 0.0006  max 0.0006  > 2%     0  > 5%     0  > 10%    0  > 20%    0
+    . riser / step ramp                             1078 (  0.9%)  p50 0.0008  p99 0.0376  max 0.0652  > 2%    29  > 5%     3  > 10%    0  > 20%    0
+    .   tread                                        627 (  0.5%)  p50 0.0010  p99 0.0227  max 0.0438  > 2%    10  > 5%     0  > 10%    0  > 20%    0
+    .   aisle                                        451 (  0.4%)  p50 0.0007  p99 0.0458  max 0.0652  > 2%    19  > 5%     3  > 10%    0  > 20%    0
+    crowd (steadily grounded, walkable floor)     113139 ( 90.0%)  p50 0.0010  p99 0.0350  max 0.1602  > 2%  3954  > 5%   374  > 10%    6  > 20%    0
+    .   tread                                     110739 ( 88.1%)  p50 0.0010  p99 0.0346  max 0.1198  > 2%  3801  > 5%   342  > 10%    4  > 20%    0
+    .   aisle                                       2397 (  1.9%)  p50 0.0006  p99 0.0553  max 0.1602  > 2%   153  > 5%    32  > 10%    2  > 20%    0
+    .   walkway                                        3 (  0.0%)  p50 0.0003  p99 0.0004  max 0.0004  > 2%     0  > 5%     0  > 10%    0  > 20%    0
+  rho 0.50:   75 agents, v 1.340 m/s (halves 1.340 / 1.340, |v| 1.340), area density 0.50, J 0.670 p/(m s) = 40.2 p/(m min), Weidmann v 1.298, max overlap 0.000
+  rho 1.00:  150 agents, v 1.340 m/s (halves 1.340 / 1.340, |v| 1.340), area density 1.00, J 1.340 p/(m s) = 80.4 p/(m min), Weidmann v 1.058, max overlap 0.000
+  rho 1.50:  225 agents, v 0.867 m/s (halves 0.832 / 0.904, |v| 0.867), area density 1.50, J 1.300 p/(m s) = 78.0 p/(m min), Weidmann v 0.807, max overlap 0.000
+  rho 2.00:  300 agents, v 0.558 m/s (halves 0.560 / 0.557, |v| 0.558), area density 2.00, J 1.117 p/(m s) = 67.0 p/(m min), Weidmann v 0.606, max overlap 0.000
+  rho 2.50:  375 agents, v 0.368 m/s (halves 0.365 / 0.370, |v| 0.368), area density 2.50, J 0.919 p/(m s) = 55.2 p/(m min), Weidmann v 0.452, max overlap 0.000
+  rho 3.00:  450 agents, v 0.292 m/s (halves 0.292 / 0.292, |v| 0.292), area density 3.00, J 0.875 p/(m s) = 52.5 p/(m min), Weidmann v 0.331, max overlap 0.000
+  rho 3.50:  525 agents, v 0.110 m/s (halves 0.105 / 0.116, |v| 0.118), area density 3.40, J 0.386 p/(m s) = 23.2 p/(m min), Weidmann v 0.234, max overlap 0.005
+  rho 4.00:  600 agents, v 0.033 m/s (halves 0.037 / 0.029, |v| 0.042), area density 3.99, J 0.131 p/(m s) = 7.9 p/(m min), Weidmann v 0.156, max overlap 0.006
+    t50 / t90 / t100 = 226.7 / 403.9 / 478.4 s; FD RMS (rho 1,2,3,4) 0.1569 m/s, (0.5-4) 0.1257 m/s; crowd p99 0.0350 max 0.1602; plausibility (except overlap) pass (58 s)
+
+  chosen K = 32
+  -> results/fd/ksweep_5.3c_refine_20261005_2016

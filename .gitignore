@@ -1,0 +1,34 @@
+# Build output
+out/
+build/
+bin/
+x64/
+x86/
+Debug/
+Release/
+.vs/
+.vscode/
+CMakeUserPresets.json
+*.user
+*.suo
+
+# Binaries and debugger files
+*.exe
+*.dll
+*.lib
+*.pdb
+*.ilk
+*.idb
+
+# Runtime output
+navcache/
+selftest_out/
+imgui.ini
+
+# Release archives
+dist/
+SWARM-*.zip
+
+# Python
+__pycache__/
+*.pyc

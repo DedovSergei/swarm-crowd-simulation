@@ -1,0 +1,483 @@
+{
+  "meta": {
+    "name": "terrace_n4096",
+    "note": "Task 5.10 stage 4 (AMD 26.10.1): the terrace reference, N = 4096, every per-step check",
+    "venue": "current stadium (stadium.sdf, stadium.obj)",
+    "n": 4096,
+    "capacity_label": "within design capacity",
+    "design_capacity": 4096,
+    "jam_capacity": 20506,
+    "initially_active": 4096,
+    "spawn": "bleacher",
+    "seed": 1337,
+    "load": 1,
+    "requested_load": 1,
+    "engine": "gpu",
+    "dt_div": 1,
+    "checks": true,
+    "navigation_field": "",
+    "model": "hand router, level speed",
+    "exit_choice": "nearest",
+    "incline_speed": false,
+    "stair_flow": "off",
+    "choice_evaluations": 0,
+    "choice_switches": 0,
+    "choice_forced": 0,
+    "max_steps": 40000,
+    "readback_every_steps": 1,
+    "steps_run": 2712,
+    "complete": true,
+    "git_commit": "b6a787432cf5e90ad155c2cac4df5c3557af5387",
+    "git_dirty": "0",
+    "git_describe": "b6a7874",
+    "build": "Release",
+    "gpu": "AMD  Radeon RX 7800 XT",
+    "driver": "4.3.0 Core Profile Context 26.10.1.261008",
+    "started": "2026-10-22T19:35:13",
+    "wall_s": 14.63
+  },
+  "spawn": null,
+  "units": {
+    "m_per_model_unit": 31.25,
+    "s_per_model_time_unit": 17.490671,
+    "dt_model": 0.01,
+    "dt_real_s": 0.17490671,
+    "body_radius_m": 0.2,
+    "personal_radius_m": 0.25,
+    "gravity_m_s2": 9.81,
+    "v_free_m_s": 1.34,
+    "grid_cell_m": 1,
+    "grid_res": 64,
+    "grid_min_m": -32,
+    "min_walkable_m2": 0.1,
+    "peak_min_walkable_m2": 0.5,
+    "thresholds_p_m2": {
+      "los_e": 1.08,
+      "los_f": 2.17,
+      "crush": 5
+    }
+  },
+  "evacuation": {
+    "evacuated": 4096,
+    "remaining": 0,
+    "t50_s": 225.28,
+    "t90_s": 404.034,
+    "t100_s": 474.347,
+    "t50_step": 1288,
+    "t90_step": 2310,
+    "t100_step": 2712
+  },
+  "exits": [
+    {
+      "exit": "+x",
+      "evacuated": 1030,
+      "width_m": 5.7096,
+      "first_s": 15.9165,
+      "last_s": 454.233,
+      "mean_flow_p_per_m_min": 24.684,
+      "peak_flow_p_per_m_min": 31.622,
+      "peak_window_start_s": 25.8862
+    },
+    {
+      "exit": "-x",
+      "evacuated": 1035,
+      "width_m": 5.7038,
+      "first_s": 16.0914,
+      "last_s": 458.955,
+      "mean_flow_p_per_m_min": 24.574,
+      "peak_flow_p_per_m_min": 33.764,
+      "peak_window_start_s": 43.3769
+    },
+    {
+      "exit": "+y",
+      "evacuated": 968,
+      "width_m": 5.7156,
+      "first_s": 15.9165,
+      "last_s": 443.563,
+      "mean_flow_p_per_m_min": 23.752,
+      "peak_flow_p_per_m_min": 30.536,
+      "peak_window_start_s": 43.5518
+    },
+    {
+      "exit": "-y",
+      "evacuated": 1063,
+      "width_m": 5.6714,
+      "first_s": 15.7416,
+      "last_s": 474.347,
+      "mean_flow_p_per_m_min": 24.513,
+      "peak_flow_p_per_m_min": 32.896,
+      "peak_window_start_s": 30.084
+    },
+    {
+      "exit": "other",
+      "evacuated": 0
+    }
+  ],
+  "exit_utilisation": {
+    "j_p_per_m_min": 83.6,
+    "t100_s": 474.347,
+    "exits": [
+    {
+      "exit": "+x",
+      "type": "gap",
+      "width_m": 5.7096,
+      "evacuated": 1030,
+      "share_of_evacuated": 0.25146,
+      "capacity_used": 0.27295
+    },
+    {
+      "exit": "-x",
+      "type": "gap",
+      "width_m": 5.7038,
+      "evacuated": 1035,
+      "share_of_evacuated": 0.25269,
+      "capacity_used": 0.27455
+    },
+    {
+      "exit": "+y",
+      "type": "gap",
+      "width_m": 5.7156,
+      "evacuated": 968,
+      "share_of_evacuated": 0.23633,
+      "capacity_used": 0.25625
+    },
+    {
+      "exit": "-y",
+      "type": "gap",
+      "width_m": 5.6714,
+      "evacuated": 1063,
+      "share_of_evacuated": 0.25952,
+      "capacity_used": 0.28359
+    }
+  ],
+    "doors_evacuated": 0,
+    "doors_share": 0,
+    "doors_width_m": 0,
+    "avenues_evacuated": 4096,
+    "avenues_share": 1,
+    "avenues_width_m": 22.8,
+    "total_width_m": 22.8,
+    "unused_exit_width_m": 0,
+    "unused_exit_width_fraction": 0,
+    "capacity_used_all_exits": 0.27181
+  },
+  "gangway_utilisation": null,
+  "zones": [
+    {
+      "zone": "tread",
+      "scope": "zone",
+      "cells": 2048,
+      "walkable_m2": 1968.8,
+      "peak_density_p_m2": 6.83333,
+      "peak_cell_x_m": -7.5,
+      "peak_cell_y_m": -18.5,
+      "time_any_cell_above_s": {
+        "los_e": 433.419,
+        "los_f": 426.423,
+        "crush": 380.422
+      },
+      "max_cell_time_above_s": {
+        "los_e": 433.419,
+        "los_f": 426.423,
+        "crush": 302.589
+      },
+      "exposure_person_s": 212568,
+      "person_s": 676334,
+      "mean_speed_occupied_m_s": 0.0493206
+    },
+    {
+      "zone": "aisle",
+      "scope": "zone",
+      "cells": 256,
+      "walkable_m2": 227.154,
+      "peak_density_p_m2": 6.62622,
+      "peak_cell_x_m": -4.5,
+      "peak_cell_y_m": -19.5,
+      "time_any_cell_above_s": {
+        "los_e": 456.856,
+        "los_f": 451.259,
+        "crush": 403.51
+      },
+      "max_cell_time_above_s": {
+        "los_e": 455.982,
+        "los_f": 446.187,
+        "crush": 333.197
+      },
+      "exposure_person_s": 62437.2,
+      "person_s": 187743,
+      "mean_speed_occupied_m_s": 0.112124
+    },
+    {
+      "zone": "walkway",
+      "scope": "zone",
+      "cells": 204,
+      "walkable_m2": 190.755,
+      "peak_density_p_m2": 3.79659,
+      "peak_cell_x_m": -12.5,
+      "peak_cell_y_m": -3.5,
+      "time_any_cell_above_s": {
+        "los_e": 456.681,
+        "los_f": 281.95,
+        "crush": 0
+      },
+      "max_cell_time_above_s": {
+        "los_e": 454.932,
+        "los_f": 115.264,
+        "crush": 0
+      },
+      "exposure_person_s": 0,
+      "person_s": 10368.1,
+      "mean_speed_occupied_m_s": 0.461687
+    },
+    {
+      "zone": "avenue",
+      "scope": "zone",
+      "cells": 456,
+      "walkable_m2": 437.883,
+      "peak_density_p_m2": 2.78471,
+      "peak_cell_x_m": -12.5,
+      "peak_cell_y_m": -2.5,
+      "time_any_cell_above_s": {
+        "los_e": 456.681,
+        "los_f": 50.7229,
+        "crush": 0
+      },
+      "max_cell_time_above_s": {
+        "los_e": 425.548,
+        "los_f": 21.6884,
+        "crush": 0
+      },
+      "exposure_person_s": 0,
+      "person_s": 55834.4,
+      "mean_speed_occupied_m_s": 1.24653
+    },
+    {
+      "zone": "pitch",
+      "scope": "zone",
+      "cells": 400,
+      "walkable_m2": 400,
+      "peak_density_p_m2": 0,
+      "peak_cell_x_m": null,
+      "peak_cell_y_m": null,
+      "time_any_cell_above_s": {
+        "los_e": 0,
+        "los_f": 0,
+        "crush": 0
+      },
+      "max_cell_time_above_s": {
+        "los_e": 0,
+        "los_f": 0,
+        "crush": 0
+      },
+      "exposure_person_s": 0,
+      "person_s": 0,
+      "mean_speed_occupied_m_s": null
+    },
+    {
+      "zone": "exit",
+      "scope": "zone",
+      "cells": 24,
+      "walkable_m2": 16.5144,
+      "peak_density_p_m2": 1.65532,
+      "peak_cell_x_m": 0.5,
+      "peak_cell_y_m": 29.5,
+      "time_any_cell_above_s": {
+        "los_e": 7.17118,
+        "los_f": 0,
+        "crush": 0
+      },
+      "max_cell_time_above_s": {
+        "los_e": 1.57416,
+        "los_f": 0,
+        "crush": 0
+      },
+      "exposure_person_s": 0,
+      "person_s": 982.37,
+      "mean_speed_occupied_m_s": 1.33999
+    }
+  ],
+  "circulation": null,
+  "seat_rows": null,
+  "hotspots": [
+    {
+      "ix": 27,
+      "iy": 12,
+      "x_m": -4.5,
+      "y_m": -19.5,
+      "zone": "aisle",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.62622,
+      "time_above_los_e_s": 433.244,
+      "time_above_los_f_s": 428.871,
+      "time_above_crush_s": 333.197,
+      "exposure_person_s": 1838.38,
+      "mean_speed_occupied_m_s": 0.0493524
+    },
+    {
+      "ix": 23,
+      "iy": 12,
+      "x_m": -8.5,
+      "y_m": -19.5,
+      "zone": "tread",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.7348,
+      "time_above_los_e_s": 404.384,
+      "time_above_los_f_s": 399.312,
+      "time_above_crush_s": 301.014,
+      "exposure_person_s": 1755.72,
+      "mean_speed_occupied_m_s": 0.0155483
+    },
+    {
+      "ix": 22,
+      "iy": 12,
+      "x_m": -9.5,
+      "y_m": -19.5,
+      "zone": "tread",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.44724,
+      "time_above_los_e_s": 386.719,
+      "time_above_los_f_s": 383.57,
+      "time_above_crush_s": 302.589,
+      "exposure_person_s": 1733.86,
+      "mean_speed_occupied_m_s": 0.0145948
+    },
+    {
+      "ix": 24,
+      "iy": 12,
+      "x_m": -7.5,
+      "y_m": -19.5,
+      "zone": "tread",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.58823,
+      "time_above_los_e_s": 411.555,
+      "time_above_los_f_s": 406.483,
+      "time_above_crush_s": 291.22,
+      "exposure_person_s": 1706.03,
+      "mean_speed_occupied_m_s": 0.017686
+    },
+    {
+      "ix": 20,
+      "iy": 12,
+      "x_m": -11.5,
+      "y_m": -19.5,
+      "zone": "tread",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.29329,
+      "time_above_los_e_s": 372.901,
+      "time_above_los_f_s": 368.354,
+      "time_above_crush_s": 294.193,
+      "exposure_person_s": 1679.06,
+      "mean_speed_occupied_m_s": 0.0152773
+    },
+    {
+      "ix": 21,
+      "iy": 12,
+      "x_m": -10.5,
+      "y_m": -19.5,
+      "zone": "tread",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.28345,
+      "time_above_los_e_s": 381.122,
+      "time_above_los_f_s": 375.35,
+      "time_above_crush_s": 282.824,
+      "exposure_person_s": 1623.54,
+      "mean_speed_occupied_m_s": 0.0158177
+    },
+    {
+      "ix": 51,
+      "iy": 36,
+      "x_m": 19.5,
+      "y_m": 4.5,
+      "zone": "aisle",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.15675,
+      "time_above_los_e_s": 412.955,
+      "time_above_los_f_s": 406.833,
+      "time_above_crush_s": 293.493,
+      "exposure_person_s": 1607.79,
+      "mean_speed_occupied_m_s": 0.0535847
+    },
+    {
+      "ix": 27,
+      "iy": 10,
+      "x_m": -4.5,
+      "y_m": -21.5,
+      "zone": "aisle",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.04858,
+      "time_above_los_e_s": 376.924,
+      "time_above_los_f_s": 361.882,
+      "time_above_crush_s": 289.646,
+      "exposure_person_s": 1599.53,
+      "mean_speed_occupied_m_s": 0.0255406
+    },
+    {
+      "ix": 25,
+      "iy": 12,
+      "x_m": -6.5,
+      "y_m": -19.5,
+      "zone": "tread",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.55614,
+      "time_above_los_e_s": 424.499,
+      "time_above_los_f_s": 411.381,
+      "time_above_crush_s": 274.953,
+      "exposure_person_s": 1596.46,
+      "mean_speed_occupied_m_s": 0.0206314
+    },
+    {
+      "ix": 26,
+      "iy": 12,
+      "x_m": -5.5,
+      "y_m": -19.5,
+      "zone": "tread",
+      "walkable_m2": 1,
+      "peak_density_p_m2": 6.45738,
+      "time_above_los_e_s": 433.419,
+      "time_above_los_f_s": 426.423,
+      "time_above_crush_s": 278.626,
+      "exposure_person_s": 1583.7,
+      "mean_speed_occupied_m_s": 0.0269288
+    }
+  ],
+  "seat_row_hotspots": [],
+  "flows": null,
+  "inv_row": {
+    "row_changes_bypassing_aisles": 4244,
+    "agents": 2710,
+    "down": 4244,
+    "up": 0,
+    "more_than_one_row": 0,
+    "steps_1_50": 213,
+    "steps_51_200": 742,
+    "steps_after_200": 3289,
+    "sampled_every_steps": 1
+  },
+  "deposit": {
+    "person_s_total": 931262,
+    "person_s_in_excluded_cells": 0
+  },
+  "checks": {
+    "plausibility_pass": true,
+    "overlap_all_pair_steps": 125831,
+    "overlap_all_p99": 0.0741517,
+    "overlap_all_max": 0.392336,
+    "overlap_crowd_p99": 0.034638,
+    "overlap_crowd_max": 0.124793,
+    "overlap_venue_p99": 0.249577,
+    "overlap_venue_max": 0.392336,
+    "grid_misses": 0,
+    "max_displacement": 0.010459,
+    "floor_violations": 0,
+    "centre_in_solid": 0,
+    "fence_crossings": 0,
+    "fence_band": 0,
+    "wall_violations": 0,
+    "min_wall_clearance": null,
+    "speed_violations": 0,
+    "peak_density_full_cells_p_m2": 6.83333,
+    "density_ceiling_p_m2": 7.95775,
+    "inv_row_pass": true,
+    "inv_row_exempt": true
+  }
+}

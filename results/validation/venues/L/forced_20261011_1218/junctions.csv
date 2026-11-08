@@ -1,0 +1,286 @@
+junction,row,agents,entered,first_s,last_s
+dead-end segment -> straight gangway,0,112,112,0.699627,19.4146
+dead-end segment -> straight gangway,1,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,2,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,3,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,4,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,5,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,6,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,7,112,112,0.699627,13.118
+dead-end segment -> straight gangway,8,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,9,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,10,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,11,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,12,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,13,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,14,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,15,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,16,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,17,112,112,0.699627,16.791
+dead-end segment -> straight gangway,18,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,19,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,20,112,112,0.699627,29.3843
+dead-end segment -> straight gangway,21,112,112,0.699627,26.4109
+dead-end segment -> straight gangway,22,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,23,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,24,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,25,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,26,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,27,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,28,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,29,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,30,112,112,0.699627,14.8671
+dead-end segment -> straight gangway,31,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,32,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,33,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,34,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,35,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,36,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,37,112,112,0.699627,21.3386
+dead-end segment -> straight gangway,38,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,39,112,112,0.699627,25.5364
+dead-end segment -> straight gangway,40,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,41,112,112,0.699627,20.4641
+dead-end segment -> straight gangway,42,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,43,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,44,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,45,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,46,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,47,112,112,0.699627,13.9925
+dead-end segment -> straight gangway,48,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,49,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,50,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,51,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,52,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,53,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,54,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,55,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,56,112,112,0.699627,14.8671
+dead-end segment -> straight gangway,57,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,58,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,59,112,112,0.699627,15.5667
+dead-end segment -> straight gangway,60,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,61,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,62,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,63,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,64,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,65,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,66,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,67,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,68,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,69,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,70,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,71,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,72,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,73,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,74,112,112,0.699627,19.0648
+dead-end segment -> straight gangway,75,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,76,112,112,0.699627,23.4375
+dead-end segment -> straight gangway,77,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,78,112,112,0.699627,19.2397
+dead-end segment -> straight gangway,79,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,80,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,81,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,82,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,83,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,84,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,85,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,86,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,87,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,88,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,89,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,90,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,91,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,92,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,93,0,0,-0.174907,-0.174907
+dead-end segment -> straight gangway,94,112,112,0.699627,11.0191
+segment -> straight gangway,0,8,8,0.699627,0.699627
+segment -> straight gangway,1,0,0,-0.174907,-0.174907
+segment -> straight gangway,2,0,0,-0.174907,-0.174907
+segment -> straight gangway,3,0,0,-0.174907,-0.174907
+segment -> straight gangway,4,0,0,-0.174907,-0.174907
+segment -> straight gangway,5,0,0,-0.174907,-0.174907
+segment -> straight gangway,6,0,0,-0.174907,-0.174907
+segment -> straight gangway,7,96,96,0.874534,10.8442
+segment -> straight gangway,8,0,0,-0.174907,-0.174907
+segment -> straight gangway,9,0,0,-0.174907,-0.174907
+segment -> straight gangway,10,0,0,-0.174907,-0.174907
+segment -> straight gangway,11,0,0,-0.174907,-0.174907
+segment -> straight gangway,12,0,0,-0.174907,-0.174907
+segment -> straight gangway,13,0,0,-0.174907,-0.174907
+segment -> straight gangway,14,0,0,-0.174907,-0.174907
+segment -> straight gangway,15,0,0,-0.174907,-0.174907
+segment -> straight gangway,16,0,0,-0.174907,-0.174907
+segment -> straight gangway,17,224,224,0.699627,43.5518
+segment -> straight gangway,18,0,0,-0.174907,-0.174907
+segment -> straight gangway,19,0,0,-0.174907,-0.174907
+segment -> straight gangway,20,232,232,0.699627,74.5103
+segment -> straight gangway,21,248,248,0.699627,71.3619
+segment -> straight gangway,22,0,0,-0.174907,-0.174907
+segment -> straight gangway,23,0,0,-0.174907,-0.174907
+segment -> straight gangway,24,0,0,-0.174907,-0.174907
+segment -> straight gangway,25,0,0,-0.174907,-0.174907
+segment -> straight gangway,26,0,0,-0.174907,-0.174907
+segment -> straight gangway,27,0,0,-0.174907,-0.174907
+segment -> straight gangway,28,0,0,-0.174907,-0.174907
+segment -> straight gangway,29,0,0,-0.174907,-0.174907
+segment -> straight gangway,30,360,360,0.699627,65.0653
+segment -> straight gangway,31,0,0,-0.174907,-0.174907
+segment -> straight gangway,32,0,0,-0.174907,-0.174907
+segment -> straight gangway,33,0,0,-0.174907,-0.174907
+segment -> straight gangway,34,0,0,-0.174907,-0.174907
+segment -> straight gangway,35,0,0,-0.174907,-0.174907
+segment -> straight gangway,36,0,0,-0.174907,-0.174907
+segment -> straight gangway,37,448,448,0.699627,90.2519
+segment -> straight gangway,38,0,0,-0.174907,-0.174907
+segment -> straight gangway,39,456,456,0.699627,113.689
+segment -> straight gangway,40,0,0,-0.174907,-0.174907
+segment -> straight gangway,41,480,480,0.699627,108.442
+segment -> straight gangway,42,0,0,-0.174907,-0.174907
+segment -> straight gangway,43,0,0,-0.174907,-0.174907
+segment -> straight gangway,44,0,0,-0.174907,-0.174907
+segment -> straight gangway,45,0,0,-0.174907,-0.174907
+segment -> straight gangway,46,0,0,-0.174907,-0.174907
+segment -> straight gangway,47,552,552,0.699627,66.9893
+segment -> straight gangway,48,0,0,-0.174907,-0.174907
+segment -> straight gangway,49,0,0,-0.174907,-0.174907
+segment -> straight gangway,50,0,0,-0.174907,-0.174907
+segment -> straight gangway,51,0,0,-0.174907,-0.174907
+segment -> straight gangway,52,0,0,-0.174907,-0.174907
+segment -> straight gangway,53,0,0,-0.174907,-0.174907
+segment -> straight gangway,54,0,0,-0.174907,-0.174907
+segment -> straight gangway,55,0,0,-0.174907,-0.174907
+segment -> straight gangway,56,672,672,0.699627,62.7915
+segment -> straight gangway,57,0,0,-0.174907,-0.174907
+segment -> straight gangway,58,0,0,-0.174907,-0.174907
+segment -> straight gangway,59,680,680,0.699627,53.8713
+segment -> straight gangway,60,0,0,-0.174907,-0.174907
+segment -> straight gangway,61,0,0,-0.174907,-0.174907
+segment -> straight gangway,62,0,0,-0.174907,-0.174907
+segment -> straight gangway,63,0,0,-0.174907,-0.174907
+segment -> straight gangway,64,0,0,-0.174907,-0.174907
+segment -> straight gangway,65,0,0,-0.174907,-0.174907
+segment -> straight gangway,66,0,0,-0.174907,-0.174907
+segment -> straight gangway,67,0,0,-0.174907,-0.174907
+segment -> straight gangway,68,0,0,-0.174907,-0.174907
+segment -> straight gangway,69,0,0,-0.174907,-0.174907
+segment -> straight gangway,70,0,0,-0.174907,-0.174907
+segment -> straight gangway,71,0,0,-0.174907,-0.174907
+segment -> straight gangway,72,0,0,-0.174907,-0.174907
+segment -> straight gangway,73,0,0,-0.174907,-0.174907
+segment -> straight gangway,74,872,872,0.699627,69.6129
+segment -> straight gangway,75,0,0,-0.174907,-0.174907
+segment -> straight gangway,76,896,896,0.699627,73.9855
+segment -> straight gangway,77,0,0,-0.174907,-0.174907
+segment -> straight gangway,78,904,904,0.699627,67.3391
+segment -> straight gangway,79,0,0,-0.174907,-0.174907
+segment -> straight gangway,80,0,0,-0.174907,-0.174907
+segment -> straight gangway,81,0,0,-0.174907,-0.174907
+segment -> straight gangway,82,0,0,-0.174907,-0.174907
+segment -> straight gangway,83,0,0,-0.174907,-0.174907
+segment -> straight gangway,84,0,0,-0.174907,-0.174907
+segment -> straight gangway,85,0,0,-0.174907,-0.174907
+segment -> straight gangway,86,0,0,-0.174907,-0.174907
+segment -> straight gangway,87,0,0,-0.174907,-0.174907
+segment -> straight gangway,88,0,0,-0.174907,-0.174907
+segment -> straight gangway,89,0,0,-0.174907,-0.174907
+segment -> straight gangway,90,0,0,-0.174907,-0.174907
+segment -> straight gangway,91,0,0,-0.174907,-0.174907
+segment -> straight gangway,92,0,0,-0.174907,-0.174907
+segment -> straight gangway,93,0,0,-0.174907,-0.174907
+segment -> straight gangway,94,1104,1104,0.699627,22.2132
+segment -> corner gangway,0,8,8,0.699627,0.699627
+segment -> corner gangway,1,0,0,-0.174907,-0.174907
+segment -> corner gangway,2,0,0,-0.174907,-0.174907
+segment -> corner gangway,3,0,0,-0.174907,-0.174907
+segment -> corner gangway,4,0,0,-0.174907,-0.174907
+segment -> corner gangway,5,0,0,-0.174907,-0.174907
+segment -> corner gangway,6,0,0,-0.174907,-0.174907
+segment -> corner gangway,7,96,96,0.874534,20.4641
+segment -> corner gangway,8,0,0,-0.174907,-0.174907
+segment -> corner gangway,9,0,0,-0.174907,-0.174907
+segment -> corner gangway,10,0,0,-0.174907,-0.174907
+segment -> corner gangway,11,0,0,-0.174907,-0.174907
+segment -> corner gangway,12,0,0,-0.174907,-0.174907
+segment -> corner gangway,13,0,0,-0.174907,-0.174907
+segment -> corner gangway,14,0,0,-0.174907,-0.174907
+segment -> corner gangway,15,0,0,-0.174907,-0.174907
+segment -> corner gangway,16,0,0,-0.174907,-0.174907
+segment -> corner gangway,17,224,224,0.699627,199.394
+segment -> corner gangway,18,0,0,-0.174907,-0.174907
+segment -> corner gangway,19,0,0,-0.174907,-0.174907
+segment -> corner gangway,20,232,232,0.699627,268.132
+segment -> corner gangway,21,248,248,0.699627,414.179
+segment -> corner gangway,22,0,0,-0.174907,-0.174907
+segment -> corner gangway,23,0,0,-0.174907,-0.174907
+segment -> corner gangway,24,0,0,-0.174907,-0.174907
+segment -> corner gangway,25,0,0,-0.174907,-0.174907
+segment -> corner gangway,26,0,0,-0.174907,-0.174907
+segment -> corner gangway,27,0,0,-0.174907,-0.174907
+segment -> corner gangway,28,0,0,-0.174907,-0.174907
+segment -> corner gangway,29,0,0,-0.174907,-0.174907
+segment -> corner gangway,30,360,360,0.699627,87.2784
+segment -> corner gangway,31,0,0,-0.174907,-0.174907
+segment -> corner gangway,32,0,0,-0.174907,-0.174907
+segment -> corner gangway,33,0,0,-0.174907,-0.174907
+segment -> corner gangway,34,0,0,-0.174907,-0.174907
+segment -> corner gangway,35,0,0,-0.174907,-0.174907
+segment -> corner gangway,36,0,0,-0.174907,-0.174907
+segment -> corner gangway,37,448,448,0.699627,948.344
+segment -> corner gangway,38,0,0,-0.174907,-0.174907
+segment -> corner gangway,39,456,456,0.699627,1031.77
+segment -> corner gangway,40,0,0,-0.174907,-0.174907
+segment -> corner gangway,41,480,480,0.699627,1027.23
+segment -> corner gangway,42,0,0,-0.174907,-0.174907
+segment -> corner gangway,43,0,0,-0.174907,-0.174907
+segment -> corner gangway,44,0,0,-0.174907,-0.174907
+segment -> corner gangway,45,0,0,-0.174907,-0.174907
+segment -> corner gangway,46,0,0,-0.174907,-0.174907
+segment -> corner gangway,47,552,552,0.699627,152.519
+segment -> corner gangway,48,0,0,-0.174907,-0.174907
+segment -> corner gangway,49,0,0,-0.174907,-0.174907
+segment -> corner gangway,50,0,0,-0.174907,-0.174907
+segment -> corner gangway,51,0,0,-0.174907,-0.174907
+segment -> corner gangway,52,0,0,-0.174907,-0.174907
+segment -> corner gangway,53,0,0,-0.174907,-0.174907
+segment -> corner gangway,54,0,0,-0.174907,-0.174907
+segment -> corner gangway,55,0,0,-0.174907,-0.174907
+segment -> corner gangway,56,672,672,0.699627,1252.33
+segment -> corner gangway,57,0,0,-0.174907,-0.174907
+segment -> corner gangway,58,0,0,-0.174907,-0.174907
+segment -> corner gangway,59,680,680,0.699627,1246.56
+segment -> corner gangway,60,0,0,-0.174907,-0.174907
+segment -> corner gangway,61,0,0,-0.174907,-0.174907
+segment -> corner gangway,62,0,0,-0.174907,-0.174907
+segment -> corner gangway,63,0,0,-0.174907,-0.174907
+segment -> corner gangway,64,0,0,-0.174907,-0.174907
+segment -> corner gangway,65,0,0,-0.174907,-0.174907
+segment -> corner gangway,66,0,0,-0.174907,-0.174907
+segment -> corner gangway,67,0,0,-0.174907,-0.174907
+segment -> corner gangway,68,0,0,-0.174907,-0.174907
+segment -> corner gangway,69,0,0,-0.174907,-0.174907
+segment -> corner gangway,70,0,0,-0.174907,-0.174907
+segment -> corner gangway,71,0,0,-0.174907,-0.174907
+segment -> corner gangway,72,0,0,-0.174907,-0.174907
+segment -> corner gangway,73,0,0,-0.174907,-0.174907
+segment -> corner gangway,74,872,872,0.699627,81.6814
+segment -> corner gangway,75,0,0,-0.174907,-0.174907
+segment -> corner gangway,76,896,896,0.699627,1291.16
+segment -> corner gangway,77,0,0,-0.174907,-0.174907
+segment -> corner gangway,78,904,904,0.699627,261.835
+segment -> corner gangway,79,0,0,-0.174907,-0.174907
+segment -> corner gangway,80,0,0,-0.174907,-0.174907
+segment -> corner gangway,81,0,0,-0.174907,-0.174907
+segment -> corner gangway,82,0,0,-0.174907,-0.174907
+segment -> corner gangway,83,0,0,-0.174907,-0.174907
+segment -> corner gangway,84,0,0,-0.174907,-0.174907
+segment -> corner gangway,85,0,0,-0.174907,-0.174907
+segment -> corner gangway,86,0,0,-0.174907,-0.174907
+segment -> corner gangway,87,0,0,-0.174907,-0.174907
+segment -> corner gangway,88,0,0,-0.174907,-0.174907
+segment -> corner gangway,89,0,0,-0.174907,-0.174907
+segment -> corner gangway,90,0,0,-0.174907,-0.174907
+segment -> corner gangway,91,0,0,-0.174907,-0.174907
+segment -> corner gangway,92,0,0,-0.174907,-0.174907
+segment -> corner gangway,93,0,0,-0.174907,-0.174907
+segment -> corner gangway,94,1104,1104,0.699627,38.1297

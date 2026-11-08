@@ -1,0 +1,58 @@
+#version 430 core
+
+// Metrics pass 2 (swarm/metrics.hpp): one invocation per floor cell, after metrics_deposit.comp.
+// density = mass / walkable area; the thresholds arrive as cell masses (thresholdMass = ceil(threshold *
+// walkableM2 * MASS_ONE), computed once per venue), so every comparison and sum here is an exact integer
+// operation: peak mass, steps at or above each threshold, occupied steps (mass > 0), the 64-bit sums of
+// mass and speed mass over steps (mean speed when occupied = speedMassSteps / massSteps), and exposure
+// (the sum of mass over steps at or above the crush threshold: person-steps). Then the step's mass is
+// cleared. Invocation 0 also publishes the step's active count and index (the counters a UI reads).
+// src/metrics.cpp mirrors this file (MetricsReference).
+layout(local_size_x = 256) in;
+
+struct CellMass { uint mass; uint speedMass; uint padding0; uint padding1; };                // swarm::GpuMetricCellMass
+struct CellInfo { uvec4 thresholdMass; float walkableM2; uint zone; uint padding0; uint padding1; };   // swarm::GpuMetricCellInfo
+struct MetricCell {                                                                           // swarm::GpuMetricCell
+    uint lastMass; uint lastSpeedMass; uint peakMass; uint occupiedSteps;
+    uvec4 stepsAbove;
+    uvec2 massSteps; uvec2 speedMassSteps; uvec2 exposureMassSteps; uvec2 padding;
+};
+
+layout(std430, binding = 5) buffer Counters {                                                 // swarm::GpuMetricCounters
+    uint ctrStep; uint ctrActive; uint ctrEvacuated; uint ctrActiveAccum; uint ctrExits[METRIC_EXIT_SLOTS]; uint ctrPad[3];
+    uint ctrGangwayVisits[METRIC_GANGWAY_SLOTS]; uint ctrGangwayLast[METRIC_GANGWAY_SLOTS];
+};
+layout(std430, binding = 7) buffer Mass { CellMass cellMass[]; };
+layout(std430, binding = 8) readonly buffer Info { CellInfo cellInfo[]; };
+layout(std430, binding = 9) buffer Cells { MetricCell cells[]; };
+
+uniform uint stepIndex;
+
+uvec2 add64(uvec2 a, uint b) {   // (lo, hi) + b
+    uint carry;
+    uint lo = uaddCarry(a.x, b, carry);
+    return uvec2(lo, a.y + carry);
+}
+
+void main() {
+    uint c = gl_GlobalInvocationID.x;
+    if (c == 0u) {
+        ctrActive = ctrActiveAccum;
+        ctrActiveAccum = 0u;
+        ctrStep = stepIndex;
+    }
+    if (c >= uint(METRIC_CELLS)) return;
+    CellMass m = cellMass[c];
+    cellMass[c] = CellMass(0u, 0u, 0u, 0u);
+    uvec4 thr = cellInfo[c].thresholdMass;
+    MetricCell s = cells[c];
+    s.lastMass = m.mass;
+    s.lastSpeedMass = m.speedMass;
+    s.peakMass = max(s.peakMass, m.mass);
+    s.occupiedSteps += m.mass != 0u ? 1u : 0u;
+    s.stepsAbove += uvec4(greaterThanEqual(uvec4(m.mass), thr));
+    s.massSteps = add64(s.massSteps, m.mass);
+    s.speedMassSteps = add64(s.speedMassSteps, m.speedMass);
+    if (m.mass >= thr[METRIC_CRUSH_INDEX]) s.exposureMassSteps = add64(s.exposureMassSteps, m.mass);
+    cells[c] = s;
+}

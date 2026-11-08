@@ -1,0 +1,213 @@
+# Experiment `S_load150_gangways_s3`
+
+**Task 5.8 stage 2: venue S, 150% load (seed 3): standing also on the gangways**
+
+Venue S (analytic seated venue; e_goal from the navigation field: navigation field: 0.050 m cells (1250 x 1250), cache key c76d5f6f3579ec21, content hash 2619c6d0d7ba75aa). 5592 agents (load 150.0%, requested 150%): every one of the 3728 seats and 1864 standing (spawnOvercrowdedCrowd, seed 3; below), buffer N = 8192, 1516 steps (everyone left), readback every 1 step(s). Engine: GPU (CrowdSim).
+Model: **queue-aware exit choice, incline speed** (exit choice: 221694 evaluations, 4893 switches, 0 forced choices).
+Capacity: **above design capacity (N / design capacity = 1.50)** (the S venue's design capacity 3728, jam capacity 18138: 2513.3 m^2 of occupiable floor at hexagonal packing of 0.40 m bodies).
+Commit `cd8e0bbf3411846ca7aa6719887d122a142a7ca1`, dirty 0, Release build; AMD  Radeon RX 7800 XT, 4.3.0 Core Profile Context 26.8.1.260810; started 2026-10-15T16:24:17, 15.3 s wall.
+
+Units: 1 model unit = 31.25 m (hard body radius 0.2 m, personal space 0.25 m), 1 model time unit = 17.4907 s (V_MAX = 1.34 m/s), one step DT = 0.1749 s.
+
+## Spawn (overcrowding)
+
+| | |
+|---|---|
+| seated | 3728 (every seat) |
+| standing | **1864** (requested round((1.50 - 1) x 3728) = 1864; at most 2831 = floor(2.5 p/m^2 x 1132.7 m^2)) |
+| standing floor | walkway + rear concourse + gangways (the gangway-standing variant), 1132.7 m^2 |
+| standing on the walkway / concourse / gangways | 413 / 1015 / 436 |
+| **load** | **150.00%** of the seats (requested 150%) |
+| standing crowd's mean density | 1.646 p/m^2 |
+| initial density, max over 1 m cells >= 0.5 m^2 (cloud-in-cell of the spawn) | standing zones' cells 3.29, all circulation cells 3.29 p/m^2 |
+
+Placement: seeded uniform random over the standing floor (mt19937, seed 3, 14021 draws), a draw kept if a body fits there (outside the fence's collision band, clear of walls, no step face within its radius) and overlaps no agent placed before it.
+
+## Evacuation
+
+| | step | t [s] |
+|---|---:|---:|
+| t50 | 687 | 120.2 |
+| t90 | 1205 | 210.8 |
+| t100 | 1516 | 265.2 |
+
+t_p: the step by which ceil(p x 5592) agents had left (per-agent evacuation steps from the metrics), x DT.
+
+## Exits
+
+| exit | clear width [m] | evacuated | nearest exit of [seats] | first [s] | last [s] | mean flow [p/(m min)] | peak flow [p/(m min)] | peak window [s] |
+|---|---:|---:|---:|---:|---:|---:|---:|---|
+| +x | 5.66 | 536 | 54 | 13.5 | 248.2 | 24.2 | 43.6 | 13.3-23.3 |
+| -x | 5.66 | 546 | 60 | 13.6 | 251.3 | 24.3 | 53.2 | 13.3-23.3 |
+| +y | 5.66 | 547 | 63 | 13.5 | 242.1 | 25.3 | 50.0 | 13.1-23.1 |
+| -y | 5.66 | 533 | 53 | 13.6 | 256.4 | 23.3 | 40.4 | 13.1-23.1 |
+| door +x+y y | 1.20 | 421 | 664 | 0.9 | 238.2 | 88.6 | 125.4 | 149.4-159.3 |
+| door +x+y x | 1.20 | 431 | 673 | 0.9 | 251.9 | 85.8 | 135.4 | 135.7-145.7 |
+| door -x+y y | 1.20 | 421 | 671 | 1.4 | 261.5 | 80.9 | 130.4 | 152.0-162.0 |
+| door -x+y x | 1.20 | 430 | 674 | 0.9 | 249.6 | 86.4 | 130.4 | 145.0-155.0 |
+| door -x-y y | 1.20 | 434 | 678 | 1.0 | 249.4 | 87.3 | 130.4 | 175.4-185.4 |
+| door -x-y x | 1.20 | 432 | 664 | 0.9 | 265.2 | 81.7 | 130.4 | 134.2-144.1 |
+| door +x-y y | 1.20 | 435 | 670 | 0.9 | 246.3 | 88.6 | 130.4 | 142.9-152.9 |
+| door +x-y x | 1.20 | 426 | 668 | 1.0 | 260.8 | 82.0 | 130.4 | 146.2-156.2 |
+| other | | 0 | | | | | | |
+
+Clear width: an avenue's width between its side walls (5.66 m), a concourse door's width through the outer wall (1.20 m); agents are removed past the outer wall's outer face (30.31 m). Nearest exit of: the seated agents whose seat's navigation-field path leads to that exit (static nearest exit, no congestion-aware rerouting). Mean flow: agents through the exit / its active period, from the step of its first to the step of its last evacuation (inclusive), / width. Peak flow: the most agents in any window of 57 consecutive steps (9.97 s; `--peak-window-s` 10), / window / width. Both from the exit counters read every 1 step(s).
+
+## Exit utilisation
+
+| exit | type | clear width [m] | evacuated | share of the evacuated | capacity used |
+|---|---|---:|---:|---:|---:|
+| +x | avenue | 5.66 | 536 | 9.6% | 25.6% |
+| -x | avenue | 5.66 | 546 | 9.8% | 26.1% |
+| +y | avenue | 5.66 | 547 | 9.8% | 26.2% |
+| -y | avenue | 5.66 | 533 | 9.5% | 25.5% |
+| door +x+y y | door | 1.20 | 421 | 7.5% | 95.0% |
+| door +x+y x | door | 1.20 | 431 | 7.7% | 97.2% |
+| door -x+y y | door | 1.20 | 421 | 7.5% | 95.0% |
+| door -x+y x | door | 1.20 | 430 | 7.7% | 97.0% |
+| door -x-y y | door | 1.20 | 434 | 7.8% | 97.9% |
+| door -x-y x | door | 1.20 | 432 | 7.7% | 97.4% |
+| door +x-y y | door | 1.20 | 435 | 7.8% | 98.1% |
+| door +x-y x | door | 1.20 | 426 | 7.6% | 96.1% |
+| **doors (8)** | door | 9.60 | 3430 | 61.3% | |
+| **avenues (4)** | avenue | 22.64 | 2162 | 38.7% | |
+
+**Unused exit width: 0.0 of 32.2 m (0.0%)** (the exits nobody left through). Capacity used: evacuated / (clear width x J x t100), J = 83.6 persons/(m min) (EXIT_FLOW_P_M_MIN, the exit choice's specific-flow capacity), t100 = 265.2 s: the share of the exit's nominal throughput over the whole evacuation used; all exits together 46.9%.
+
+## Gangway utilisation
+
+| gangway | type | head leads to a door | agents on it | share of the agents | last gangway of | share of the evacuated |
+|---|---|---|---:|---:|---:|---:|
+| straight +x+y (y wing) 0 | straight | yes | 477 | 8.5% | 477 | 8.5% |
+| straight +x+y (x wing) 0 | straight | yes | 488 | 8.7% | 488 | 8.7% |
+| corner +x+y | corner | **no** | 87 | 1.6% | 86 | 1.5% |
+| straight -x+y (y wing) 0 | straight | yes | 481 | 8.6% | 481 | 8.6% |
+| straight -x+y (x wing) 0 | straight | yes | 486 | 8.7% | 485 | 8.7% |
+| corner -x+y | corner | **no** | 97 | 1.7% | 97 | 1.7% |
+| straight -x-y (y wing) 0 | straight | yes | 486 | 8.7% | 468 | 8.4% |
+| straight -x-y (x wing) 0 | straight | yes | 502 | 9.0% | 502 | 9.0% |
+| corner -x-y | corner | **no** | 86 | 1.5% | 86 | 1.5% |
+| straight +x-y (y wing) 0 | straight | yes | 485 | 8.7% | 473 | 8.5% |
+| straight +x-y (x wing) 0 | straight | yes | 498 | 8.9% | 498 | 8.9% |
+| corner +x-y | corner | **no** | 81 | 1.4% | 81 | 1.4% |
+| **straight (8)** | | | 3903 | | 3872 | 69.2% |
+| **corner (4)** | | | 351 | | 350 | 6.3% |
+
+Agents on it: the agents whose centre stood on the gangway (its incline, or the barrier's gap at its foot) at the end of at least one step (each agent counted once per gangway; an agent may use several, so the shares add up to more than 100%). Last gangway of: the evacuated agents whose last gangway it was (a partition of those that used any; the rest, 1370, left without one: front-row agents through the walkway). A straight gangway that merges with the corner gangway (the first rows after it starts) counts as the corner gangway there. From the metric counters (GPU: metrics_deposit.comp; CPU: MetricsReference).
+
+## Flows and limits
+
+Windows of 57 steps (9.97 s). Exits: the exit choice's capacity w J (J = 83.6 persons/(m min)); at capacity: a window at >= 80% of it.
+
+| exit | evacuated | first [s] | last [s] | mean flow / w J | peak (10 s) / w J | share of its active windows at capacity |
+|---|---:|---:|---:|---:|---:|---:|
+| +x | 536 | 13.5 | 248.2 | 0.29 | 0.52 | 0.0% |
+| -x | 546 | 13.6 | 251.3 | 0.29 | 0.64 | 0.0% |
+| +y | 547 | 13.5 | 242.1 | 0.30 | 0.60 | 0.0% |
+| -y | 533 | 13.6 | 256.4 | 0.28 | 0.48 | 0.0% |
+| door +x+y y | 421 | 0.9 | 238.2 | 1.06 | 1.50 | 91.7% |
+| door +x+y x | 431 | 0.9 | 251.9 | 1.03 | 1.62 | 84.6% |
+| door -x+y y | 421 | 1.4 | 261.5 | 0.97 | 1.56 | 81.5% |
+| door -x+y x | 430 | 0.9 | 249.6 | 1.03 | 1.56 | 84.6% |
+| door -x-y y | 434 | 1.0 | 249.4 | 1.04 | 1.56 | 88.5% |
+| door -x-y x | 432 | 0.9 | 265.2 | 0.98 | 1.56 | 77.8% |
+| door +x-y y | 435 | 0.9 | 246.3 | 1.06 | 1.56 | 88.0% |
+| door +x-y x | 426 | 1.0 | 260.8 | 0.98 | 1.56 | 81.5% |
+
+Mean flow / w J averaged over the doors 1.02, over the avenues 0.29.
+
+Gangways: people = the agents whose first gangway it was (its catchment); departures by the head (concourse, door) / foot (walkway, avenue) / other (into the corner gangway where a straight gangway merges with it; strays); clear = its last departure; area: its floor (seated::gangwayAt sampled every 0.05 m). Loaded: agents of its catchment still to enter it at the window's end; saturated: loaded and its density (occupancy / area) at or above LoS F (2.17 persons/m^2): the gangway itself is full; entry-limited: loaded while it is below LoS F: the row merges feeding it limit. Shares of the windows from its first entry to its clearing. Per window: gangway_flows.csv.
+
+| gangway | width [m] | area [m^2] | people | head / foot / other | first in [s] | clear [s] | mean outflow [p/s] | peak outflow (10 s) [p/s] | loaded | saturated | entry-limited | mean density while loaded [p/m^2] |
+|---|---:|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| straight +x+y (y wing) 0 | 1.20 | 18.8 | 477 | 294 / 183 / 35 | 0.2 | 235.2 | 2.18 | 3.51 | 88% | 88% | 0% | 4.51 |
+| straight +x+y (x wing) 0 | 1.20 | 18.8 | 487 | 307 / 182 / 28 | 0.2 | 248.9 | 2.08 | 3.21 | 84% | 84% | 0% | 4.52 |
+| corner +x+y | 1.20 | 31.2 | 87 | 5 / 84 / 0 | 0.2 | 100.4 | 0.89 | 1.40 | 9% | 0% | 9% | 1.56 |
+| straight -x+y (y wing) 0 | 1.20 | 18.8 | 480 | 294 / 187 / 45 | 0.2 | 258.5 | 2.03 | 3.91 | 77% | 77% | 0% | 4.47 |
+| straight -x+y (x wing) 0 | 1.20 | 18.8 | 486 | 307 / 179 / 19 | 0.2 | 246.6 | 2.05 | 3.31 | 88% | 84% | 4% | 4.38 |
+| corner -x+y | 1.20 | 31.2 | 97 | 4 / 95 / 0 | 0.2 | 112.5 | 0.88 | 1.30 | 17% | 8% | 8% | 2.24 |
+| straight -x-y (y wing) 0 | 1.20 | 18.8 | 486 | 306 / 181 / 21 | 0.2 | 246.4 | 2.06 | 3.41 | 88% | 88% | 0% | 4.54 |
+| straight -x-y (x wing) 0 | 1.20 | 18.8 | 484 | 310 / 193 / 43 | 0.2 | 262.2 | 2.08 | 3.51 | 70% | 70% | 0% | 4.47 |
+| corner -x-y | 1.20 | 31.2 | 86 | 4 / 83 / 0 | 0.2 | 92.5 | 0.94 | 1.40 | 10% | 0% | 10% | 1.66 |
+| straight +x-y (y wing) 0 | 1.20 | 18.8 | 485 | 308 / 177 / 22 | 0.2 | 243.3 | 2.08 | 3.31 | 84% | 84% | 0% | 4.40 |
+| straight +x-y (x wing) 0 | 1.20 | 18.8 | 486 | 299 / 200 / 50 | 0.2 | 257.8 | 2.13 | 3.61 | 77% | 77% | 0% | 4.48 |
+| corner +x-y | 1.20 | 31.2 | 81 | 4 / 79 / 0 | 0.2 | 87.6 | 0.95 | 1.20 | 11% | 0% | 11% | 1.76 |
+
+The last agent out (agent 2046, t100 265.2 s): last gangway straight -x-y (x wing) 0, exit door -x-y (x wall). The gangway that cleared last: straight -x-y (x wing) 0 at 262.2 s.
+
+## Zones
+
+Density thresholds (persons/m^2, at or above): LoS E 1.08, LoS F 2.17 (Fruin 1971), crush 5 (verify against the cited sources; swarm/metrics.hpp). **Headline: the circulation zones** (gangways, walkway, concourse, avenues, exits), for which the thresholds are meant; the seat rows' clearways are reported apart (single-file seat-row queue; area-normalised density not comparable with Fruin thresholds).
+
+### Circulation zones (headline)
+
+| zone | cells | walkable [m^2] | peak density [p/m^2] | time any cell >= E / F / crush [s] | longest cell >= E / F / crush [s] | exposure [person-s] | person-s | mean speed occupied [m/s] |
+|---|---:|---:|---:|---|---|---:|---:|---:|
+| **all circulation** | 1728 | 1611.8 | 6.29 | 263.9 / 254.5 / 216.5 | 244.5 / 227.4 / 176.8 | 80877.1 | 339464 | 0.272 |
+| gangway | 392 | 351.5 | 6.29 | 261.1 / 232.8 / 208.7 | 244.5 / 227.4 / 176.8 | 67686.1 | 198505 | 0.116 |
+| walkway | 276 | 257.4 | 4.95 | 236.8 / 167.2 / 0.0 | 213.0 / 157.6 / 0.0 | 0.0 | 32245 | 0.445 |
+| avenue | 408 | 384.3 | 2.40 | 236.1 / 9.1 / 0.0 | 219.0 / 0.7 / 0.0 | 0.0 | 28221 | 1.306 |
+| exit | 40 | 9.7 | 0.00 | 261.1 / 253.8 / 198.5 | 227.2 / 203.4 / 73.5 | 886.5 | 3292 | 0.907 |
+| concourse | 612 | 609.0 | 5.99 | 228.8 / 183.0 / 96.9 | 207.8 / 172.6 / 75.2 | 12304.5 | 77202 | 0.198 |
+
+### Seat rows (reported apart: single-file seat-row queue; area-normalised density not comparable with Fruin thresholds)
+
+| zone | cells | walkable [m^2] | peak density [p/m^2] | time any cell >= E / F / crush [s] | longest cell >= E / F / crush [s] | exposure [person-s] | person-s | mean speed occupied [m/s] |
+|---|---:|---:|---:|---|---|---:|---:|---:|
+| seat row | 1512 | 918.7 | 7.63 | 226.7 / 225.5 / 217.4 | 226.7 / 225.5 / 216.2 | 111315.7 | 324645 | 0.050 |
+
+A seat row's clearway is 0.50 m deep: one body (0.40 m) wide, so its occupants queue in single file; the density of the 1 m cell over it (persons / its walkable area) reflects the cell's geometry, not a crowd's packing. (The pitch: no floor an agent reaches.)
+
+Per floor cell (1 m x 1 m, 64 x 64 from (-32, -32) m): density = deposited persons (cloud-in-cell) / walkable floor area of the cell; cells below 0.1 m^2 of floor are excluded; peak densities and the hotspot lists count only cells of at least 0.5 m^2 (a partial cell's cloud-in-cell share over a small area is no crowd's density). Time any cell >= threshold: steps at which at least one included cell of the zone was at or above it (readbacks every 1 step(s)), x DT. Longest cell: the cell of the zone with the most such steps. Exposure: person-seconds spent in cells while their density was at or above the crush threshold. Mean speed when occupied: horizontal speed weighted by the persons present (person-time weighted).
+
+## Top 10 hotspot cells (circulation zones)
+
+Ranked by exposure, then time >= LoS F, then time >= LoS E, then peak density.
+
+| # | x [m] | y [m] | zone | walkable [m^2] | peak [p/m^2] | >= E [s] | >= F [s] | >= crush [s] | exposure [person-s] | mean speed [m/s] |
+|---:|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|
+| 1 | -10.5 | -18.5 | gangway | 0.94 | 5.74 | 230.4 | 227.4 | 176.8 | 890.7 | 0.044 |
+| 2 | -18.5 | 10.5 | gangway | 0.94 | 5.86 | 222.1 | 214.4 | 167.0 | 848.8 | 0.045 |
+| 3 | 18.5 | 10.5 | gangway | 0.94 | 5.85 | 219.5 | 211.3 | 164.9 | 847.9 | 0.048 |
+| 4 | 10.5 | 18.5 | gangway | 0.94 | 6.00 | 212.3 | 203.8 | 158.5 | 814.8 | 0.049 |
+| 5 | -10.5 | -17.5 | gangway | 0.95 | 5.73 | 225.8 | 221.1 | 156.2 | 791.6 | 0.046 |
+| 6 | -17.5 | 10.5 | gangway | 0.95 | 5.74 | 219.5 | 214.6 | 157.4 | 788.2 | 0.047 |
+| 7 | -10.5 | 18.5 | gangway | 0.94 | 5.65 | 203.6 | 198.3 | 157.4 | 779.6 | 0.050 |
+| 8 | 17.5 | 10.5 | gangway | 0.95 | 5.90 | 216.9 | 212.2 | 152.5 | 775.1 | 0.049 |
+| 9 | -10.5 | -14.5 | gangway | 0.94 | 5.73 | 231.4 | 226.7 | 154.6 | 762.9 | 0.080 |
+| 10 | -18.5 | -10.5 | gangway | 0.94 | 6.01 | 197.8 | 192.9 | 148.1 | 754.0 | 0.058 |
+
+The top 5 seat-row cells, apart (single-file seat-row queue; area-normalised density not comparable with Fruin thresholds):
+
+| # | x [m] | y [m] | zone | walkable [m^2] | peak [p/m^2] | >= E [s] | >= F [s] | >= crush [s] | exposure [person-s] | mean speed [m/s] |
+|---:|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|
+| 1 | -9.5 | -18.5 | seat row | 0.50 | 7.57 | 226.7 | 225.5 | 216.2 | 769.8 | 0.024 |
+| 2 | -18.5 | 9.5 | seat row | 0.50 | 7.38 | 215.5 | 213.9 | 206.9 | 726.5 | 0.025 |
+| 3 | -8.5 | -18.5 | seat row | 0.50 | 7.09 | 222.7 | 221.3 | 212.9 | 716.0 | 0.020 |
+| 4 | 9.5 | -18.5 | seat row | 0.50 | 7.48 | 214.4 | 213.2 | 203.9 | 715.0 | 0.025 |
+| 5 | 18.5 | 9.5 | seat row | 0.50 | 7.48 | 213.2 | 210.8 | 202.7 | 710.5 | 0.026 |
+
+## Rows (INV-row)
+
+0 row changes (a move from one row's clearway onto another's without a gangway, the walkway, an avenue or the concourse in between: across a riser, a seat block or the barrier; tools/venue_s.hpp Checker, every step). Rows entered from an aisle (a stray from a gangway onto another row's clearway, not INV-row): 258; agent-steps of seated agents on another row's clearway: 3223.
+
+## Deposit check
+
+Person-seconds deposited: 667028.4, of them in excluded cells: 2919.064.
+
+## Checks (after every step)
+
+| check | result | values |
+|---|---|---|
+| overlap | PASS | all 30326 overlapping pair-steps: p99 0.0044, max 0.0167 of BODY_DIAM (limits 0.05 / 0.20, every case: analytic venue, no exemption); crowd p99 0.0044 max 0.0167; venue-geometry 3: p99 0.0001 max 0.0001 |
+| neighbour grid | PASS | pairs from non-adjacent start cells 0, max displacement 0.00757 (bound 0.01860) |
+| floors | PASS | centre in solid 0, below floor + BODY_RADIUS - 1e-4 0 agent-steps; airborne runs 8 (longest 1 steps) |
+| fence | PASS | midline crossings 0, in the collision band 0 agent-steps |
+| walls | PASS | clearance < BODY_RADIUS - 3e-4: 0 agent-steps (no wall that close) |
+| speed | PASS | max |v_xy| 0.750000 (V_MAX 0.75), 0 above |
+| density ceiling | PASS | peak 5.99 p/m^2 over fully walkable 1 m cells (ceiling 7.96) |
+| INV-row | PASS | 0 row changes |
+| step-up rules | PASS | floor rises above MAX_STEP_UP 0; climbs over a vertical face (any height, onto a floor above the start floor) 0 (max rise 0.000 m); faces crossed in a net descent 122 (information) |
+| no wall tops, no tunnelling | PASS | agent-steps over a seat block / barrier / wall column 0; steps through one 0; fence-side changes 0 |
+
+Plausibility: tools/plausibility.hpp (test_gpu section 31's checks, the analytic venue); the venue checks: tools/venue_s.hpp Checker (test_gpu sections 36-40).

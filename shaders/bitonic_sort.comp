@@ -1,0 +1,22 @@
+#version 430 core
+
+layout(local_size_x=256) in;
+struct Info { uint g; uint b; uint p1; uint p2; };
+layout(std430, binding=1) buffer G { Info i[]; };
+uniform int j;
+uniform int k;
+
+void main() {
+    uint id=gl_GlobalInvocationID.x;
+    uint ixj=id^j;
+        if(ixj>id){
+            bool asc=((id&k)==0);
+            uint gi=i[id].g;
+            uint gj=i[ixj].g;
+            if((asc&&gi>gj)||(!asc&&gi<gj)){
+                Info t=i[id];
+                i[id]=i[ixj];
+                i[ixj]=t;
+        }
+    }
+}

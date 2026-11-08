@@ -1,0 +1,52 @@
+junction,row,agents,entered,first_s,last_s
+dead-end segment -> straight gangway,0,112,112,0.699627,37.0802
+dead-end segment -> straight gangway,1,112,112,0.699627,50.8979
+dead-end segment -> straight gangway,2,112,112,0.699627,60.5177
+dead-end segment -> straight gangway,3,112,112,0.699627,70.3125
+dead-end segment -> straight gangway,4,112,112,0.699627,80.1073
+dead-end segment -> straight gangway,5,112,112,0.699627,90.9515
+dead-end segment -> straight gangway,6,112,112,0.699627,101.096
+dead-end segment -> straight gangway,7,112,112,0.699627,107.917
+dead-end segment -> straight gangway,8,112,112,0.699627,119.461
+dead-end segment -> straight gangway,9,112,112,0.699627,127.857
+dead-end segment -> straight gangway,10,112,112,0.699627,134.503
+dead-end segment -> straight gangway,11,112,112,0.699627,140.275
+dead-end segment -> straight gangway,12,112,112,0.699627,152.169
+dead-end segment -> straight gangway,13,112,112,0.699627,148.496
+dead-end segment -> straight gangway,14,112,112,0.699627,139.051
+dead-end segment -> straight gangway,15,112,112,0.699627,102.32
+dead-end segment -> straight gangway,16,112,112,0.699627,41.1031
+segment -> straight gangway,0,8,8,0.699627,0.699627
+segment -> straight gangway,1,16,16,0.874534,1.57416
+segment -> straight gangway,2,32,32,0.874534,3.49813
+segment -> straight gangway,3,40,40,0.874534,7.52099
+segment -> straight gangway,4,56,56,0.874534,13.118
+segment -> straight gangway,5,72,72,0.699627,26.9356
+segment -> straight gangway,6,80,80,0.874534,35.5061
+segment -> straight gangway,7,96,96,0.874534,49.3237
+segment -> straight gangway,8,104,104,0.874534,63.1413
+segment -> straight gangway,9,120,120,0.874534,81.3316
+segment -> straight gangway,10,136,136,0.699627,105.644
+segment -> straight gangway,11,144,144,0.874534,116.838
+segment -> straight gangway,12,160,160,0.874534,135.728
+segment -> straight gangway,13,168,168,0.874534,153.393
+segment -> straight gangway,14,184,184,0.874534,148.496
+segment -> straight gangway,15,200,200,0.699627,132.055
+segment -> straight gangway,16,208,208,0.874534,91.1264
+segment -> corner gangway,0,8,8,0.699627,0.699627
+segment -> corner gangway,1,16,16,0.874534,1.74907
+segment -> corner gangway,2,32,32,0.874534,6.12173
+segment -> corner gangway,3,40,40,0.874534,12.5933
+segment -> corner gangway,4,56,56,0.874534,25.3615
+segment -> corner gangway,5,72,72,0.699627,44.6012
+segment -> corner gangway,6,80,80,0.874534,60.3428
+segment -> corner gangway,7,96,96,0.874534,80.2822
+segment -> corner gangway,8,104,104,0.874534,100.746
+segment -> corner gangway,9,120,120,0.874534,123.659
+segment -> corner gangway,10,136,136,0.699627,152.694
+segment -> corner gangway,11,144,144,0.874534,179.454
+segment -> corner gangway,12,160,160,0.874534,210.238
+segment -> corner gangway,13,168,168,0.874534,241.371
+segment -> corner gangway,14,184,184,0.874534,287.722
+segment -> corner gangway,15,200,200,0.699627,309.585
+segment -> corner gangway,16,208,208,0.874534,285.798

@@ -1,0 +1,28 @@
+#version 430 core
+
+// Pass 3: build each cell's run [startIndex, startIndex + agentCount) in the sorted pairs, and
+// gather each active agent's state into slot order for physics:
+// boidsSorted[slot] = boidsIn[boidID of the slot], an exact copy.
+// Inactive agents form one run at the tail; they are not assigned to any cell and not gathered.
+layout(local_size_x = 256) in;
+
+struct Boid { vec4 position; vec4 velocity; };                                         // swarm::GpuBoid
+struct GridInfo { uint gridID; uint boidID; uint padding0; uint padding1; };             // swarm::GpuGridInfo
+struct CellData { uint startIndex; uint agentCount; uint padding0; uint padding1; };     // swarm::GpuCellData
+
+layout(std430, binding = 0) readonly buffer BoidsIn { Boid boidsIn[]; };
+layout(std430, binding = 1) readonly buffer Grid { GridInfo gridInfo[]; };
+layout(std430, binding = 2) buffer Cells { CellData cells[]; };
+layout(std430, binding = 4) writeonly buffer BoidsSorted { Boid boidsSorted[]; };
+
+uniform int num;
+
+void main() {
+    uint id = gl_GlobalInvocationID.x;
+    if (id >= uint(num)) return;
+    uint g = gridInfo[id].gridID;
+    if (g == INACTIVE_CELL) return;  // before any cells[] access: INACTIVE_CELL is not a valid index
+    boidsSorted[id] = boidsIn[gridInfo[id].boidID];
+    atomicAdd(cells[g].agentCount, 1u);
+    if (id == 0u || g != gridInfo[id - 1u].gridID) cells[g].startIndex = id;
+}

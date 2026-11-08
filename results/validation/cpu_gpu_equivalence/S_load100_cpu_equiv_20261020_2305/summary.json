@@ -1,0 +1,1215 @@
+{
+  "meta": {
+    "name": "S_load100_cpu_equiv",
+    "note": "Task 5.9 stage 3: CPU reference (counting sort), default model",
+    "venue": "venue S (analytic seated venue, navigation field)",
+    "n": 4096,
+    "capacity_label": "within design capacity",
+    "design_capacity": 3728,
+    "jam_capacity": 18138,
+    "initially_active": 3728,
+    "spawn": "seats",
+    "seed": 1337,
+    "load": 1,
+    "requested_load": 1,
+    "engine": "cpu counting",
+    "dt_div": 1,
+    "checks": false,
+    "navigation_field": "navigation field: 0.050 m cells (1250 x 1250), cache key c76d5f6f3579ec21, content hash 2619c6d0d7ba75aa",
+    "model": "queue-aware exit choice, incline speed, stair spacing (empirical)",
+    "exit_choice": "queue-aware",
+    "incline_speed": true,
+    "stair_flow": "empirical",
+    "choice_evaluations": 141886,
+    "choice_switches": 3057,
+    "choice_forced": 0,
+    "max_steps": 6000,
+    "readback_every_steps": 1,
+    "steps_run": 1361,
+    "complete": true,
+    "git_commit": "ba86b3ae21b252be1c83e995381b467da49ad033",
+    "git_dirty": "1",
+    "git_describe": "ba86b3a-dirty",
+    "build": "Release",
+    "gpu": "AMD  Radeon RX 7800 XT",
+    "driver": "4.3.0 Core Profile Context 26.8.1.260810",
+    "started": "2026-10-20T23:05:51",
+    "wall_s": 8.413
+  },
+  "spawn": {
+    "seated": 3728,
+    "standing": 0,
+    "standing_requested": 0,
+    "standing_max": 2143,
+    "standing_max_p_m2": 2.5,
+    "standing_areas": "none",
+    "standing_area_m2": 857.388,
+    "standing_walkway": 0,
+    "standing_concourse": 0,
+    "standing_gangways": 0,
+    "placement_exhausted": false,
+    "placement_draws": 0,
+    "requested_load": 1,
+    "load": 1,
+    "standing_mean_p_m2": null,
+    "initial_standing_cell_max_p_m2": 0,
+    "initial_circulation_cell_max_p_m2": 0.707585
+  },
+  "units": {
+    "m_per_model_unit": 31.25,
+    "s_per_model_time_unit": 17.490671,
+    "dt_model": 0.01,
+    "dt_real_s": 0.17490671,
+    "body_radius_m": 0.2,
+    "personal_radius_m": 0.25,
+    "gravity_m_s2": 9.81,
+    "v_free_m_s": 1.34,
+    "grid_cell_m": 1,
+    "grid_res": 64,
+    "grid_min_m": -32,
+    "min_walkable_m2": 0.1,
+    "peak_min_walkable_m2": 0.5,
+    "thresholds_p_m2": {
+      "los_e": 1.08,
+      "los_f": 2.17,
+      "crush": 5
+    }
+  },
+  "evacuation": {
+    "evacuated": 3728,
+    "remaining": 0,
+    "t50_s": 113.514,
+    "t90_s": 200.793,
+    "t100_s": 238.048,
+    "t50_step": 649,
+    "t90_step": 1148,
+    "t100_step": 1361
+  },
+  "exits": [
+    {
+      "exit": "+x",
+      "evacuated": 347,
+      "nearest_exit_of_seats": 0,
+      "width_m": 5.66,
+      "first_s": 24.4869,
+      "last_s": 230.352,
+      "mean_flow_p_per_m_min": 17.853,
+      "peak_flow_p_per_m_min": 23.392,
+      "peak_window_start_s": 45.6507
+    },
+    {
+      "exit": "-x",
+      "evacuated": 350,
+      "nearest_exit_of_seats": 0,
+      "width_m": 5.66,
+      "first_s": 24.4869,
+      "last_s": 231.402,
+      "mean_flow_p_per_m_min": 17.916,
+      "peak_flow_p_per_m_min": 24.456,
+      "peak_window_start_s": 46.1754
+    },
+    {
+      "exit": "+y",
+      "evacuated": 346,
+      "nearest_exit_of_seats": 0,
+      "width_m": 5.66,
+      "first_s": 24.4869,
+      "last_s": 229.303,
+      "mean_flow_p_per_m_min": 17.893,
+      "peak_flow_p_per_m_min": 23.392,
+      "peak_window_start_s": 45.3008
+    },
+    {
+      "exit": "-y",
+      "evacuated": 348,
+      "nearest_exit_of_seats": 0,
+      "width_m": 5.66,
+      "first_s": 24.4869,
+      "last_s": 230.702,
+      "mean_flow_p_per_m_min": 17.874,
+      "peak_flow_p_per_m_min": 23.392,
+      "peak_window_start_s": 45.3008
+    },
+    {
+      "exit": "other",
+      "evacuated": 0,
+      "nearest_exit_of_seats": 0
+    },
+    {
+      "exit": "door +x+y y",
+      "evacuated": 291,
+      "nearest_exit_of_seats": 466,
+      "width_m": 1.2,
+      "first_s": 4.89739,
+      "last_s": 223.881,
+      "mean_flow_p_per_m_min": 66.39,
+      "peak_flow_p_per_m_min": 90.274,
+      "peak_window_start_s": 23.6124
+    },
+    {
+      "exit": "door +x+y x",
+      "evacuated": 295,
+      "nearest_exit_of_seats": 466,
+      "width_m": 1.2,
+      "first_s": 4.89739,
+      "last_s": 234.025,
+      "mean_flow_p_per_m_min": 64.325,
+      "peak_flow_p_per_m_min": 90.274,
+      "peak_window_start_s": 22.563
+    },
+    {
+      "exit": "door -x+y y",
+      "evacuated": 295,
+      "nearest_exit_of_seats": 466,
+      "width_m": 1.2,
+      "first_s": 4.89739,
+      "last_s": 234.55,
+      "mean_flow_p_per_m_min": 64.179,
+      "peak_flow_p_per_m_min": 90.274,
+      "peak_window_start_s": 52.2971
+    },
+    {
+      "exit": "door -x+y x",
+      "evacuated": 289,
+      "nearest_exit_of_seats": 466,
+      "width_m": 1.2,
+      "first_s": 4.89739,
+      "last_s": 228.778,
+      "mean_flow_p_per_m_min": 64.493,
+      "peak_flow_p_per_m_min": 90.274,
+      "peak_window_start_s": 19.2397
+    },
+    {
+      "exit": "door -x-y y",
+      "evacuated": 291,
+      "nearest_exit_of_seats": 466,
+      "width_m": 1.2,
+      "first_s": 4.89739,
+      "last_s": 234.375,
+      "mean_flow_p_per_m_min": 63.357,
+      "peak_flow_p_per_m_min": 90.274,
+      "peak_window_start_s": 19.0648
+    },
+    {
+      "exit": "door -x-y x",
+      "evacuated": 293,
+      "nearest_exit_of_seats": 466,
+      "width_m": 1.2,
+      "first_s": 4.89739,
+      "last_s": 226.154,
+      "mean_flow_p_per_m_min": 66.16,
+      "peak_flow_p_per_m_min": 90.274,
+      "peak_window_start_s": 19.2397
+    },
+    {
+      "exit": "door +x-y y",
+      "evacuated": 293,
+      "nearest_exit_of_seats": 466,
+      "width_m": 1.2,
+      "first_s": 4.89739,
+      "last_s": 238.048,
+      "mean_flow_p_per_m_min": 62.788,
+      "peak_flow_p_per_m_min": 90.274,
+      "peak_window_start_s": 19.2397
+    },
+    {
+      "exit": "door +x-y x",
+      "evacuated": 290,
+      "nearest_exit_of_seats": 466,
+      "width_m": 1.2,
+      "first_s": 4.89739,
+      "last_s": 226.329,
+      "mean_flow_p_per_m_min": 65.431,
+      "peak_flow_p_per_m_min": 90.274,
+      "peak_window_start_s": 52.2971
+    }
+  ],
+  "exit_utilisation": {
+    "j_p_per_m_min": 83.6,
+    "t100_s": 238.048,
+    "exits": [
+    {
+      "exit": "+x",
+      "type": "avenue",
+      "width_m": 5.66,
+      "evacuated": 347,
+      "share_of_evacuated": 0.093079,
+      "capacity_used": 0.18484
+    },
+    {
+      "exit": "-x",
+      "type": "avenue",
+      "width_m": 5.66,
+      "evacuated": 350,
+      "share_of_evacuated": 0.093884,
+      "capacity_used": 0.18644
+    },
+    {
+      "exit": "+y",
+      "type": "avenue",
+      "width_m": 5.66,
+      "evacuated": 346,
+      "share_of_evacuated": 0.092811,
+      "capacity_used": 0.18431
+    },
+    {
+      "exit": "-y",
+      "type": "avenue",
+      "width_m": 5.66,
+      "evacuated": 348,
+      "share_of_evacuated": 0.093348,
+      "capacity_used": 0.18537
+    },
+    {
+      "exit": "door +x+y y",
+      "type": "door",
+      "width_m": 1.2,
+      "evacuated": 291,
+      "share_of_evacuated": 0.078058,
+      "capacity_used": 0.73113
+    },
+    {
+      "exit": "door +x+y x",
+      "type": "door",
+      "width_m": 1.2,
+      "evacuated": 295,
+      "share_of_evacuated": 0.079131,
+      "capacity_used": 0.74118
+    },
+    {
+      "exit": "door -x+y y",
+      "type": "door",
+      "width_m": 1.2,
+      "evacuated": 295,
+      "share_of_evacuated": 0.079131,
+      "capacity_used": 0.74118
+    },
+    {
+      "exit": "door -x+y x",
+      "type": "door",
+      "width_m": 1.2,
+      "evacuated": 289,
+      "share_of_evacuated": 0.077521,
+      "capacity_used": 0.7261
+    },
+    {
+      "exit": "door -x-y y",
+      "type": "door",
+      "width_m": 1.2,
+      "evacuated": 291,
+      "share_of_evacuated": 0.078058,
+      "capacity_used": 0.73113
+    },
+    {
+      "exit": "door -x-y x",
+      "type": "door",
+      "width_m": 1.2,
+      "evacuated": 293,
+      "share_of_evacuated": 0.078594,
+      "capacity_used": 0.73615
+    },
+    {
+      "exit": "door +x-y y",
+      "type": "door",
+      "width_m": 1.2,
+      "evacuated": 293,
+      "share_of_evacuated": 0.078594,
+      "capacity_used": 0.73615
+    },
+    {
+      "exit": "door +x-y x",
+      "type": "door",
+      "width_m": 1.2,
+      "evacuated": 290,
+      "share_of_evacuated": 0.07779,
+      "capacity_used": 0.72861
+    }
+  ],
+    "doors_evacuated": 2337,
+    "doors_share": 0.62688,
+    "doors_width_m": 9.6,
+    "avenues_evacuated": 1391,
+    "avenues_share": 0.37312,
+    "avenues_width_m": 22.64,
+    "total_width_m": 32.24,
+    "unused_exit_width_m": 0,
+    "unused_exit_width_fraction": 0,
+    "capacity_used_all_exits": 0.34863
+  },
+  "gangway_utilisation": {
+    "gangways": [
+      {
+      "gangway": "straight +x+y (y wing) 0",
+      "type": "straight",
+      "head_leads_to_door": true,
+      "agents_on_it": 464,
+      "share_of_agents": 0.12446,
+      "last_gangway_of": 464,
+      "share_of_evacuated_last": 0.12446
+    },
+      {
+      "gangway": "straight +x+y (x wing) 0",
+      "type": "straight",
+      "head_leads_to_door": true,
+      "agents_on_it": 464,
+      "share_of_agents": 0.12446,
+      "last_gangway_of": 464,
+      "share_of_evacuated_last": 0.12446
+    },
+      {
+      "gangway": "corner +x+y",
+      "type": "corner",
+      "head_leads_to_door": false,
+      "agents_on_it": 4,
+      "share_of_agents": 0.001073,
+      "last_gangway_of": 4,
+      "share_of_evacuated_last": 0.001073
+    },
+      {
+      "gangway": "straight -x+y (y wing) 0",
+      "type": "straight",
+      "head_leads_to_door": true,
+      "agents_on_it": 464,
+      "share_of_agents": 0.12446,
+      "last_gangway_of": 464,
+      "share_of_evacuated_last": 0.12446
+    },
+      {
+      "gangway": "straight -x+y (x wing) 0",
+      "type": "straight",
+      "head_leads_to_door": true,
+      "agents_on_it": 464,
+      "share_of_agents": 0.12446,
+      "last_gangway_of": 464,
+      "share_of_evacuated_last": 0.12446
+    },
+      {
+      "gangway": "corner -x+y",
+      "type": "corner",
+      "head_leads_to_door": false,
+      "agents_on_it": 4,
+      "share_of_agents": 0.001073,
+      "last_gangway_of": 4,
+      "share_of_evacuated_last": 0.001073
+    },
+      {
+      "gangway": "straight -x-y (y wing) 0",
+      "type": "straight",
+      "head_leads_to_door": true,
+      "agents_on_it": 464,
+      "share_of_agents": 0.12446,
+      "last_gangway_of": 464,
+      "share_of_evacuated_last": 0.12446
+    },
+      {
+      "gangway": "straight -x-y (x wing) 0",
+      "type": "straight",
+      "head_leads_to_door": true,
+      "agents_on_it": 464,
+      "share_of_agents": 0.12446,
+      "last_gangway_of": 464,
+      "share_of_evacuated_last": 0.12446
+    },
+      {
+      "gangway": "corner -x-y",
+      "type": "corner",
+      "head_leads_to_door": false,
+      "agents_on_it": 4,
+      "share_of_agents": 0.001073,
+      "last_gangway_of": 4,
+      "share_of_evacuated_last": 0.001073
+    },
+      {
+      "gangway": "straight +x-y (y wing) 0",
+      "type": "straight",
+      "head_leads_to_door": true,
+      "agents_on_it": 464,
+      "share_of_agents": 0.12446,
+      "last_gangway_of": 464,
+      "share_of_evacuated_last": 0.12446
+    },
+      {
+      "gangway": "straight +x-y (x wing) 0",
+      "type": "straight",
+      "head_leads_to_door": true,
+      "agents_on_it": 464,
+      "share_of_agents": 0.12446,
+      "last_gangway_of": 464,
+      "share_of_evacuated_last": 0.12446
+    },
+      {
+      "gangway": "corner +x-y",
+      "type": "corner",
+      "head_leads_to_door": false,
+      "agents_on_it": 4,
+      "share_of_agents": 0.001073,
+      "last_gangway_of": 4,
+      "share_of_evacuated_last": 0.001073
+    }
+    ],
+    "straight_agents": 3712,
+    "corner_agents": 16,
+    "straight_last": 3712,
+    "corner_last": 16,
+    "evacuated_without_gangway": 0
+  },
+  "zones": [
+    {
+      "zone": "seat row",
+      "scope": "seat_row",
+      "cells": 1512,
+      "walkable_m2": 918.7,
+      "peak_density_p_m2": 7.5513,
+      "peak_cell_x_m": -18.5,
+      "peak_cell_y_m": 9.5,
+      "time_any_cell_above_s": {
+        "los_e": 198.869,
+        "los_f": 195.546,
+        "crush": 180.154
+      },
+      "max_cell_time_above_s": {
+        "los_e": 198.869,
+        "los_f": 195.546,
+        "crush": 177.53
+      },
+      "exposure_person_s": 79200.1,
+      "person_s": 253793,
+      "mean_speed_occupied_m_s": 0.0642394
+    },
+    {
+      "zone": "gangway",
+      "scope": "circulation",
+      "cells": 392,
+      "walkable_m2": 351.48,
+      "peak_density_p_m2": 6.44828,
+      "peak_cell_x_m": -18.5,
+      "peak_cell_y_m": 11.5,
+      "time_any_cell_above_s": {
+        "los_e": 217.409,
+        "los_f": 206.39,
+        "crush": 157.241
+      },
+      "max_cell_time_above_s": {
+        "los_e": 208.314,
+        "los_f": 201.667,
+        "crush": 126.458
+      },
+      "exposure_person_s": 39670.9,
+      "person_s": 139696,
+      "mean_speed_occupied_m_s": 0.115459
+    },
+    {
+      "zone": "walkway",
+      "scope": "circulation",
+      "cells": 276,
+      "walkable_m2": 257.355,
+      "peak_density_p_m2": 1.83643,
+      "peak_cell_x_m": 12.5,
+      "peak_cell_y_m": -10.5,
+      "time_any_cell_above_s": {
+        "los_e": 26.9356,
+        "los_f": 0,
+        "crush": 0
+      },
+      "max_cell_time_above_s": {
+        "los_e": 4.37267,
+        "los_f": 0,
+        "crush": 0
+      },
+      "exposure_person_s": 0,
+      "person_s": 7695.01,
+      "mean_speed_occupied_m_s": 1.24444
+    },
+    {
+      "zone": "avenue",
+      "scope": "circulation",
+      "cells": 408,
+      "walkable_m2": 384.34,
+      "peak_density_p_m2": 1.48614,
+      "peak_cell_x_m": -13.5,
+      "peak_cell_y_m": -2.5,
+      "time_any_cell_above_s": {
+        "los_e": 53.5215,
+        "los_f": 0,
+        "crush": 0
+      },
+      "max_cell_time_above_s": {
+        "los_e": 19.0648,
+        "los_f": 0,
+        "crush": 0
+      },
+      "exposure_person_s": 0,
+      "person_s": 18084.1,
+      "mean_speed_occupied_m_s": 1.31907
+    },
+    {
+      "zone": "pitch",
+      "scope": "other",
+      "cells": 400,
+      "walkable_m2": 400,
+      "peak_density_p_m2": 0,
+      "peak_cell_x_m": null,
+      "peak_cell_y_m": null,
+      "time_any_cell_above_s": {
+        "los_e": 0,
+        "los_f": 0,
+        "crush": 0
+      },
+      "max_cell_time_above_s": {
+        "los_e": 0,
+        "los_f": 0,
+        "crush": 0
+      },
+      "exposure_person_s": 0,
+      "person_s": 0,
+      "mean_speed_occupied_m_s": null
+    },
+    {
+      "zone": "exit",
+      "scope": "circulation",
+      "cells": 40,
+      "walkable_m2": 9.66,
+      "peak_density_p_m2": 0,
+      "peak_cell_x_m": null,
+      "peak_cell_y_m": null,
+      "time_any_cell_above_s": {
+        "los_e": 220.907,
+        "los_f": 207.439,
+        "crush": 96.1987
+      },
+      "max_cell_time_above_s": {
+        "los_e": 119.461,
+        "los_f": 81.5065,
+        "crush": 13.2929
+      },
+      "exposure_person_s": 176.679,
+      "person_s": 1606.38,
+      "mean_speed_occupied_m_s": 1.32009
+    },
+    {
+      "zone": "concourse",
+      "scope": "circulation",
+      "cells": 612,
+      "walkable_m2": 609,
+      "peak_density_p_m2": 1.68544,
+      "peak_cell_x_m": -29.5,
+      "peak_cell_y_m": 10.5,
+      "time_any_cell_above_s": {
+        "los_e": 174.557,
+        "los_f": 0,
+        "crush": 0
+      },
+      "max_cell_time_above_s": {
+        "los_e": 36.2057,
+        "los_f": 0,
+        "crush": 0
+      },
+      "exposure_person_s": 0,
+      "person_s": 6168.94,
+      "mean_speed_occupied_m_s": 1.11629
+    }
+  ],
+  "circulation": {
+    "zones": "gangway, walkway, concourse, avenue, exit",
+    "cells": 1728,
+    "walkable_m2": 1611.83,
+    "peak_density_p_m2": 6.44828,
+    "peak_cell_x_m": -18.5,
+    "peak_cell_y_m": 11.5,
+    "time_any_cell_above_s": {
+        "los_e": 232.101,
+        "los_f": 222.656,
+        "crush": 183.127
+      },
+    "max_cell_time_above_s": {
+        "los_e": 208.314,
+        "los_f": 201.667,
+        "crush": 126.458
+      },
+    "exposure_person_s": 39847.5,
+    "person_s": 173251,
+    "mean_speed_occupied_m_s": 0.338044
+  },
+  "seat_rows": {
+    "zones": "seat row (zone tread)",
+    "cells": 1512,
+    "walkable_m2": 918.7,
+    "peak_density_p_m2": 7.5513,
+    "peak_cell_x_m": -18.5,
+    "peak_cell_y_m": 9.5,
+    "time_any_cell_above_s": {
+        "los_e": 198.869,
+        "los_f": 195.546,
+        "crush": 180.154
+      },
+    "max_cell_time_above_s": {
+        "los_e": 198.869,
+        "los_f": 195.546,
+        "crush": 177.53
+      },
+    "exposure_person_s": 79200.1,
+    "person_s": 253793,
+    "mean_speed_occupied_m_s": 0.0642394,
+    "label": "single-file seat-row queue; area-normalised density not comparable with Fruin thresholds"
+  },
+  "hotspots": [
+    {
+      "ix": 43,
+      "iy": 12,
+      "x_m": 11.5,
+      "y_m": -19.5,
+      "zone": "gangway",
+      "walkable_m2": 0.9175,
+      "peak_density_p_m2": 5.98612,
+      "time_above_los_e_s": 180.154,
+      "time_above_los_f_s": 176.131,
+      "time_above_crush_s": 126.458,
+      "exposure_person_s": 637.291,
+      "mean_speed_occupied_m_s": 0.0315607
+    },
+    {
+      "ix": 42,
+      "iy": 12,
+      "x_m": 10.5,
+      "y_m": -19.5,
+      "zone": "gangway",
+      "walkable_m2": 0.9625,
+      "peak_density_p_m2": 5.80002,
+      "time_above_los_e_s": 203.591,
+      "time_above_los_f_s": 192.222,
+      "time_above_crush_s": 118.587,
+      "exposure_person_s": 621.064,
+      "mean_speed_occupied_m_s": 0.0348169
+    },
+    {
+      "ix": 20,
+      "iy": 9,
+      "x_m": -11.5,
+      "y_m": -22.5,
+      "zone": "gangway",
+      "walkable_m2": 0.8625,
+      "peak_density_p_m2": 6.23434,
+      "time_above_los_e_s": 199.044,
+      "time_above_los_f_s": 178.23,
+      "time_above_crush_s": 124.883,
+      "exposure_person_s": 605.35,
+      "mean_speed_occupied_m_s": 0.0648145
+    },
+    {
+      "ix": 12,
+      "iy": 42,
+      "x_m": -19.5,
+      "y_m": 10.5,
+      "zone": "gangway",
+      "walkable_m2": 0.9625,
+      "peak_density_p_m2": 5.72335,
+      "time_above_los_e_s": 192.222,
+      "time_above_los_f_s": 182.778,
+      "time_above_crush_s": 113.514,
+      "exposure_person_s": 589.867,
+      "mean_speed_occupied_m_s": 0.0324699
+    },
+    {
+      "ix": 54,
+      "iy": 20,
+      "x_m": 22.5,
+      "y_m": -11.5,
+      "zone": "gangway",
+      "walkable_m2": 0.8625,
+      "peak_density_p_m2": 6.09828,
+      "time_above_los_e_s": 198.519,
+      "time_above_los_f_s": 179.454,
+      "time_above_crush_s": 120.336,
+      "exposure_person_s": 580.189,
+      "mean_speed_occupied_m_s": 0.0674599
+    },
+    {
+      "ix": 20,
+      "iy": 12,
+      "x_m": -11.5,
+      "y_m": -19.5,
+      "zone": "gangway",
+      "walkable_m2": 0.9175,
+      "peak_density_p_m2": 5.56508,
+      "time_above_los_e_s": 182.253,
+      "time_above_los_f_s": 174.907,
+      "time_above_crush_s": 119.286,
+      "exposure_person_s": 578.758,
+      "mean_speed_occupied_m_s": 0.0313063
+    },
+    {
+      "ix": 43,
+      "iy": 9,
+      "x_m": 11.5,
+      "y_m": -22.5,
+      "zone": "gangway",
+      "walkable_m2": 0.8625,
+      "peak_density_p_m2": 6.00006,
+      "time_above_los_e_s": 199.044,
+      "time_above_los_f_s": 182.778,
+      "time_above_crush_s": 120.161,
+      "exposure_person_s": 573.446,
+      "mean_speed_occupied_m_s": 0.064836
+    },
+    {
+      "ix": 12,
+      "iy": 43,
+      "x_m": -19.5,
+      "y_m": 11.5,
+      "zone": "gangway",
+      "walkable_m2": 0.9175,
+      "peak_density_p_m2": 5.82051,
+      "time_above_los_e_s": 183.477,
+      "time_above_los_f_s": 179.279,
+      "time_above_crush_s": 114.739,
+      "exposure_person_s": 568.795,
+      "mean_speed_occupied_m_s": 0.0319857
+    },
+    {
+      "ix": 51,
+      "iy": 21,
+      "x_m": 19.5,
+      "y_m": -10.5,
+      "zone": "gangway",
+      "walkable_m2": 0.9625,
+      "peak_density_p_m2": 5.6046,
+      "time_above_los_e_s": 199.569,
+      "time_above_los_f_s": 190.648,
+      "time_above_crush_s": 110.191,
+      "exposure_person_s": 568.136,
+      "mean_speed_occupied_m_s": 0.033516
+    },
+    {
+      "ix": 54,
+      "iy": 43,
+      "x_m": 22.5,
+      "y_m": 11.5,
+      "zone": "gangway",
+      "walkable_m2": 0.8625,
+      "peak_density_p_m2": 6.19751,
+      "time_above_los_e_s": 199.219,
+      "time_above_los_f_s": 177.88,
+      "time_above_crush_s": 115.963,
+      "exposure_person_s": 557.547,
+      "mean_speed_occupied_m_s": 0.0688177
+    }
+  ],
+  "seat_row_hotspots": [
+    {
+      "ix": 41,
+      "iy": 13,
+      "x_m": 9.5,
+      "y_m": -18.5,
+      "zone": "seat row",
+      "walkable_m2": 0.5,
+      "peak_density_p_m2": 7.43454,
+      "time_above_los_e_s": 193.972,
+      "time_above_los_f_s": 191.873,
+      "time_above_crush_s": 177.53,
+      "exposure_person_s": 614.392,
+      "mean_speed_occupied_m_s": 0.028251
+    },
+    {
+      "ix": 50,
+      "iy": 41,
+      "x_m": 18.5,
+      "y_m": 9.5,
+      "zone": "seat row",
+      "walkable_m2": 0.5,
+      "peak_density_p_m2": 7.46347,
+      "time_above_los_e_s": 189.424,
+      "time_above_los_f_s": 187.325,
+      "time_above_crush_s": 176.131,
+      "exposure_person_s": 611.646,
+      "mean_speed_occupied_m_s": 0.0287435
+    },
+    {
+      "ix": 13,
+      "iy": 22,
+      "x_m": -18.5,
+      "y_m": -9.5,
+      "zone": "seat row",
+      "walkable_m2": 0.5,
+      "peak_density_p_m2": 7.42691,
+      "time_above_los_e_s": 188.2,
+      "time_above_los_f_s": 184.876,
+      "time_above_crush_s": 172.458,
+      "exposure_person_s": 600.135,
+      "mean_speed_occupied_m_s": 0.0294155
+    },
+    {
+      "ix": 22,
+      "iy": 13,
+      "x_m": -9.5,
+      "y_m": -18.5,
+      "zone": "seat row",
+      "walkable_m2": 0.5,
+      "peak_density_p_m2": 7.54419,
+      "time_above_los_e_s": 187.85,
+      "time_above_los_f_s": 185.751,
+      "time_above_crush_s": 170.359,
+      "exposure_person_s": 590.181,
+      "mean_speed_occupied_m_s": 0.0299021
+    },
+    {
+      "ix": 50,
+      "iy": 22,
+      "x_m": 18.5,
+      "y_m": -9.5,
+      "zone": "seat row",
+      "walkable_m2": 0.5,
+      "peak_density_p_m2": 7.52399,
+      "time_above_los_e_s": 188.724,
+      "time_above_los_f_s": 183.477,
+      "time_above_crush_s": 169.31,
+      "exposure_person_s": 583.918,
+      "mean_speed_occupied_m_s": 0.0299027
+    }
+  ],
+  "flows": {
+    "window_s": 9.96968,
+    "gangways": [
+      {
+      "gangway": "straight +x+y (y wing) 0",
+      "type": "straight",
+      "index": 0,
+      "width_m": 1.2,
+      "area_m2": 18.84,
+      "people": 464,
+      "out_head": 291,
+      "out_foot": 173,
+      "out_other": 42,
+      "first_in_s": 0.699627,
+      "clear_s": 220.907,
+      "mean_outflow_p_s": 2.29601,
+      "peak_outflow_p_s": 3.00912,
+      "loaded_share": 0.826087,
+      "saturated_share": 0.826087,
+      "entry_limited_share": 0,
+      "mean_density_loaded_p_m2": 3.68134
+    },
+      {
+      "gangway": "straight +x+y (x wing) 0",
+      "type": "straight",
+      "index": 0,
+      "width_m": 1.2,
+      "area_m2": 18.84,
+      "people": 464,
+      "out_head": 295,
+      "out_foot": 169,
+      "out_other": 46,
+      "first_in_s": 0.699627,
+      "clear_s": 231.052,
+      "mean_outflow_p_s": 2.21232,
+      "peak_outflow_p_s": 2.80851,
+      "loaded_share": 0.791667,
+      "saturated_share": 0.791667,
+      "entry_limited_share": 0,
+      "mean_density_loaded_p_m2": 3.68688
+    },
+      {
+      "gangway": "corner +x+y",
+      "type": "corner",
+      "index": -1,
+      "width_m": 1.2,
+      "area_m2": 31.2,
+      "people": 4,
+      "out_head": 0,
+      "out_foot": 4,
+      "out_other": 0,
+      "first_in_s": 8.22062,
+      "clear_s": 30.7836,
+      "mean_outflow_p_s": 0.175918,
+      "peak_outflow_p_s": 0.200608,
+      "loaded_share": 0,
+      "saturated_share": 0,
+      "entry_limited_share": 0,
+      "mean_density_loaded_p_m2": null
+    },
+      {
+      "gangway": "straight -x+y (y wing) 0",
+      "type": "straight",
+      "index": 0,
+      "width_m": 1.2,
+      "area_m2": 18.84,
+      "people": 464,
+      "out_head": 295,
+      "out_foot": 169,
+      "out_other": 45,
+      "first_in_s": 0.699627,
+      "clear_s": 231.576,
+      "mean_outflow_p_s": 2.20297,
+      "peak_outflow_p_s": 2.90882,
+      "loaded_share": 0.791667,
+      "saturated_share": 0.791667,
+      "entry_limited_share": 0,
+      "mean_density_loaded_p_m2": 3.68153
+    },
+      {
+      "gangway": "straight -x+y (x wing) 0",
+      "type": "straight",
+      "index": 0,
+      "width_m": 1.2,
+      "area_m2": 18.84,
+      "people": 464,
+      "out_head": 289,
+      "out_foot": 175,
+      "out_other": 52,
+      "first_in_s": 0.699627,
+      "clear_s": 225.805,
+      "mean_outflow_p_s": 2.29048,
+      "peak_outflow_p_s": 2.80851,
+      "loaded_share": 0.869565,
+      "saturated_share": 0.826087,
+      "entry_limited_share": 0.0434783,
+      "mean_density_loaded_p_m2": 3.66
+    },
+      {
+      "gangway": "corner -x+y",
+      "type": "corner",
+      "index": -1,
+      "width_m": 1.2,
+      "area_m2": 31.2,
+      "people": 4,
+      "out_head": 0,
+      "out_foot": 4,
+      "out_other": 0,
+      "first_in_s": 8.22062,
+      "clear_s": 30.7836,
+      "mean_outflow_p_s": 0.175918,
+      "peak_outflow_p_s": 0.200608,
+      "loaded_share": 0,
+      "saturated_share": 0,
+      "entry_limited_share": 0,
+      "mean_density_loaded_p_m2": null
+    },
+      {
+      "gangway": "straight -x-y (y wing) 0",
+      "type": "straight",
+      "index": 0,
+      "width_m": 1.2,
+      "area_m2": 18.84,
+      "people": 464,
+      "out_head": 291,
+      "out_foot": 173,
+      "out_other": 57,
+      "first_in_s": 0.699627,
+      "clear_s": 231.402,
+      "mean_outflow_p_s": 2.25661,
+      "peak_outflow_p_s": 3.20973,
+      "loaded_share": 0.791667,
+      "saturated_share": 0.791667,
+      "entry_limited_share": 0,
+      "mean_density_loaded_p_m2": 3.71756
+    },
+      {
+      "gangway": "straight -x-y (x wing) 0",
+      "type": "straight",
+      "index": 0,
+      "width_m": 1.2,
+      "area_m2": 18.84,
+      "people": 464,
+      "out_head": 293,
+      "out_foot": 171,
+      "out_other": 41,
+      "first_in_s": 0.699627,
+      "clear_s": 223.181,
+      "mean_outflow_p_s": 2.26807,
+      "peak_outflow_p_s": 2.90882,
+      "loaded_share": 0.826087,
+      "saturated_share": 0.826087,
+      "entry_limited_share": 0,
+      "mean_density_loaded_p_m2": 3.75716
+    },
+      {
+      "gangway": "corner -x-y",
+      "type": "corner",
+      "index": -1,
+      "width_m": 1.2,
+      "area_m2": 31.2,
+      "people": 4,
+      "out_head": 0,
+      "out_foot": 4,
+      "out_other": 0,
+      "first_in_s": 8.22062,
+      "clear_s": 30.6087,
+      "mean_outflow_p_s": 0.177282,
+      "peak_outflow_p_s": 0.200608,
+      "loaded_share": 0,
+      "saturated_share": 0,
+      "entry_limited_share": 0,
+      "mean_density_loaded_p_m2": null
+    },
+      {
+      "gangway": "straight +x-y (y wing) 0",
+      "type": "straight",
+      "index": 0,
+      "width_m": 1.2,
+      "area_m2": 18.84,
+      "people": 464,
+      "out_head": 293,
+      "out_foot": 171,
+      "out_other": 53,
+      "first_in_s": 0.699627,
+      "clear_s": 235.075,
+      "mean_outflow_p_s": 2.20422,
+      "peak_outflow_p_s": 3.31004,
+      "loaded_share": 0.833333,
+      "saturated_share": 0.791667,
+      "entry_limited_share": 0.0416667,
+      "mean_density_loaded_p_m2": 3.65856
+    },
+      {
+      "gangway": "straight +x-y (x wing) 0",
+      "type": "straight",
+      "index": 0,
+      "width_m": 1.2,
+      "area_m2": 18.84,
+      "people": 464,
+      "out_head": 290,
+      "out_foot": 174,
+      "out_other": 55,
+      "first_in_s": 0.699627,
+      "clear_s": 223.356,
+      "mean_outflow_p_s": 2.32912,
+      "peak_outflow_p_s": 2.80851,
+      "loaded_share": 0.826087,
+      "saturated_share": 0.826087,
+      "entry_limited_share": 0,
+      "mean_density_loaded_p_m2": 3.75917
+    },
+      {
+      "gangway": "corner +x-y",
+      "type": "corner",
+      "index": -1,
+      "width_m": 1.2,
+      "area_m2": 31.2,
+      "people": 4,
+      "out_head": 0,
+      "out_foot": 4,
+      "out_other": 0,
+      "first_in_s": 8.22062,
+      "clear_s": 30.7836,
+      "mean_outflow_p_s": 0.175918,
+      "peak_outflow_p_s": 0.200608,
+      "loaded_share": 0,
+      "saturated_share": 0,
+      "entry_limited_share": 0,
+      "mean_density_loaded_p_m2": null
+    }
+    ],
+    "exits": [
+      {
+      "exit": "+x",
+      "type": "avenue",
+      "capacity_p_s": 7.88627,
+      "mean_flow_of_capacity": 0.213553,
+      "peak_flow_of_capacity": 0.279814,
+      "at_capacity_share": 0
+    },
+      {
+      "exit": "-x",
+      "type": "avenue",
+      "capacity_p_s": 7.88627,
+      "mean_flow_of_capacity": 0.214308,
+      "peak_flow_of_capacity": 0.292533,
+      "at_capacity_share": 0
+    },
+      {
+      "exit": "+y",
+      "type": "avenue",
+      "capacity_p_s": 7.88627,
+      "mean_flow_of_capacity": 0.214028,
+      "peak_flow_of_capacity": 0.279814,
+      "at_capacity_share": 0
+    },
+      {
+      "exit": "-y",
+      "type": "avenue",
+      "capacity_p_s": 7.88627,
+      "mean_flow_of_capacity": 0.213806,
+      "peak_flow_of_capacity": 0.279814,
+      "at_capacity_share": 0
+    },
+      {
+      "exit": "door +x+y y",
+      "type": "door",
+      "capacity_p_s": 1.672,
+      "mean_flow_of_capacity": 0.794144,
+      "peak_flow_of_capacity": 1.07983,
+      "at_capacity_share": 0.478261
+    },
+      {
+      "exit": "door +x+y x",
+      "type": "door",
+      "capacity_p_s": 1.672,
+      "mean_flow_of_capacity": 0.769443,
+      "peak_flow_of_capacity": 1.07983,
+      "at_capacity_share": 0.541667
+    },
+      {
+      "exit": "door -x+y y",
+      "type": "door",
+      "capacity_p_s": 1.672,
+      "mean_flow_of_capacity": 0.767687,
+      "peak_flow_of_capacity": 1.07983,
+      "at_capacity_share": 0.541667
+    },
+      {
+      "exit": "door -x+y x",
+      "type": "door",
+      "capacity_p_s": 1.672,
+      "mean_flow_of_capacity": 0.771447,
+      "peak_flow_of_capacity": 1.07983,
+      "at_capacity_share": 0.391304
+    },
+      {
+      "exit": "door -x-y y",
+      "type": "door",
+      "capacity_p_s": 1.672,
+      "mean_flow_of_capacity": 0.757854,
+      "peak_flow_of_capacity": 1.07983,
+      "at_capacity_share": 0.5
+    },
+      {
+      "exit": "door -x-y x",
+      "type": "door",
+      "capacity_p_s": 1.672,
+      "mean_flow_of_capacity": 0.791391,
+      "peak_flow_of_capacity": 1.07983,
+      "at_capacity_share": 0.434783
+    },
+      {
+      "exit": "door +x-y y",
+      "type": "door",
+      "capacity_p_s": 1.672,
+      "mean_flow_of_capacity": 0.75105,
+      "peak_flow_of_capacity": 1.07983,
+      "at_capacity_share": 0.458333
+    },
+      {
+      "exit": "door +x-y x",
+      "type": "door",
+      "capacity_p_s": 1.672,
+      "mean_flow_of_capacity": 0.78267,
+      "peak_flow_of_capacity": 1.07983,
+      "at_capacity_share": 0.521739
+    }
+    ],
+    "last_agent": 2965,
+    "last_agent_gangway": "straight +x-y (y wing) 0",
+    "last_agent_exit": "door +x-y (y wall)",
+    "last_clear_gangway": "straight +x-y (y wing) 0"
+  },
+  "inv_row": {
+    "row_changes": 0,
+    "rows_entered_from_an_aisle": 0,
+    "agent_steps_on_another_rows_clearway": 0,
+    "sampled_every_steps": 1
+  },
+  "deposit": {
+    "person_s_total": 427048,
+    "person_s_in_excluded_cells": 4.16022
+  },
+  "checks": {}
+}

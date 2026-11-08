@@ -1,0 +1,37 @@
+cpu_profile: commit 4bc0dba3abed89917e39577ad65eebe89e8b105b (dirty 0) | Release | 13th Gen Intel(R) Core(TM) i5-13600KF | power throttling off (SetProcessInformation, EXECUTION_SPEED) | venue M, N = 16384 congested (7913 active) | schedule dynamic64, projection dynamic64, exit choice sequential | 5 steps | TSC 3494 MHz
+navigation field of venue M: loaded from out\build\x64-Release\navcache\nav_M_9dab1161288587e6.bin (2.07 s)
+exit choice table of venue M: loaded from out\build\x64-Release\navcache\nav_M_choice_788a24afc6c2ac0b.bin (9.87 s)
+
+1 thread(s): wall per step (median): hash 0.114, sort 0.086, cells 0.056, physics 209.70 (exit choice 7.614, predict 57.53, projection 129.71, final 14.93), total 209.96 ms
+  stage shares of the step: hash 0.1%, sort 0.0%, cells 0.0%, exit choice 3.6%, predict 27.4%, projection 61.8%, final 7.1%
+  physics CPU time (sum over threads) per step: 189.66 ms; per-thread busy max/mean 1.000 (wall/busy-max 1.106)
+  phase (per-agent marks; the exit choice outside)     CPU ms   share
+  other (setup, e_goal, inactive, exit)        8.46    4.5%
+  neighbour loop (incl. separation)           20.57   10.8%
+    of which separation                        0.42    0.2%   (ablation: neighbour phase with - without separationForce)
+    of which gather + distance + headway      20.15   10.6%
+  obstacle SDF sampling (torso)                8.81    4.6%
+  steering + integration                       0.48    0.3%
+  fence + CCD                                  0.28    0.1%
+  floor contact                               18.78    9.9%
+  walls: feelers + contact                    10.60    5.6%
+  hard-body projection                       121.68   64.2%
+  per agent slot: 28 candidates (3x3 ring, incl. self), 8.7 perception neighbours, 1.1 separation pairs,
+                  0.5 map() samples, 0.0 mapExactGrad; 45.37 ns per candidate (neighbour phase, CPU time)
+
+20 thread(s): wall per step (median): hash 0.031, sort 0.107, cells 0.071, physics 25.32 (exit choice 8.950, predict 4.88, projection 10.15, final 1.31), total 25.53 ms
+  stage shares of the step: hash 0.1%, sort 0.4%, cells 0.3%, exit choice 35.1%, predict 19.1%, projection 39.8%, final 5.1%
+  physics CPU time (sum over threads) per step: 291.88 ms; per-thread busy max/mean 1.018 (wall/busy-max 1.705)
+  phase (per-agent marks; the exit choice outside)     CPU ms   share
+  other (setup, e_goal, inactive, exit)       13.26    4.5%
+  neighbour loop (incl. separation)           33.29   11.4%
+    of which separation                        0.77    0.3%   (ablation: neighbour phase with - without separationForce)
+    of which gather + distance + headway      32.51   11.1%
+  obstacle SDF sampling (torso)               14.93    5.1%
+  steering + integration                       0.53    0.2%
+  fence + CCD                                  0.48    0.2%
+  floor contact                               29.76   10.2%
+  walls: feelers + contact                    16.08    5.5%
+  hard-body projection                       183.55   62.9%
+  per agent slot: 28 candidates (3x3 ring, incl. self), 8.7 perception neighbours, 1.1 separation pairs,
+                  0.5 map() samples, 0.0 mapExactGrad; 73.40 ns per candidate (neighbour phase, CPU time)

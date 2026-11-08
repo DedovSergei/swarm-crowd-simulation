@@ -1,0 +1,126 @@
+#version 430 core
+
+// Metrics pass 1 (swarm/metrics.hpp): write-only side outputs of the step just taken.
+// Reads the step's input (prevState) and output (curState) agent buffers, never writes them.
+//   - Evacuation: an agent active in the input and inactive in the output left in this step, through
+//     the exit at its last active position (the position the physics exit test saw). Its exit counter
+//     and the evacuated total are incremented atomically; its slot of evacStep gets the step index.
+//   - Density: every active agent deposits one person (MASS_ONE = METRIC_SUBCELL^2 units) bilinearly onto
+//     the 4 floor cells whose centres surround it (cloud-in-cell), in fixed point with uint atomics, and
+//     the same weights times its horizontal speed in m/s. The position is quantized to 1/METRIC_SUBCELL
+//     of a cell first, so the 4 weights are exact integers summing to MASS_ONE.
+//   - Active count: per work group in shared memory, one atomic per group into activeAccum.
+// Simulation constants (AVENUE_HALF) come from the simulation preamble, the METRIC_* ones from
+// metrics::metricsPreamble(); src/metrics.cpp mirrors this file (MetricsReference, cicDeposit).
+layout(local_size_x = 256) in;
+
+struct Boid { vec4 position; vec4 velocity; };                                // swarm::GpuBoid
+struct CellMass { uint mass; uint speedMass; uint padding0; uint padding1; };  // swarm::GpuMetricCellMass
+
+layout(std430, binding = 0) readonly buffer PrevState { Boid prevState[]; };   // the step's input
+layout(std430, binding = 3) readonly buffer CurState { Boid curState[]; };     // the step's output
+layout(std430, binding = 5) buffer Counters {                                  // swarm::GpuMetricCounters
+    uint ctrStep; uint ctrActive; uint ctrEvacuated; uint ctrActiveAccum; uint ctrExits[METRIC_EXIT_SLOTS]; uint ctrPad[3];
+    uint ctrGangwayVisits[METRIC_GANGWAY_SLOTS]; uint ctrGangwayLast[METRIC_GANGWAY_SLOTS];
+};
+layout(std430, binding = 6) writeonly buffer EvacStep { uint evacStep[]; };
+layout(std430, binding = 7) buffer Mass { CellMass cellMass[]; };
+#ifdef VENUE_ANALYTIC
+// Per agent the gangways it stood on (x: ids 0-31, y: 32-63) and its last one + 1 (z); only its own invocation touches it
+layout(std430, binding = 18) buffer GangwayState { uvec4 gangwayState[]; };
+#endif
+
+uniform int numBoids;
+uniform uint stepIndex;
+
+shared uint groupActive;
+
+// metrics::exitSlot: the avenue axis of the last active position (|y| >= |x|: y), its sign, and
+// lat < AVENUE_HALF (inside the avenue's gap); anything else is METRIC_EXIT_OTHER. VENUE_ANALYTIC (a seated venue's
+// preamble): its avenues (VS_AVENUE_HALF), else its concourse doors (lat within a door's [VS_DOOR_LO, VS_DOOR_HI], or past
+// VS_CORNER_DOOR_LO; seated::exitByLat): METRIC_EXIT_DOOR0 + its door index (quadrant 0 (+x +y), 1 (-x +y), 2 (-x -y),
+// 3 (+x -y), each: wing 0's doors (|y| >= |x|), wing 1's, the corner door; venue S: 2 quadrant + wing)
+int exitSlot(vec4 p) {
+    vec2 a = abs(p.xy);
+    bool alongY = a.y >= a.x;
+    float lat = alongY ? a.x : a.y;
+#ifdef VENUE_ANALYTIC
+    if (lat < VS_AVENUE_HALF) return alongY ? (p.y > 0.0 ? METRIC_EXIT_POS_Y : METRIC_EXIT_NEG_Y) : (p.x > 0.0 ? METRIC_EXIT_POS_X : METRIC_EXIT_NEG_X);
+    bool cornerDoor = VS_CORNER_DOOR_LO < 1e8;
+    int q = p.x >= 0.0 ? (p.y >= 0.0 ? 0 : 3) : (p.y >= 0.0 ? 1 : 2);
+    int base = METRIC_EXIT_DOOR0 + q * (2 * VS_DOORS + (cornerDoor ? 1 : 0));
+    for (int i = 0; i < VS_DOORS; ++i)
+        if (lat >= VS_DOOR_LO[i] && lat <= VS_DOOR_HI[i]) return base + (alongY ? 0 : VS_DOORS) + i;
+    if (cornerDoor && lat >= VS_CORNER_DOOR_LO) return base + 2 * VS_DOORS;
+    return METRIC_EXIT_OTHER;
+#else
+    if (lat >= AVENUE_HALF) return METRIC_EXIT_OTHER;
+    return alongY ? (p.y > 0.0 ? METRIC_EXIT_POS_Y : METRIC_EXIT_NEG_Y) : (p.x > 0.0 ? METRIC_EXIT_POS_X : METRIC_EXIT_NEG_X);
+#endif
+}
+
+int cellIndex(ivec2 c) {
+    c = clamp(c, ivec2(0), ivec2(METRIC_GRID_RES - 1));   // outside the grid: the edge cell keeps the weight
+    return c.x + c.y * METRIC_GRID_RES;
+}
+
+void depositOne(int cell, uint w, float speedMps) {
+    if (w == 0u) return;
+    precise float sm = float(w) * speedMps + 0.5;   // precise: no fused multiply-add (the CPU rounds twice)
+    atomicAdd(cellMass[cell].mass, w);
+    atomicAdd(cellMass[cell].speedMass, uint(floor(sm)));
+}
+
+void deposit(vec2 xy, float speedMps) {
+    // Position in cells relative to the centre of cell 0; precise: rounded after the multiply and after the add
+    precise vec2 g = xy * METRIC_CELLS_PER_UNIT + METRIC_GRID_OFFSET;
+    vec2 f = floor(g);
+    vec2 t = g - f;                                                            // exact (Sterbenz)
+    uvec2 q = uvec2(floor(t * float(METRIC_SUBCELL) + 0.5));                   // 0 .. METRIC_SUBCELL, exact
+    uvec2 r = uvec2(METRIC_SUBCELL) - q;
+    ivec2 i0 = ivec2(f);
+    depositOne(cellIndex(i0), r.x * r.y, speedMps);
+    depositOne(cellIndex(i0 + ivec2(1, 0)), q.x * r.y, speedMps);
+    depositOne(cellIndex(i0 + ivec2(0, 1)), r.x * q.y, speedMps);
+    depositOne(cellIndex(i0 + ivec2(1, 1)), q.x * q.y, speedMps);
+}
+
+void main() {
+    uint id = gl_GlobalInvocationID.x;
+    if (gl_LocalInvocationIndex == 0u) groupActive = 0u;
+    memoryBarrierShared();
+    barrier();
+    if (id < uint(numBoids)) {
+        vec4 p0 = prevState[id].position;
+        vec4 p1 = curState[id].position;
+        if (p0.w != 0.0 && p1.w == 0.0) {
+            atomicAdd(ctrExits[exitSlot(p0)], 1u);
+            atomicAdd(ctrEvacuated, 1u);
+            evacStep[id] = stepIndex;
+#ifdef VENUE_ANALYTIC
+            uint last = gangwayState[id].z;
+            if (last != 0u) atomicAdd(ctrGangwayLast[last - 1u], 1u);
+#endif
+        }
+        if (p1.w != 0.0) {
+            atomicAdd(groupActive, 1u);
+#ifdef VENUE_ANALYTIC
+            int g = venueGangwayAt(p1.xy);   // per-gangway utilisation
+            if (g >= 0) {
+                uvec4 st = gangwayState[id];
+                uint bit = 1u << uint(g & 31);
+                uint bits = g < 32 ? st.x : st.y;
+                if ((bits & bit) == 0u) atomicAdd(ctrGangwayVisits[g], 1u);
+                if (g < 32) st.x |= bit;
+                else st.y |= bit;
+                st.z = uint(g) + 1u;
+                gangwayState[id] = st;
+            }
+#endif
+            deposit(p1.xy, length(curState[id].velocity.xy) * METRIC_SPEED_M_S_PER_UNIT);
+        }
+    }
+    memoryBarrierShared();
+    barrier();
+    if (gl_LocalInvocationIndex == 0u && groupActive != 0u) atomicAdd(ctrActiveAccum, groupActive);
+}

@@ -1,0 +1,5 @@
+﻿fd_harness dtcheck | commit `df51e50f47006ce148f3b972b7b0e7520d4f1a57`, dirty 1, Release; AMD  Radeon RX 7800 XT, 4.3.0 Core Profile Context 26.8.1.260810; 2026-10-05T17:02:11
+  K_SEP 100 relax 1 T_HEADWAY 0.3 s (iterations 32):
+    t50  steps 1296 / 2602 / 5216 at DT, DT/2, DT/4 = t 12.960 / 13.010 / 13.040 (226.7 / 227.6 / 228.1 s): DT -> DT/2 +0.39%, DT/2 -> DT/4 +0.23%
+    t90  steps 2309 / 4643 / 9333 at DT, DT/2, DT/4 = t 23.090 / 23.215 / 23.332 (403.9 / 406.0 / 408.1 s): DT -> DT/2 +0.54%, DT/2 -> DT/4 +0.51%
+    t100 steps 2735 / 5423 / 10883 at DT, DT/2, DT/4 = t 27.350 / 27.115 / 27.207 (478.4 / 474.3 / 475.9 s): DT -> DT/2 -0.86%, DT/2 -> DT/4 +0.34%

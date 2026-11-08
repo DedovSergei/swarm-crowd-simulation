@@ -1,0 +1,89 @@
+gangway,direction,agents,arrived,last_s
+quadrant 0 wing 0 straight 0,down,16,16,57.1945
+quadrant 0 wing 0 straight 0,up,16,16,56.8447
+quadrant 0 wing 0 straight 1,down,14,14,65.2402
+quadrant 0 wing 0 straight 1,up,14,14,66.8144
+quadrant 0 wing 0 straight 2,down,10,10,72.2365
+quadrant 0 wing 0 straight 2,up,10,10,50.1982
+quadrant 0 wing 0 straight 3,down,6,6,76.2593
+quadrant 0 wing 0 straight 3,up,6,6,33.9319
+quadrant 0 wing 0 straight 4,down,3,3,77.8335
+quadrant 0 wing 0 straight 4,up,3,3,17.3158
+quadrant 0 wing 1 straight 0,down,16,16,57.1945
+quadrant 0 wing 1 straight 0,up,16,16,56.8447
+quadrant 0 wing 1 straight 1,down,14,14,65.9398
+quadrant 0 wing 1 straight 1,up,14,14,67.514
+quadrant 0 wing 1 straight 2,down,10,10,72.9361
+quadrant 0 wing 1 straight 2,up,10,10,51.0728
+quadrant 0 wing 1 straight 3,down,6,6,76.959
+quadrant 0 wing 1 straight 3,up,6,6,34.6315
+quadrant 0 wing 1 straight 4,down,3,3,78.708
+quadrant 0 wing 1 straight 4,up,3,3,18.0154
+quadrant 1 wing 0 straight 0,down,16,16,57.1945
+quadrant 1 wing 0 straight 0,up,16,16,56.8447
+quadrant 1 wing 0 straight 1,down,14,14,63.8409
+quadrant 1 wing 0 straight 1,up,14,14,66.8144
+quadrant 1 wing 0 straight 2,down,10,10,72.4114
+quadrant 1 wing 0 straight 2,up,10,10,50.1982
+quadrant 1 wing 0 straight 3,down,6,6,77.1339
+quadrant 1 wing 0 straight 3,up,6,6,33.9319
+quadrant 1 wing 0 straight 4,down,3,3,78.3582
+quadrant 1 wing 0 straight 4,up,3,3,17.3158
+quadrant 1 wing 1 straight 0,down,16,16,57.1945
+quadrant 1 wing 1 straight 0,up,16,16,56.8447
+quadrant 1 wing 1 straight 1,down,14,14,64.5406
+quadrant 1 wing 1 straight 1,up,14,14,67.514
+quadrant 1 wing 1 straight 2,down,10,10,73.4608
+quadrant 1 wing 1 straight 2,up,10,10,51.0728
+quadrant 1 wing 1 straight 3,down,6,6,77.8335
+quadrant 1 wing 1 straight 3,up,6,6,34.6315
+quadrant 1 wing 1 straight 4,down,3,3,79.2327
+quadrant 1 wing 1 straight 4,up,3,3,18.0154
+quadrant 2 wing 0 straight 0,down,16,16,57.1945
+quadrant 2 wing 0 straight 0,up,16,16,56.8447
+quadrant 2 wing 0 straight 1,down,14,14,65.2402
+quadrant 2 wing 0 straight 1,up,14,14,66.8144
+quadrant 2 wing 0 straight 2,down,10,10,72.2365
+quadrant 2 wing 0 straight 2,up,10,10,50.1982
+quadrant 2 wing 0 straight 3,down,6,6,76.2593
+quadrant 2 wing 0 straight 3,up,6,6,33.9319
+quadrant 2 wing 0 straight 4,down,3,3,77.8335
+quadrant 2 wing 0 straight 4,up,3,3,17.3158
+quadrant 2 wing 1 straight 0,down,16,16,57.1945
+quadrant 2 wing 1 straight 0,up,16,16,56.8447
+quadrant 2 wing 1 straight 1,down,14,14,65.9398
+quadrant 2 wing 1 straight 1,up,14,14,67.514
+quadrant 2 wing 1 straight 2,down,10,10,72.9361
+quadrant 2 wing 1 straight 2,up,10,10,51.0728
+quadrant 2 wing 1 straight 3,down,6,6,76.959
+quadrant 2 wing 1 straight 3,up,6,6,34.6315
+quadrant 2 wing 1 straight 4,down,3,3,78.708
+quadrant 2 wing 1 straight 4,up,3,3,18.0154
+quadrant 3 wing 0 straight 0,down,16,16,57.1945
+quadrant 3 wing 0 straight 0,up,16,16,56.8447
+quadrant 3 wing 0 straight 1,down,14,14,63.8409
+quadrant 3 wing 0 straight 1,up,14,14,66.8144
+quadrant 3 wing 0 straight 2,down,10,10,72.4114
+quadrant 3 wing 0 straight 2,up,10,10,50.1982
+quadrant 3 wing 0 straight 3,down,6,6,77.1339
+quadrant 3 wing 0 straight 3,up,6,6,33.9319
+quadrant 3 wing 0 straight 4,down,3,3,78.3582
+quadrant 3 wing 0 straight 4,up,3,3,17.3158
+quadrant 3 wing 1 straight 0,down,16,16,57.1945
+quadrant 3 wing 1 straight 0,up,16,16,56.8447
+quadrant 3 wing 1 straight 1,down,14,14,64.5406
+quadrant 3 wing 1 straight 1,up,14,14,67.514
+quadrant 3 wing 1 straight 2,down,10,10,73.4608
+quadrant 3 wing 1 straight 2,up,10,10,51.0728
+quadrant 3 wing 1 straight 3,down,6,6,77.8335
+quadrant 3 wing 1 straight 3,up,6,6,34.6315
+quadrant 3 wing 1 straight 4,down,3,3,79.2327
+quadrant 3 wing 1 straight 4,up,3,3,18.0154
+quadrant 0 corner,down,16,16,80.632
+quadrant 0 corner,up,16,16,80.2822
+quadrant 1 corner,down,16,16,80.632
+quadrant 1 corner,up,16,16,80.2822
+quadrant 2 corner,down,16,16,80.632
+quadrant 2 corner,up,16,16,80.2822
+quadrant 3 corner,down,16,16,80.632
+quadrant 3 corner,up,16,16,80.2822

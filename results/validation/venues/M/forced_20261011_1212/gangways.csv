@@ -1,0 +1,57 @@
+gangway,direction,agents,arrived,last_s
+quadrant 0 wing 0 straight 0,down,12,12,26.236
+quadrant 0 wing 0 straight 0,up,12,12,25.8862
+quadrant 0 wing 0 straight 1,down,8,8,31.6581
+quadrant 0 wing 0 straight 1,up,8,8,24.4869
+quadrant 0 wing 0 straight 2,down,3,3,37.0802
+quadrant 0 wing 0 straight 2,up,3,3,6.29664
+quadrant 0 wing 1 straight 0,down,12,12,26.0611
+quadrant 0 wing 1 straight 0,up,12,12,25.8862
+quadrant 0 wing 1 straight 1,down,8,8,31.6581
+quadrant 0 wing 1 straight 1,up,8,8,25.1866
+quadrant 0 wing 1 straight 2,down,3,3,37.7798
+quadrant 0 wing 1 straight 2,up,3,3,7.17118
+quadrant 1 wing 0 straight 0,down,12,12,26.236
+quadrant 1 wing 0 straight 0,up,12,12,25.8862
+quadrant 1 wing 0 straight 1,down,8,8,31.6581
+quadrant 1 wing 0 straight 1,up,8,8,24.4869
+quadrant 1 wing 0 straight 2,down,3,3,37.0802
+quadrant 1 wing 0 straight 2,up,3,3,6.29664
+quadrant 1 wing 1 straight 0,down,12,12,26.0611
+quadrant 1 wing 1 straight 0,up,12,12,25.8862
+quadrant 1 wing 1 straight 1,down,8,8,31.6581
+quadrant 1 wing 1 straight 1,up,8,8,25.1866
+quadrant 1 wing 1 straight 2,down,3,3,37.7798
+quadrant 1 wing 1 straight 2,up,3,3,7.17118
+quadrant 2 wing 0 straight 0,down,12,12,26.236
+quadrant 2 wing 0 straight 0,up,12,12,25.8862
+quadrant 2 wing 0 straight 1,down,8,8,31.6581
+quadrant 2 wing 0 straight 1,up,8,8,24.4869
+quadrant 2 wing 0 straight 2,down,3,3,37.0802
+quadrant 2 wing 0 straight 2,up,3,3,6.29664
+quadrant 2 wing 1 straight 0,down,12,12,26.0611
+quadrant 2 wing 1 straight 0,up,12,12,25.8862
+quadrant 2 wing 1 straight 1,down,8,8,31.6581
+quadrant 2 wing 1 straight 1,up,8,8,25.1866
+quadrant 2 wing 1 straight 2,down,3,3,37.7798
+quadrant 2 wing 1 straight 2,up,3,3,7.17118
+quadrant 3 wing 0 straight 0,down,12,12,26.236
+quadrant 3 wing 0 straight 0,up,12,12,25.8862
+quadrant 3 wing 0 straight 1,down,8,8,31.6581
+quadrant 3 wing 0 straight 1,up,8,8,24.4869
+quadrant 3 wing 0 straight 2,down,3,3,37.0802
+quadrant 3 wing 0 straight 2,up,3,3,6.29664
+quadrant 3 wing 1 straight 0,down,12,12,26.0611
+quadrant 3 wing 1 straight 0,up,12,12,25.8862
+quadrant 3 wing 1 straight 1,down,8,8,31.6581
+quadrant 3 wing 1 straight 1,up,8,8,25.1866
+quadrant 3 wing 1 straight 2,down,3,3,37.7798
+quadrant 3 wing 1 straight 2,up,3,3,7.17118
+quadrant 0 corner,down,12,12,38.4795
+quadrant 0 corner,up,12,12,36.3806
+quadrant 1 corner,down,12,12,38.4795
+quadrant 1 corner,up,12,12,36.3806
+quadrant 2 corner,down,12,12,38.4795
+quadrant 2 corner,up,12,12,36.3806
+quadrant 3 corner,down,12,12,38.4795
+quadrant 3 corner,up,12,12,36.3806
